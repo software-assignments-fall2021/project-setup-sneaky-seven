@@ -1,17 +1,28 @@
-# Project Repository
+# Budget Web App
 
-This repository will be used for team projects.
+## Description of Project
 
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
+### Product Vision Statement
+Aimed towards consumers who strive for budget management, the Budget Web App wants to elevate understanding of income and spending, resulting in a higher control over finance. Unlike other apps which often automatically and arbitrarily categorize purchases, we allow users to define their budget and how they want to view their spending. This will allow for both the presence of "intelligent" suggestions per say, as well as user-defined categories in the event that more accuracy is required/desired.
 
-1. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./instructions-1a-project-setup.md)
 
-1. See the [Sprint Planning instructions](instructions-1b-sprint-planning.md) for the requirements of Sprint Planning for each Sprint.
+## Core Members
+- [Alan Chen](https://github.com/azc242)
+- [Jennifer Zeng](https://github.com/Jennifercheukyin)
+- [Michelle Tang](https://github.com/tangym27)
+- [Sebastian Lopez](https://github.com/sdl433)
+- [Tomer Yaakov](https://github.com/TomerBenya)
 
-1. See the [Front-End Development instructions](./instructions-2-front-end.md) for the requirements of the initial Front-End Development.
+## Short History
 
-1. See the [Back-End Development instructions](./instructions-3-back-end.md) for the requirements of the initial Back-End Development.
+The Budget Web App came to fruition when team member Jennifer Zeng mentioned how most popular budget apps fail to allow you to customized your categorizes when giving statistics towards your spending. This can often lead to an inaccurate portrayal of your spending. If you buy food and drinks from CVS, budget apps are likely to categorize this as a purchase under health because CVS is a pharmacy. Jennifer suggested we create a new app that would allow users to personalize their categorizes, giving a more accurate and personal reflection of someone's finances. This idea was later expanded to involve concepts of how we could use ML to predict future spending patterns and use known APIs to sync banking information.
 
-1. See the [Database Integration instructions](./instructions-4-database.md) for the requirements of integrating a database into the back-end.
+### How to Contribute
+View our [contributing page](./CONTRIBUTING.md) on how to contribute!
 
-1. See the [Deployment instructions](./instructions-5-deployment.md) for the requirements of deploying an app.
+## Instructions for Building and testing
+Stay tuned!
+
+
+## References
+Stay tuned!
