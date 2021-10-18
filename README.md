@@ -11,7 +11,7 @@ Aimed towards consumers who strive for budget management, the Budget Web App wan
 - [Jennifer Zeng](https://github.com/Jennifercheukyin)
 - [Michelle Tang](https://github.com/tangym27)
 - [Sebastian Lopez](https://github.com/sdl433)
-- [Tomer Yaakov](https://github.com/TomerBenya)
+- [Tomer Ben-Yaakov](https://github.com/TomerBenya)
 
 ## Short History
 
