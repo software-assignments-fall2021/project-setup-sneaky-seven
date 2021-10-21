@@ -1,0 +1,1 @@
+This folder stores pages. You should assemble different components into a page here. 
