@@ -1,5 +1,21 @@
-/* To-do: make responsive */
-
 .panel {
   margin: 2em;
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .panel {
+    margin: 2em;
+    padding-left: 24rem;
+    padding-right: 24rem;
+  }
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+  .panel {
+    margin: 2em;
+    padding-left: 30rem;
+    padding-right: 30rem;
+  }
 }
