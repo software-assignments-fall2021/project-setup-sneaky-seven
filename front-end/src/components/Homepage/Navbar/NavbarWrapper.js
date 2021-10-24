@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './Navbar';
-import Homepage from '../../pages/Homepage'
-import Accounts from '../../pages/Accounts'
-import Transactions from '../../pages/Transactions'
-import Statistics from '../../pages/Statistics'
-import Contact from '../../pages/Contact'
-import FAQs from '../../pages/FAQs'
+import Homepage from '../../../pages/Homepage'
+import Accounts from '../../../pages/Accounts'
+import Transactions from '../../../pages/Transactions'
+import Statistics from '../../../pages/Statistics'
+import Contact from '../../../pages/Contact'
+import FAQs from '../../../pages/FAQs'
 
 export class NavbarWrapper extends PureComponent {
     render() {
