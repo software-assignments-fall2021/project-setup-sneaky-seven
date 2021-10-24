@@ -1,5 +1,5 @@
 import './App.css';
-import NavbarWrapper from './components/Navbar/NavbarWrapper';
+import NavbarWrapper from './components/Homepage/Navbar/NavbarWrapper';
 
 function App() {
   return (

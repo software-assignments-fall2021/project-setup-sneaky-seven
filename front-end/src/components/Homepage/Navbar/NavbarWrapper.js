@@ -1,3 +1,4 @@
+<<<<<<< HEAD:front-end/src/components/Navbar/NavbarWrapper.js
 import React, { PureComponent } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -11,6 +12,17 @@ import Categories from "../../pages/Categories";
 import AddCategory from "../../pages/AddCategory";
 import Contact from "../../pages/Contact";
 import FAQs from "../../pages/FAQs";
+=======
+import React, { PureComponent } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navbar from './Navbar';
+import Homepage from '../../../pages/Homepage'
+import Accounts from '../../../pages/Accounts'
+import Transactions from '../../../pages/Transactions'
+import Statistics from '../../../pages/Statistics'
+import Contact from '../../../pages/Contact'
+import FAQs from '../../../pages/FAQs'
+>>>>>>> Added a horizontal navbar to the stats page:front-end/src/components/Homepage/Navbar/NavbarWrapper.js
 
 export class NavbarWrapper extends PureComponent {
   render() {
