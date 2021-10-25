@@ -9,14 +9,15 @@ function Accounts() {
     return (
         <div>
             <h1>Accounts</h1>
-            <Button variant="contained" startIcon={<AddIcon />}>Add Bank</Button>
             {/* To-do: Once the backend is complete, dynamically map/render the banks instead of hard coding */}
-            <AccountPanel bankName="Bank #1"/>
-            <AccountPanel bankName="Bank #2"/>
-            <AccountPanel bankName="Bank #3"/>
-            <AccountPanel bankName="Bank #4"/>
-            <AccountPanel bankName="Bank #5"/>
-            <AccountPanel bankName="Bank #6"/>
+            <AccountPanel bankName="1. Bank of America - Cash Rewards Mastercard" type="card"/>
+            <AccountPanel bankName="2. Bank of America - Advantage Plus Banking" type="card"/>
+            <AccountPanel bankName="3. Bank of America - Advantage Savings" type="card"/>
+            <AccountPanel bankName="4. JP Morgan Chase - Student Checking Account" type="checking"/>
+            <AccountPanel bankName="5. Discover it Student Cash Back" type="card"/>
+            <AccountPanel bankName="6. Cash Account" type="cash"/>
+            <Button variant="contained" startIcon ={<AddIcon />} buttonStyle={{ borderRadius: 25, spaceBetween: 0}}
+      style={{ borderRadius: 25, marginTop: '1.5rem'}}>Add New Account</Button>
         </div>
     )
 }
