@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import Homepage from '../../pages/Homepage'
 import Accounts from '../../pages/Accounts'
-import AccountDetail from '../../pages/AccountDetail'
 import Transactions from '../../pages/Transactions'
 import Statistics from '../../pages/Statistics'
 import Contact from '../../pages/Contact'
@@ -21,7 +20,6 @@ export class NavbarWrapper extends PureComponent {
                     <Route path='/statistics' exact component={Statistics} />
                     <Route path='/FAQs' exact component={FAQs} />
                     <Route path='/contact' exact component={Contact} />
-                    <Route path='/accounts/details' exact component={AccountDetail} />
                 </Switch>
             </Router>
         )

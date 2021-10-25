@@ -21,7 +21,7 @@ const AccountPanel = (props) => {
             startIcon={ props.type === 'card' ? <CreditCardIcon /> : <SavingsIcon />} 
             size="large"
             fullWidth={true}
-            href="accounts/details"
+            onClick={() => {props.showAccountDetail(true); props.setBankDetailHeader(props.bankName)}}
             >
             {props.bankName}
         </Button>
