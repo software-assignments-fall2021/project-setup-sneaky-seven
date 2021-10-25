@@ -19,6 +19,7 @@ const Spending = () => {
                 pieHole: 0.4
             }}
         />
+        
     )
 };
 
