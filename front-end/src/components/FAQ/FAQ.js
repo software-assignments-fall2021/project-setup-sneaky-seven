@@ -26,7 +26,7 @@ const FAQ = () => {
                 config={config}
             />
         </div>
-    );
+    )
 }
 
 export default FAQ

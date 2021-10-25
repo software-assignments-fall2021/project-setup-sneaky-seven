@@ -26,7 +26,7 @@ const FAQData = {
             title: "What is the package version",
             content: <p>current version is 1.2.1</p>,
         },
-    ],
+    ]
 }
 
 export default FAQData

@@ -25,7 +25,7 @@ const ContactForm = () => {
       </div>
       <button type="submit">{status}</button>
     </form>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm
