@@ -1,16 +1,20 @@
 import React from 'react'
-import AccountPanel from '../components/Accounts/AccountPanel'
+import AccountPanel from '../Accounts/AccountPanel'
 import Button from '@mui/material/Button';
-import AccountDetailForm from '../components/AccountDetail/AccountDetailForm';
+import AccountDetailForm from './AccountDetailForm';
 
-
-// To-do: identify a good color scheme
+/**
+ * This component renders the body for the details page of 1 bank account.
+ * Clicking on the "Save Details" button at the end will bring the user pack to the 
+ * Accounts page.
+ * @param {*} props 
+ * @returns Details page for 1 bank account
+ */
 function AccountDetail(props) {
     return (
         <div>
             <h1>{props.bankName}</h1>
             <AccountDetailForm />
-
             <Button 
                 onClick={() => {props.showAccountDetail(false); props.setBankDetailHeader("")}} 
                 variant="contained" 

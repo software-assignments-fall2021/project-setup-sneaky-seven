@@ -2,8 +2,11 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-
-// To-do: identify a good color scheme
+/**
+ * 
+ * @param {*} props 
+ * @returns Form component for editing account details
+ */
 function AccountDetailForm(props) {
     return (
         <div>
