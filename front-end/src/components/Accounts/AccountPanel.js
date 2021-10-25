@@ -19,9 +19,9 @@ const AccountPanel = (props) => {
             style={{justifyContent: "flex-start", textAlign: 'left'}} 
             sx={{ fontWeight: 'bold', }} 
             startIcon={ props.type === 'card' ? <CreditCardIcon /> : <SavingsIcon />} 
-            // endIcon={<ArrowForwardIcon style={{justifyContent: "flex-end", textAlign: 'right', flex: 1}}/>}
             size="large"
             fullWidth={true}
+            href="accounts/details"
             >
             {props.bankName}
         </Button>
