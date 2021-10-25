@@ -3,7 +3,7 @@ import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 // The background portion of the horizontal navbar
-export const Nav = styled.nav`
+export const StatsNav = styled.nav`
   background: #060B26;
   height: 85px;
   display: flex;
@@ -15,7 +15,7 @@ export const Nav = styled.nav`
 `;
 
 // Each selection of the horizontal navbar
-export const NavLink = styled(Link)`
+export const StatsNavLink = styled(Link)`
   color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@ export const NavLink = styled(Link)`
   }
 `;
 
-export const Bars = styled(FaBars)`
+export const StatsBars = styled(FaBars)`
   display: none;
   color: #808080;
   @media screen and (max-width: 768px) {
@@ -45,7 +45,7 @@ export const Bars = styled(FaBars)`
   }
 `;
 
-export const NavMenu = styled.div`
+export const StatsNavMenu = styled.div`
   display: flex;
   align-items: center;
   margin-right: -24px;
@@ -58,34 +58,3 @@ export const NavMenu = styled.div`
     display: none;
   }
 `;
-
-// export const NavBtn = styled.nav`
-//   display: flex;
-//   align-items: center;
-//   margin-right: 24px;
-//   /* Third Nav */
-//   /* justify-content: flex-end;
-//   width: 100vw; */
-//   @media screen and (max-width: 768px) {
-//     display: none;
-//   }
-// `;
-
-// export const NavBtnLink = styled(Link)`
-//   border-radius: 4px;
-//   background: #808080;
-//   padding: 10px 22px;
-//   color: #FFFFFF;
-//   outline: none;
-//   border: none;
-//   cursor: pointer;
-//   transition: all 0.2s ease-in-out;
-//   text-decoration: underline;
-//   /* Second Nav */
-//   margin-left: 24px;
-//   &:hover {
-//     transition: all 0.2s ease-in-out;
-//     background: #fff;
-//     color: #808080;
-//   }
-// `;
