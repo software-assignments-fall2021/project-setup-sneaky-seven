@@ -2,7 +2,7 @@ import React from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
-
+import * as BiIcons from 'react-icons/bi';
 // TODO: update icons
 export const NavbarData = [
   {
@@ -14,31 +14,37 @@ export const NavbarData = [
   {
     title: 'Accounts',
     path: '/accounts',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <AiIcons.AiFillBank />,
     cName: 'nav-text'
   },
   {
     title: 'Transactions',
     path: '/transactions',
-    icon: <FaIcons.FaCartPlus />,
+    icon: <AiIcons.AiOutlineTransaction />,
     cName: 'nav-text'
   },
   {
     title: 'Statistics',
     path: '/statistics',
-    icon: <IoIcons.IoMdPeople />,
+    icon: <IoIcons.IoIosStats />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Categories',
+    path: '/categories',
+    icon: <BiIcons.BiCategory />,
     cName: 'nav-text'
   },
   {
     title: 'FAQs',
     path: '/FAQs',
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    icon: <IoIcons.IoMdHelpCircle />,
     cName: 'nav-text'
   },
   {
     title: 'Contact Us',
     path: '/contact',
-    icon: <IoIcons.IoMdHelpCircle />,
+    icon: <FaIcons.FaEnvelopeOpenText />,
     cName: 'nav-text'
   }
 ];

@@ -1,0 +1,18 @@
+.category-list-text {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    list-style: none;
+    height: 60px;
+    font-size: xx-large;
+    padding: 25px;
+    border: 2px solid black;
+    border-radius: 15px;
+    width: auto;
+}
+span {
+    margin-left: 16px;
+}
+li {
+    margin: 15px
+}
