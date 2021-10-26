@@ -1,11 +1,13 @@
 .panel {
   margin: 0em 0em;
+  /* z-index: -2; */
 }
 
 #account-panel {
   justify-content: flex-start;
   text-align: left;
   font-weight: bold;
+  z-index: 0;
 }
 
 /* Desktops and laptops ----------- */
