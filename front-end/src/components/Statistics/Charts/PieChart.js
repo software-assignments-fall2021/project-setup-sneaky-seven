@@ -22,10 +22,10 @@ const PieChart = ({name, data}) => {
                    title: name,
                    pieHole: 0.4,
                    width: '100%',
-                   height: '80%',
+                   height: '100%',
                    chartArea: {
                        width: '100%',
-                       height: '80%'
+                       height: '100%'
                    }
                }}
         />
