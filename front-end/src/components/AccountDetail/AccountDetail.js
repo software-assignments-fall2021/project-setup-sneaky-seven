@@ -1,8 +1,7 @@
 import React from 'react'
-import AccountPanel from '../Accounts/AccountPanel'
 import Button from '@mui/material/Button';
 import AccountDetailForm from './AccountDetailForm';
-
+import './css/AccountDetail.css'
 /**
  * This component renders the body for the details page of 1 bank account.
  * Clicking on the "Save Details" button at the end will bring the user pack to the 
@@ -18,8 +17,7 @@ function AccountDetail(props) {
             <Button 
                 onClick={() => {props.showAccountDetail(false); props.setBankDetailHeader("")}} 
                 variant="contained" 
-                buttonStyle={{ borderRadius: 25, spaceBetween: 0}}
-                style={{ borderRadius: 12, marginTop: '1.5rem'}}
+                id="save-details-btn"
             >
                 Save Details
             </Button>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/Accounts.css'
+import './css/AccountPanel.css'
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
@@ -21,8 +21,7 @@ const AccountPanel = (props) => {
         <div className="panel">
         <ButtonGroup size="large" variant="outlined" aria-label="" fullWidth={true}>
           <Button 
-              style={{justifyContent: "flex-start", textAlign: 'left'}} 
-              sx={{ fontWeight: 'bold', }} 
+              id="account-panel"
               startIcon={ props.type === 'card' ? <CreditCardIcon /> : <SavingsIcon />} 
               size="large"
               fullWidth={true}
