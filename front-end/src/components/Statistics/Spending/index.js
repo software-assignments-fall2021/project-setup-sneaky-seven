@@ -4,6 +4,7 @@ import BarChart from '../Charts/BarChart'
 // The Spending page
 const Spending = () => {
     return (
+<<<<<<< HEAD
         <div>
             <h1>Spending</h1>
             <PieChart
@@ -25,6 +26,25 @@ const Spending = () => {
                 ]}
             />
         </div>
+=======
+        <Chart
+            width={'500px'}
+            height={'300px'}
+            chartType="PieChart"
+            loader={<div>Loading Pie Chart</div>}
+            data={[
+                ['Category', 'Money Spent'],
+                ['Lorem', 11],
+                ['Ipsum', 2],
+                ['Dolor', 3]
+            ]}
+            options={{
+                title: 'Spending by Categories',
+                pieHole: 0.4
+            }}
+        />
+
+>>>>>>> Update gitignore
     )
 }
 
