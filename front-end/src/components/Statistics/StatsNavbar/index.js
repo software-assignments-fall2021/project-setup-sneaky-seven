@@ -1,28 +1,15 @@
 import React from 'react';
-import {
-    StatsNav,
-    StatsNavLink,
-    StatsBars,
-    StatsNavMenu,
-} from './NavbarElements';
+import {NavLink as Link} from 'react-router-dom'
+import Spending from '../Spending'
+import Balance from '../Balance'
+import '../../css/StatsNavbar.css'
 
 const StatsNavbar = () => {
     return (
-        <>
-            <StatsNav>
-                <StatsBars />
-                <StatsNavMenu>
-                    <StatsNavLink to='/statistics/balance' activeStyle>
-                        Balance
-                    </StatsNavLink>
-                    <StatsNavLink to='/statistics/spending' activeStyle>
-                        Spending
-                    </StatsNavLink>
-                    {/* Second Nav */}
-                    {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
-                </StatsNavMenu>
-            </StatsNav>
-        </>
+        <div className = "statsNavbar">
+            <Link className="statsNavLink" to="/statistics/spending">Spending</Link>
+            <Link className="statsNavLink" to="/statistics/balance">Balance</Link>
+        </div>
     );
 };
 
