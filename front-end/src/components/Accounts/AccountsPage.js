@@ -29,8 +29,13 @@ function AccountsPage(props) {
                 setBankDetailHeader={props.setBankDetailName}
             />))}
 
-        <Button variant="contained" startIcon ={<AddIcon />} buttonStyle={{ borderRadius: 25, spaceBetween: 0}}
-            style={{ borderRadius: 25, marginTop: '1.5rem'}}>
+        <Button 
+            variant="contained" 
+            startIcon ={<AddIcon />} 
+            buttonStyle={{ borderRadius: 25, spaceBetween: 0}}
+            style={{ borderRadius: 25, marginTop: '1.5rem'}}
+            onClick={() => {props.setShowDetail(true); props.setBankDetailName("Add New Account")}}
+            >
             Add New Account
         </Button>
         </>
