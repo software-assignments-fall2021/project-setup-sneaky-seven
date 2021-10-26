@@ -3,6 +3,7 @@ import AccountDetail from '../components/AccountDetail/AccountDetail';
 import AccountsPage from '../components/Accounts/AccountsPage';
 import { backupData } from '../components/Accounts/AccountBackupData';
 import axios from 'axios';
+import './css/Accounts.css'
 
 // To-do: identify a better color scheme
 // To-do 2: use the bankId in props when saving to DB 
