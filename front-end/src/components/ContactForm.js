@@ -14,12 +14,12 @@ const ContactForm = () => {
   return (
     <div>
       <br />
-      <form onSubmit={handleSubmit} class="container">
+      <form onSubmit={handleSubmit} class="container-contact">
         <div>
           <h1>Contact Us</h1>
         </div>
         <hr /> <br />
-        <div class="form">
+        <div>
           <div>
             <label htmlFor="name">
               <b>Name:</b>
