@@ -1,11 +1,25 @@
 import { mocks, getAllTransactions as _getAllTransactions } from "./mocks";
-const MOCK = true;
+import axios from "axios";
 
+const MOCK = false;
+
+/** @returns {Promise<_getAllTransactions>} */
+async function getAllTransactions() {
+  // TODO: fetch actual data
+  const result = await axios(
+    "https://my.api.mockaroo.com/budget_web_app.json?key=d9fa63b0"
+  );
+  // console.log(result);
+  return result.data;
+}
+async function getTransactionById(id) {
+  return (await getAllTransactions()).find(
+    (transaction) => transaction.id === id
+  );
+}
 const api = {
-  /** @returns {Promise<_getAllTransactions>} */
-  async getAllTransactions() {
-    // TODO: fetch actual data
-  },
+  getAllTransactions,
+  getTransactionById,
 };
 
 if (MOCK) {

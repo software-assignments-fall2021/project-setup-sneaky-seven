@@ -6,6 +6,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useHistory } from "react-router";
 import "./TransactionDetail.css";
 import { DateTime } from "luxon";
+import CategoryIcon from "../components/CategoryIcon";
 
 const currenySymbol = {
   USD: "$",
@@ -29,7 +30,7 @@ export function TransactionDetail() {
 
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[transaction?.currency];
-  const formattedDate = DateTime.fromMillis(transaction?.date ?? 0).toFormat(
+  const formattedDate = DateTime.fromISO(transaction?.date ?? 0).toFormat(
     "DDDD"
   );
 
@@ -59,7 +60,18 @@ export function TransactionDetail() {
         </div>
         <div>
           <label>Category</label>
-          <p></p>
+          <div className="categoryIcons">
+            {[
+              "food",
+              "shopping",
+              "automotive",
+              "travel",
+              "nightlife",
+              "entertainment",
+            ].map((category) => (
+              <CategoryIcon text={category} />
+            ))}
+          </div>
         </div>
         <div>
           <label>Currency</label>

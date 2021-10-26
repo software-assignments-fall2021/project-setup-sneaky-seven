@@ -1,13 +1,25 @@
 import React from "react";
-import { FaUtensils, FaMoneyBillAlt, FaShoppingCart } from "react-icons/fa";
+import {
+  FaUtensils,
+  FaMoneyBillWave,
+  FaShoppingCart,
+  FaCarAlt,
+  FaPlane,
+  FaCocktail,
+  FaLaughSquint,
+} from "react-icons/fa";
 
 const textToIcon = {
   food: FaUtensils,
   shopping: FaShoppingCart,
+  automotive: FaCarAlt,
+  travel: FaPlane,
+  nightlife: FaCocktail,
+  entertainment: FaLaughSquint,
 };
 
 export default function CategoryIcon({ text, size = 64, color = "black" }) {
-  const Icon = textToIcon[text] ?? FaMoneyBillAlt;
+  const Icon = textToIcon[text] ?? FaMoneyBillWave;
 
   return (
     <div

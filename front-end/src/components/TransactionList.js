@@ -17,7 +17,7 @@ export function Transaction({
   date,
   currency,
 }) {
-  const formattedDate = DateTime.fromMillis(date ?? 0).toFormat("DDDD");
+  const formattedDate = DateTime.fromISO(date ?? 0).toFormat("DDDD");
   const amountColor = amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[currency];
 
