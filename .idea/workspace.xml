@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="94a52864-d994-45fb-acee-7dfdd25527d9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Navbar/NavbarWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Navbar/NavbarWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/NavbarElements.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/css/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/css/Navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
