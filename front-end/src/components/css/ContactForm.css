@@ -5,8 +5,11 @@
   border: 2px solid #afecf4;
   border-radius: 5px;
   padding: 1%;
+  display: flex;
+  flex-direction: column;
 }
 
-.form {
-  text-align: center;
+hr {
+  margin-left: 0;
+  margin-right: 0;
 }
