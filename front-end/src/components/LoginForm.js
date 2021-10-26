@@ -14,34 +14,36 @@ const LoginForm = () => {
   return (
     <div>
       <br />
-      <form onSubmit={handleSubmit} class="container">
-        <div>
+      <div class="container">
+        <form onSubmit={handleSubmit}>
           <h1>Login</h1>
-        </div>
-        <hr /> <br />
-        <div class="form">
-          <label htmlFor="email">
-            <b>Email:</b>
-          </label>
-          <input type="text" id="email" required />
-        </div>
-        <br />
-        <div class="form">
-          <label htmlFor="password">
-            <b>Password:</b>
-          </label>
-          <input type="text" id="password" required />
-        </div>
-        <br />
-        <Button
-          type="submit"
-          component={Link}
-          to="/homepage"
-          variant="contained"
-        >
-          Submit
-        </Button>
-      </form>
+          <hr /> <br />
+          <div class="form">
+            <div>
+              <label htmlFor="email">
+                <b>Email:</b>
+              </label>
+              <input type="text" id="email" required />
+            </div>
+            <br />
+            <div>
+              <label htmlFor="password">
+                <b>Password:</b>
+              </label>
+              <input type="text" id="password" required />
+            </div>
+          </div>
+          <br />
+          <Button
+            type="submit"
+            component={Link}
+            to="/homepage"
+            variant="contained"
+          >
+            Submit
+          </Button>
+        </form>
+      </div>
       <br />
       <div class="container">
         <h3> Need an account? </h3>
