@@ -11,7 +11,7 @@ import Categories from "../../pages/Categories";
 import AddCategory from "../../pages/AddCategory";
 import Contact from "../../pages/Contact";
 import FAQs from "../../pages/FAQs";
-
+import { TransactionDetail } from "../../pages/TransactionDetail";
 export class NavbarWrapper extends PureComponent {
   render() {
     return (
@@ -23,6 +23,7 @@ export class NavbarWrapper extends PureComponent {
           <Route path="/homepage" exact component={Homepage} />
           <Route path="/accounts" exact component={Accounts} />
           <Route path="/transactions" exact component={Transactions} />
+          <Route path="/transactions/:id" exact component={TransactionDetail} />
           <Route path="/statistics" exact component={Statistics} />
           <Route path="/categories" exact component={Categories} />
           <Route path="/categories/addCategory" exact component={AddCategory} />
