@@ -13,8 +13,8 @@ import Chart from 'react-google-charts'
 const BarChart = ({name, data}) => {
     return (
         <Chart
-            width={'500px'}
-            height={'300px'}
+            width='100%'
+            height='100%'
             chartType="Bar"
             loader={<div>Loading Chart</div>}
             data={data}
@@ -22,6 +22,10 @@ const BarChart = ({name, data}) => {
                 chart: {
                     title: name,
                 },
+                chartArea: {
+                    width: '100%',
+                    height: '100%',
+                }
             }}
         />
     )

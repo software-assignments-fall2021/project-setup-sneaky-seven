@@ -1,7 +1,7 @@
 import './App.css';
 import NavbarWrapper from './components/Navbar/NavbarWrapper';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <NavbarWrapper />
