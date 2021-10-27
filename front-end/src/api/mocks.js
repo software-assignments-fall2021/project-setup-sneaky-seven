@@ -24,7 +24,7 @@ export const getAllTransactions = [
     account: "Checking",
     amount: -45.56,
     currency: "USD",
-    date: 1635106677792,
+    date: "2021-10-05T14:48:00.000Z",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ export const getAllTransactions = [
     account: "Checking",
     amount: 45.56,
     currency: "USD",
-    date: 1635106677792,
+    date: "2021-10-05T14:48:00.000Z",
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ export const getAllTransactions = [
     account: "Checking",
     amount: 400,
     currency: "USD",
-    date: 1635106677792,
+    date: "2021-10-05T14:48:00.000Z",
   },
 ];
 
