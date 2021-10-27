@@ -27,7 +27,9 @@ export function TransactionDetail() {
   function handleBackClick() {
     history.goBack();
   }
-
+  function handleCatClick(category) {
+    console.log(category);
+  }
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[transaction?.currency];
   const formattedDate = DateTime.fromISO(transaction?.date ?? 0).toFormat(
@@ -69,7 +71,16 @@ export function TransactionDetail() {
               "nightlife",
               "entertainment",
             ].map((category) => (
-              <CategoryIcon text={category} />
+              <icon className="icon" onClick={() => handleCatClick(category)}>
+                <CategoryIcon
+                  text={category}
+                  size={50}
+                  color={transaction?.category === category ? "blue" : "grey"}
+                  borderColor={
+                    transaction?.category === category ? "blue" : "grey"
+                  }
+                />
+              </icon>
             ))}
           </div>
         </div>

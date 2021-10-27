@@ -18,7 +18,12 @@ const textToIcon = {
   entertainment: FaLaughSquint,
 };
 
-export default function CategoryIcon({ text, size = 64, color = "black" }) {
+export default function CategoryIcon({
+  text,
+  size = 64,
+  color = "black",
+  borderColor = "black",
+}) {
   const Icon = textToIcon[text] ?? FaMoneyBillWave;
 
   return (
@@ -30,7 +35,7 @@ export default function CategoryIcon({ text, size = 64, color = "black" }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        border: "4px solid black",
+        border: "4px solid " + borderColor,
       }}
     >
       <Icon color={color} size={~~(size * 0.6)} />

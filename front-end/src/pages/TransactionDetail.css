@@ -74,6 +74,17 @@ input[type="checkbox"] {
 
 .categoryIcons {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-direction: row !important;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.icon {
+  display: flex;
+  justify-content: space-evenly !important;
+}
+.icon:hover {
+  color: #efefef !important;
+}
+.CategoryIcon:hover {
+  background-color: blue;
 }
