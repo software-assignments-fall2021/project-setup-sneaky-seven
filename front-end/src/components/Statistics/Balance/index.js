@@ -5,7 +5,7 @@ const axios = require('axios').default
 
 const data = axios.get('https://my.api.mockaroo.com/budget_web_app.json?key=d9fa63b0')
     .then(response => {
-        console.log('6ix9ine')
+        console.log('test')
     })
 
 const Balance = () => {

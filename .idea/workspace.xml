@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Charts/BarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Charts/BarChart.js" afterDir="false" />
-    </list>
+    <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635029115986</updated>
       <workItem from="1635029119402" duration="20605000" />
-      <workItem from="1635290800514" duration="3593000" />
+      <workItem from="1635290800514" duration="3984000" />
     </task>
     <servers />
   </component>
