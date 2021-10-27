@@ -12,7 +12,7 @@ const data = axios
 
 const Balance = () => {
   return (
-    <div class="container-stats">
+    <div className="container-stats">
       <h1>Balance</h1>
       <BarChart
         name="Balance Trend"

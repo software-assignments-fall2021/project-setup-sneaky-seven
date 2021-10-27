@@ -11,7 +11,7 @@ const Homepage = () => {
   return (
     <div>
       <br />
-      <div class="container-home">
+      <div className="container-home">
         <Accounts> </Accounts>
         <Button
           variant="contained"
@@ -23,7 +23,7 @@ const Homepage = () => {
         </Button>
       </div>
       <hr />
-      <div class="container-home">
+      <div className="container-home">
         <Transactions> </Transactions>
         <Button
           variant="contained"
@@ -35,7 +35,7 @@ const Homepage = () => {
         </Button>
       </div>
       <hr />
-      <div class="statContainer">
+      <div className="statContainer">
         <Spending> </Spending>
         <Button
           variant="contained"
@@ -48,7 +48,7 @@ const Homepage = () => {
         </Button>
       </div>
       <hr />
-      <div class="statContainer">
+      <div className="statContainer">
         <Balance> </Balance>
         <Button
           variant="contained"
