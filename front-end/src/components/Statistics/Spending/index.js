@@ -1,10 +1,11 @@
 import PieChart from "../Charts/PieChart";
 import BarChart from "../Charts/BarChart";
+import "../../css/Statistics.css";
 
 // The Spending page
 const Spending = () => {
   return (
-    <div>
+    <div class="container-stats">
       <h1>Spending</h1>
       <PieChart
         name="Spending by Categories"
