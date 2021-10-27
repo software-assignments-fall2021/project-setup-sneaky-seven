@@ -79,9 +79,6 @@ input[type="checkbox"] {
   gap: 10px;
 }
 
-.icon:hover {
-  color: #efefef !important;
-}
-.CategoryIcon:hover {
-  background-color: blue;
+.catIcon:hover {
+  opacity: 50%;
 }

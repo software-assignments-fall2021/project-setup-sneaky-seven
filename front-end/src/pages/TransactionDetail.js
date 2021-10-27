@@ -77,12 +77,23 @@ export function TransactionDetail() {
               "nightlife",
               "entertainment",
             ].map((category) => (
-              <span className="icon" onClick={() => handleCatClick(category)}>
+              <span
+                className="catIcon"
+                onClick={() => handleCatClick(category)}
+              >
                 <CategoryIcon
                   text={category}
                   size={50}
-                  color={SelectedCategory === category ? "blue" : "grey"}
-                  borderColor={SelectedCategory === category ? "blue" : "grey"}
+                  color={
+                    SelectedCategory === category
+                      ? "rgba(0, 4, 255, 0.733)"
+                      : "grey"
+                  }
+                  borderColor={
+                    SelectedCategory === category
+                      ? "rgba(0, 4, 255, 0.733)"
+                      : "grey"
+                  }
                 />
               </span>
             ))}
