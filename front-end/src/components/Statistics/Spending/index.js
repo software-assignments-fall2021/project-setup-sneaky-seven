@@ -5,7 +5,7 @@ import "../../css/Statistics.css";
 // The Spending page
 const Spending = () => {
   return (
-    <div class="container-stats">
+    <div className="container-stats">
       <h1>Spending</h1>
       <PieChart
         name="Spending by Categories"
