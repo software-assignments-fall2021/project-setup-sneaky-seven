@@ -1,25 +1,24 @@
-.container-home {
-  background-color: #dcf7fa;
-  width: 80%;
+.container-stats {
+  /* background-color: #ffffff;
   margin: auto;
   border: 2px solid #afecf4;
   border-radius: 5px;
-  padding: 1%;
-  display: flex;
-  flex-direction: column;
+  padding: 2%;
+  width: 80%; */
+  overflow: scroll;
+  /* height: 30px; */
+  /* display: flex; */
+  /* flex-direction: column; */
 }
 
 .statContainer {
-  background-color: #dcf7fa;
-
-  overflow: scroll;
   width: 80%;
   margin: auto;
   border: 2px solid #afecf4;
   border-radius: 5px;
   padding: 1%;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
 }
 
 .statContainer2 {
