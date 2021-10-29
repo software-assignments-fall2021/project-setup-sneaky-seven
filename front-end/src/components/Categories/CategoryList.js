@@ -4,33 +4,20 @@ import '../css/CategoryList.css'
 import * as AiIcons from 'react-icons/ai'
 import * as MdIcons from 'react-icons/md'
 
-const baseURL = "http://localhost:3000/categories" 
-
 function CategoryList() {
     const [categoryList, setCategoryList] = useState(null)
 
     useEffect(() => {
-        axios.get(baseURL).then((resp) => {
+        axios.get('/api/categories').then((resp) => {
             setCategoryList(resp.data)
         }, () => {
             console.log(categoryList)
         })
-    })
+    }, [])
 
+    // TODO: complete mappings from category to icons 
     const mapCategoryToIcon = (category) => {
-        if(category === "Grocery") {
-            return <MdIcons.MdOutlineLocalGroceryStore />
-        } else if(category === "Transportation") {
-            return <MdIcons.MdEmojiTransportation />
-        } else if(category === "Cafe") {
-            return <MdIcons.MdOutlineLocalCafe />
-        } else if(category === "Home") {
-            return <AiIcons.AiOutlineHome />
-        } else if(category === "Education") {
-            return <MdIcons.MdOutlineCastForEducation />
-        } else if(category === "Leisure") {
-            return <MdIcons.MdOutlineSportsHandball />
-        }
+        return <MdIcons.MdOutlineLocalCafe />
     }
 
     return (
@@ -38,11 +25,9 @@ function CategoryList() {
             <ul>
                 {categoryList && categoryList.map((item, index) => {
                     return (
-                        <li key={index} className={item.cName}>
-                            {mapCategoryToIcon(item.title)}
-                            <span>
-                            {item.title}
-                            </span>
+                        <li key={index} className="category-list-text">
+                            {mapCategoryToIcon(item.hierarchy[0])}
+                            <span>{item.hierarchy[0]}</span>
                         </li>
                     );
                 })}
