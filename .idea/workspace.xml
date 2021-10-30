@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="" />
+    <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/css/StatsNavbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/css/StatsNavbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -37,6 +47,7 @@
     <property name="javascript.nodejs.core.library.configured.version" value="12.18.3" />
     <property name="javascript.nodejs.core.library.typings.version" value="12.20.34" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
@@ -58,7 +69,8 @@
       <option name="presentableId" value="Default" />
       <updated>1635029115986</updated>
       <workItem from="1635029119402" duration="20605000" />
-      <workItem from="1635290800514" duration="3984000" />
+      <workItem from="1635290800514" duration="8644000" />
+      <workItem from="1635443931720" duration="12579000" />
     </task>
     <servers />
   </component>

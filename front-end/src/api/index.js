@@ -1,7 +1,7 @@
 import { mocks, getAllTransactions as _getAllTransactions } from "./mocks";
 import axios from "axios";
 
-const MOCK = true;
+const MOCK = false;
 
 /** @returns {Promise<_getAllTransactions>} */
 async function getAllTransactions() {
