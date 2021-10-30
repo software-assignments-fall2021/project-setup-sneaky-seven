@@ -75,6 +75,4 @@ const Balance = ({data}) => {
     )
 };
 
-
-
 export default Balance

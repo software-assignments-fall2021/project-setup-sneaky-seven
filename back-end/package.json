@@ -2,10 +2,13 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "The back-end of your project will live in this directory.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "plaid": "^9.5.0"
   },
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
 }

@@ -1,6 +1,5 @@
 # Guide to Contributing
 
-
 ## Team Norms
 
 ### Team Values
@@ -10,26 +9,30 @@
 - In cases of significant conflict, like if a member fails to consistently deliver on tasks with little/no failed communication, we will follow a spiral of communication. First, we will try to resolve the problem internally, either during a sprint, or if the case becomes significant, at a Scrum Meeting. If that fails, we will turn to outside sources such as graders, tutors, the TAs or even the professor himself.
 
 ### Sprint Cadence & Standups
+
 - Our sprints will last for approximately 2 weeks as stated by the professor
 - Standups will occur approximately twice a week, one Saturday night at 8pm and one Tuesday night at 8pm. With proper notification, they can be changed with team consensus.
 - There is an agreement that members will not cover for other members who do not participate.
 - There is an agreement that a member who makes no progress on a task for two standups or more in a row will be reported to management.
 
 ### Coding Standards
+
 - The team will agree to not over-engineer. We will try to write minimum code to get things working end to end, only then iterate to improve.
 - The team agrees that code for each task and spike must be peer-reviewed before merging into the main branch of code. As such, the team agrees to not push directly to master. Rather, they will create a branch and pull request for future changes.
 - The team agrees to provide descriptive commit messages.
 
 ### Git Workflow
+
 - When making changes, please follow this format:
-    - First, pull the repo to get the most recent changes
-    - Create a new branch with a brief name that describes the change
-    - Make the changes and test vigorously
-    - Pull once more (makes merging easier)
-    - Push and create a pull request with a descriptive title and detail. Link the appropriate issue.
-    - Request reviews from at least two other people before merging into making
+  - First, pull the repo to get the most recent changes
+  - Create a new branch with a brief name that describes the change
+  - Make the changes and test vigorously
+  - Pull once more (makes merging easier)
+  - Push and create a pull request with a descriptive title and detail. Link the appropriate issue.
+  - Request reviews from at least two other people before merging into making
 
 ### Rules of Contributing & Considerations
+
 - Please fork when appropriate
 - Look at our issues pages to see what a good contribution would be
 - Open an issue if you would like to propose a feature before you begin working on it (there may be a reason why it has not been implemented)
@@ -37,7 +40,20 @@
 - Consider the size of your contribution – is it too big for one pull request? is it essential to functionality? does it match with the team vision?
 
 ### Instructions for Building and Testing the Project
-- Clone the repo
 
-``` git clone git@github.com:software-students-fall2021/project-setup-sneaky-seven.git```
-- Stay tuned!
+Run the program:
+
+1. Clone the repo
+
+   `git clone git@github.com:software-students-fall2021/project-setup-sneaky-seven.git`
+
+2. Make sure you have node and npm installed: learn [more](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)!
+3. Download dependencies:
+
+   `npm install`
+
+4. Run program
+
+   `npm run start`
+
+5. Application should pop up [here](http://localhost:3000/)!

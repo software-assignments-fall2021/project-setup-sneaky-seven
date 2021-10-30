@@ -14,7 +14,7 @@ const RegistrationForm = () => {
   return (
     <div>
       <br />
-      <div class="container">
+      <div className="container">
         <h1> Sign Up </h1>
         <hr />
         <br />
@@ -31,7 +31,7 @@ const RegistrationForm = () => {
           <div>
             <h3> Register Using Email</h3>
           </div>
-          <div class="form">
+          <div className="form">
             <div>
               <label htmlFor="email">
                 <b> Email:</b>
@@ -54,7 +54,7 @@ const RegistrationForm = () => {
         </form>
       </div>
       <br />
-      <div class="container">
+      <div className="container">
         <h3> Already have an account? </h3>
         <Button component={Link} to="/" variant="contained">
           Log in{" "}

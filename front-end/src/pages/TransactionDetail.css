@@ -78,13 +78,7 @@ input[type="checkbox"] {
   justify-content: flex-start;
   gap: 10px;
 }
-.icon {
-  display: flex;
-  justify-content: space-evenly !important;
-}
-.icon:hover {
-  color: #efefef !important;
-}
-.CategoryIcon:hover {
-  background-color: blue;
+
+.catIcon:hover {
+  opacity: 50%;
 }

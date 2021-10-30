@@ -20,6 +20,7 @@ export function TransactionDetail() {
       const result = await api.getTransactionById(Number(id));
       console.log(result);
       setTransaction(result);
+      setSelectedCategory(result.category);
     })();
   }, []);
 
@@ -27,9 +28,14 @@ export function TransactionDetail() {
   function handleBackClick() {
     history.goBack();
   }
-  function handleCatClick(category) {
-    console.log(category);
+
+  const [SelectedCategory, setSelectedCategory] = useState();
+
+  function handleCatClick(newCategory) {
+    // console.log(newCategory);
+    setSelectedCategory(newCategory);
   }
+
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[transaction?.currency];
   const formattedDate = DateTime.fromISO(transaction?.date ?? 0).toFormat(
@@ -71,16 +77,25 @@ export function TransactionDetail() {
               "nightlife",
               "entertainment",
             ].map((category) => (
-              <icon className="icon" onClick={() => handleCatClick(category)}>
+              <span
+                className="catIcon"
+                onClick={() => handleCatClick(category)}
+              >
                 <CategoryIcon
                   text={category}
                   size={50}
-                  color={transaction?.category === category ? "blue" : "grey"}
+                  color={
+                    SelectedCategory === category
+                      ? "rgba(0, 4, 255, 0.733)"
+                      : "grey"
+                  }
                   borderColor={
-                    transaction?.category === category ? "blue" : "grey"
+                    SelectedCategory === category
+                      ? "rgba(0, 4, 255, 0.733)"
+                      : "grey"
                   }
                 />
-              </icon>
+              </span>
             ))}
           </div>
         </div>
