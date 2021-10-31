@@ -2,36 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back-end/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/server.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Categories/CategoryData.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Categories/IconGrid.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Categories/IconList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Categories/NewCategory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/css/Homepage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/css/NewCategory.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/css/Statistics.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CONTRIBUTING.md" beforeDir="false" afterPath="$PROJECT_DIR$/CONTRIBUTING.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Categories/CategoryList.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Categories/CategoryList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/ContactForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ContactForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/LoginForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/RegistrationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/RegistrationForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/css/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/css/Navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/AddCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/AddCategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/TransactionDetail.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/TransactionDetail.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/TransactionDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/TransactionDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/css/StatsNavbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/css/StatsNavbar.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +66,7 @@
       <updated>1635029115986</updated>
       <workItem from="1635029119402" duration="20605000" />
       <workItem from="1635290800514" duration="8644000" />
-      <workItem from="1635443931720" duration="12869000" />
+      <workItem from="1635443931720" duration="16736000" />
     </task>
     <servers />
   </component>

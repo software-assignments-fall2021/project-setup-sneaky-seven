@@ -5,14 +5,17 @@ import '../css/balanceByAccount.css'
 
 const BalanceByAccount = ({account, balance}) => {
     return (
-        <article className="balanceByAccount">
-            <div className="left">
-                <p className="bold">{account}</p>
-            </div>
-            <div className="right">
-                <p>Balance: {balance.toFixed(2)}</p>
-            </div>
-        </article>
+        <div>
+            <h2>Balance by Account</h2>
+            <article className="balanceByAccount">
+                <div className="left">
+                    <p className="bold">{account}</p>
+                </div>
+                <div className="right">
+                    <p>Balance: ${balance.toFixed(2)}</p>
+                </div>
+            </article>
+        </div>
     )
 }
 
@@ -40,27 +43,27 @@ const Balance = ({data}) => {
         const account = transaction.account
         const date = transaction.date
         const amount = transaction.amount
-        
+
         if (accountToBalance[account]) {
             accountToBalance[account] += amount
         } else {
             accountToBalance[account] = amount
         }
-        
+
         if (dateToBalance[date]) {
             dateToBalance[date] += amount
         } else {
             dateToBalance[date] = amount
         }
     })
-    
+
     // Reformat data
     const balanceTrend = [["Date", "Balance"]]
-    
+
     for (const date in dateToBalance) {
         balanceTrend.push([date, dateToBalance[date]])
     }
-    
+
     return (
         <div>
             <h1>Balance</h1>
