@@ -37,31 +37,35 @@ export const memoize = (func) => {
 };
 
 export function useAsync(_call, dependencies) {
-  const data = React.useRef(0);
+  const counter = React.useRef(0);
+  const data = React.useRef(undefined);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   const call = React.useCallback(_call, dependencies);
 
   React.useEffect(() => {
     setIsLoaded(false);
-    const iteration = data.current;
+    counter.current += 1;
+    const iteration = counter.current;
 
     const doCall = async () => {
       let newValue, newIsLoaded;
       try {
-        newValue = new Promise((resolve) => resolve(call()));
+        newValue = await new Promise((resolve) => resolve(call()));
         newIsLoaded = true;
       } catch (err) {
         newValue = undefined;
         newIsLoaded = false;
       }
 
-      if (iteration === data.current) {
-        data.value = result;
-        setIsLoaded(true);
+      if (iteration === counter.current) {
+        data.current = newValue;
+        setIsLoaded(newIsLoaded);
       }
     };
+
+    doCall();
   }, [call, setIsLoaded]);
 
-  return { isLoaded, data: data.value };
+  return { isLoaded, data: data.current };
 }

@@ -45,13 +45,12 @@ async function getAccountInfo() {
   }
 }
 
-const apiNames = {
+const api = {
   getAllTransactions,
   getTransactionById,
   getAccountInfo,
 };
 
-const api = { ...mapValues(apiNames, memoize) };
 if (MOCK) {
   Object.assign(api, mocks);
 }
