@@ -3,7 +3,7 @@ import {
   getAllTransactions as _getAllTransactions,
   getAccountInfo as _getAccountInfo,
 } from "./mocks";
-import { mapValues, memoize } from "../utils";
+import { mapValues } from "../utils";
 import axios from "axios";
 
 const MOCK = false;
