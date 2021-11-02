@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import api from "../api";
+import { useAsync } from "../utils";
 import { getTransactionById } from "../api/mocks";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useHistory } from "react-router";
@@ -14,25 +15,22 @@ const currenySymbol = {
 
 export function TransactionDetail() {
   let { id } = useParams();
-  const [transaction, setTransaction] = useState();
-  useEffect(() => {
-    (async () => {
-      const result = await api.getTransactionById(Number(id));
-      console.log(result);
-      setTransaction(result);
-      setSelectedCategory(result.category);
-    })();
-  }, []);
+  const [selectedCategory, setSelectedCategory] = useState(undefined);
+  const history = useHistory();
+  const [notes, setNotes] = useState("");
+  const [checkedHide, setCheckedHide] = useState(false);
+  const [checkedDuplicate, setCheckedDuplicate] = useState(false);
+  const { data: transaction } = useAsync(async () => {
+    const result = await api.getTransactionById(Number(id));
+    setSelectedCategory(result?.category);
+    return result;
+  }, [id]);
 
-  let history = useHistory();
   function handleBackClick() {
     history.goBack();
   }
 
-  const [SelectedCategory, setSelectedCategory] = useState();
-
   function handleCatClick(newCategory) {
-    // console.log(newCategory);
     setSelectedCategory(newCategory);
   }
 
@@ -41,10 +39,6 @@ export function TransactionDetail() {
   const formattedDate = DateTime.fromISO(transaction?.date ?? 0).toFormat(
     "DDDD"
   );
-
-  const [notes, setNotes] = useState("");
-  const [checkedHide, setCheckedHide] = useState(false);
-  const [checkedDuplicate, setCheckedDuplicate] = useState(false);
 
   return (
     <article className="transactionView">
@@ -85,12 +79,12 @@ export function TransactionDetail() {
                   text={category}
                   size={50}
                   color={
-                    SelectedCategory === category
+                    selectedCategory === category
                       ? "rgba(0, 4, 255, 0.733)"
                       : "grey"
                   }
                   borderColor={
-                    SelectedCategory === category
+                    selectedCategory === category
                       ? "rgba(0, 4, 255, 0.733)"
                       : "grey"
                   }
