@@ -2,9 +2,8 @@ import "./css/Accounts.css";
 import React, { useEffect, useState } from "react";
 import AccountDetail from "../components/AccountDetail/AccountDetail";
 import AccountsPage from "../components/Accounts/AccountsPage";
+import { backupData } from "../components/Accounts/AccountBackupData";
 import axios from "axios";
-import { useAsync } from "../utils";
-import api from "../api";
 
 // To-do: identify a better color scheme
 // To-do 2: use the bankId in props when saving to DB
@@ -16,10 +15,24 @@ import api from "../api";
  * @returns Account page component
  */
 function Accounts() {
-  const { data: dataNullable, isLoaded } = useAsync(api.getAccountInfo, []);
-  const data = dataNullable ?? [];
+  const [data, setData] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
   const [bankDetailName, setBankDetailName] = useState("");
+
+  useEffect(() => {
+    console.log("fetching accounts data for user");
+    axios("https://my.api.mockaroo.com/budget_app_accounts.json?key=9a5445a0")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((err) => {
+        console.log(
+          "Something went wrong. We're probably out of requests for the day!"
+        );
+        console.error(err);
+        setData(backupData);
+      });
+  });
 
   const renderPage = showDetail ? (
     <AccountDetail
