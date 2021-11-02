@@ -6,7 +6,7 @@ import {
 import { mapValues, memoize } from "../utils";
 import axios from "axios";
 
-const MOCK = true;
+const MOCK = false;
 
 /** @returns {Promise<_getAllTransactions>} */
 async function getAllTransactions() {
@@ -26,9 +26,8 @@ async function getAllTransactions() {
 }
 
 async function getTransactionById(id) {
-  return (await getAllTransactions()).find(
-    (transaction) => transaction.id === id
-  );
+  const transactions = await api.getAllTransactions();
+  return transactions.find((transaction) => transaction.id === id);
 }
 
 async function getAccountInfo() {
@@ -46,14 +45,15 @@ async function getAccountInfo() {
   }
 }
 
-const api = {
+const apiNames = {
   getAllTransactions,
   getTransactionById,
   getAccountInfo,
 };
 
+const api = { ...mapValues(apiNames, memoize) };
 if (MOCK) {
   Object.assign(api, mocks);
 }
 
-export default mapValues(api, memoize);
+export default api;

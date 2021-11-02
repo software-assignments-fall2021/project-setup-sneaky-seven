@@ -7,9 +7,6 @@ export const timeout = async (ms) => {
 export const mapValues = (obj, mapper) => {
   const output = {};
   Object.entries(obj).forEach(([key, value]) => (output[key] = mapper(value)));
-  Object.entries(output).forEach(([key, value]) =>
-    console.log(`${key} ${value}`)
-  );
   return output;
 };
 
@@ -40,18 +37,31 @@ export const memoize = (func) => {
 };
 
 export function useAsync(_call, dependencies) {
-  const data = React.useRef(undefined);
+  const data = React.useRef(0);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   const call = React.useCallback(_call, dependencies);
 
   React.useEffect(() => {
     setIsLoaded(false);
-    new Promise((resolve) => resolve(call())).then((result) => {
-      data.current = result;
-      setIsLoaded(true);
-    });
+    const iteration = data.current;
+
+    const doCall = async () => {
+      let newValue, newIsLoaded;
+      try {
+        newValue = new Promise((resolve) => resolve(call()));
+        newIsLoaded = true;
+      } catch (err) {
+        newValue = undefined;
+        newIsLoaded = false;
+      }
+
+      if (iteration === data.current) {
+        data.value = result;
+        setIsLoaded(true);
+      }
+    };
   }, [call, setIsLoaded]);
 
-  return { isLoaded, data: data.current };
+  return { isLoaded, data: data.value };
 }
