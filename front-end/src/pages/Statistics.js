@@ -1,13 +1,18 @@
-import React from 'react'
-import StatsNavbarWrapper from '../components/Statistics/StatsNavbar/StatsNavbarWrapper'
+import React, { useState, useEffect } from "react";
+import api from "../api";
+import StatsNavbarWrapper from "../components/Statistics/StatsNavbar/StatsNavbarWrapper";
+import { useAsync } from "../utils";
 
 const Statistics = () => {
-    return (
-        <div>
-            <h1>Statistics</h1>
-            <StatsNavbarWrapper/>
-        </div>
-    )
-}
+  const { data: transactionData } = useAsync(api.getAllTransactions, []);
+  const transactions = transactionData ?? [];
 
-export default Statistics
+  return (
+    <div>
+      <h1>Statistics</h1>
+      <StatsNavbarWrapper data={transactions} />
+    </div>
+  );
+};
+
+export default Statistics;
