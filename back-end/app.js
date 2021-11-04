@@ -1,6 +1,6 @@
 // read env vars from .env file. Access variables in .env by 'process.env.MY_VARIABLE_NAME'
 require("dotenv").config({ silent: true })
-const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid')
+const { Configuration, PlaidApi, PlaidEnvironments, Products } = require('plaid')
 // import and instantiate express
 const express = require("express") 
 // instantiate an Express object
@@ -59,7 +59,7 @@ app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
 
 // function to get categories from Plaid
-app.get('/api/categories', async (req, resp) => {
+app.get('/api/categories', async function (req, resp, next) {
     try {
         const response = await plaidClient.categoriesGet({})
         const categories = response.data.categories
@@ -69,5 +69,42 @@ app.get('/api/categories', async (req, resp) => {
         console.log(error.response.data)
     }
 })
+
+// function to add account to Plaid (editing account will be deprecated)
+app.post('/api/accounts', async function (req, res) {
+  // user is adding an account
+  const request = LinkTokenCreateRequest = {
+    user: {
+      client_user_id: PLAID_CLIENT_ID,
+    },
+    client_name: 'Plaid Test App',
+    products: [Products.Auth, Products.Transactions],
+    country_codes: ['US', 'CA', 'GB'],
+    language: 'en',
+    webhook: 'https://sample-web-hook.com',
+    account_filters: {
+      depository: {
+        account_subtypes: ['checking', 'savings'],
+      },
+    },
+  };
+  try {
+    const response = await plaidClient.linkTokenCreate(request);
+    const linkToken = response.data.link_token;
+    console.log(linkToken);
+    // this linkToken needs to be passed back to frontend
+    // then the frontend will take it, create a Link, and call link.open()
+    // which prompts the consent page
+    const response_json = {
+      linkToken: linkToken
+    }
+    res.json(response_json);
+  } catch (error) {
+    // handle error
+    console.log(error);
+  }
+})
+
+
 // export the express app we created to make it available to other modules
 module.exports = app
