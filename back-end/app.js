@@ -54,6 +54,16 @@ const configuration = new Configuration({
 
 const plaidClient = new PlaidApi(configuration)
 
+const prettyPrintResponse = (response) => {
+  console.log(response.data);
+};
+
+const formatError = (error) => {
+  return {
+    error: { ...error.data, status_code: error.status },
+  };
+};
+
 // middleware for parsing incoming POST data
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
@@ -69,5 +79,61 @@ app.get('/api/categories', async (req, resp) => {
         console.log(error.response.data)
     }
 })
+
+// Create a link token with configs which we can then use to initialize Plaid Link client-side.
+// See https://plaid.com/docs/#create-link-token
+app.post('/api/create_link_token', async (request, response) => {
+  console.log('enter create_link_token')
+  const configs = {
+    user: {
+      // This should correspond to a unique id for the current user.
+      client_user_id: 'user-id',
+    },
+    client_name: 'Plaid Quickstart',
+    products: PLAID_PRODUCTS,
+    country_codes: PLAID_COUNTRY_CODES,
+    language: 'en',
+  }
+
+  if (PLAID_REDIRECT_URI !== '') {
+    configs.redirect_uri = PLAID_REDIRECT_URI;
+  }
+
+  try {
+    const createTokenResponse = await plaidClient.linkTokenCreate(configs);
+    prettyPrintResponse(createTokenResponse);
+    response.json(createTokenResponse.data);
+  } catch (error) {
+    prettyPrintResponse(error.response);
+    return response.json(formatError(error.response));
+  }
+});
+
+// Exchange token flow - exchange a Link public_token for
+// an API access_token
+// https://plaid.com/docs/#exchange-token-flow
+app.post('/api/set_access_token', async (request, response, next) => {
+  console.log('enter set_access_token')
+  console.log(request.body)
+  PUBLIC_TOKEN = request.body.public_token // PUBLIC_TOKEN is a global constant 
+  console.log(PUBLIC_TOKEN)
+  try {
+    const tokenResponse = await plaidClient.itemPublicTokenExchange({
+      public_token: PUBLIC_TOKEN,
+    })
+    prettyPrintResponse(tokenResponse)
+    ACCESS_TOKEN = tokenResponse.data.access_token
+    ITEM_ID = tokenResponse.data.item_id
+    response.json({
+      access_token: ACCESS_TOKEN,
+      item_id: ITEM_ID,
+      error: null,
+    })
+  } catch (error) {
+    prettyPrintResponse(error.response)
+    return response.json(formatError(error.response))
+  }
+})
+
 // export the express app we created to make it available to other modules
 module.exports = app
