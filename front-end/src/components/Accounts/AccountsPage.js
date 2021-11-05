@@ -33,7 +33,7 @@ const PlaidLink = props => {
 
     return (
         <Button id="new-account-btn" onClick={() => open()} disabled={!ready} variant="contained" startIcon ={<AddIcon />} >
-        Connect a bank account
+            Connect a bank account
         </Button>
     )
 }
@@ -49,8 +49,9 @@ const PlaidLink = props => {
     3. setBankDetailName (function to pass as prop to AccountPanel)
  */
 function AccountsPage(props) {
-    const data = props.banks
+    // const data = props.banks
     const [token, setToken] = useState(null)
+    const [data, setData] = useState(null)
 
     // generate a link_token (public token)
     useEffect(() => {
@@ -59,24 +60,34 @@ function AccountsPage(props) {
         .then((resp) => {
             setToken(resp.data.link_token)
         })
+
+        // get the banks linked
+        axios
+        .post('/api/get_bank_accounts', {
+            access_token_object: localStorage.getItem("access_token_object")
+        })
+        .then((resp) => {
+            setData(resp.data.accounts)
+        })
     }, [])
 
     return (
         <>
         <h1>Accounts</h1>
 
-        {data.map(bank => (
+        {/* {data.map(bank => (
             <AccountPanel 
                 bankName={bank.bankName} 
                 type={bank.type}
                 showAccountDetail={props.setShowDetail}
                 setBankDetailHeader={props.setBankDetailName}
-            />))}
+            />))} */}
 
         {token === null ? (
             // insert your loading animation here
             <div></div>
         ) : (
+            // Renders the button leading to Plaid bank adding
             <PlaidLink token={token} />
         )}
         </>
