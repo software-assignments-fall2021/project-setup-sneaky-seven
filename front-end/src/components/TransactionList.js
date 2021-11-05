@@ -1,5 +1,5 @@
 import React from "react";
-import "./TransactionList.css";
+import "./css/TransactionList.css";
 import CategoryIcon from "./CategoryIcon";
 import { useHistory } from "react-router";
 import { DateTime } from "luxon";
