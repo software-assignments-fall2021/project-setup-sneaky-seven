@@ -5,7 +5,7 @@ import { useAsync } from "../utils";
 import { getTransactionById } from "../api/mocks";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useHistory } from "react-router";
-import "./TransactionDetail.css";
+import "./css/TransactionDetail.css";
 import { DateTime } from "luxon";
 import CategoryIcon from "../components/CategoryIcon";
 
