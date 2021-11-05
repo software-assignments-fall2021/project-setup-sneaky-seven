@@ -24,7 +24,9 @@ export class NavbarWrapper extends PureComponent {
           <Route path="/accounts" exact component={Accounts} />
           <Route path="/transactions" exact component={Transactions} />
           <Route path="/transactions/:id" exact component={TransactionDetail} />
-          <Route path="/statistics" exact component={Statistics} />
+
+          {/* this has children routes, which can't be matched if this route is exact. */}
+          <Route path="/statistics" component={Statistics} />
           <Route path="/categories" exact component={Categories} />
           <Route path="/categories/addCategory" exact component={AddCategory} />
           <Route path="/FAQs" exact component={FAQs} />

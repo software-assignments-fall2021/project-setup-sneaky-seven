@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Accounts from "./Accounts.js";
 import Transactions from "./Transactions.js";
 import Spending from "../components/Statistics/Spending";
 import Balance from "../components/Statistics/Balance";
 import Button from "@mui/material/Button";
+import { useAsync } from "../utils";
 import { Link } from "react-router-dom";
 import "../components/css/Homepage.css";
+import api from "../api";
 
 const Homepage = () => {
+  const { data: transactionData } = useAsync(api.getAllTransactions, []);
+  const transactions = transactionData ?? [];
+
   return (
     <div>
       <br />
@@ -36,7 +41,7 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="statContainer">
-        <Spending> </Spending>
+        <Spending data={transactions}> </Spending>
         <Button
           variant="contained"
           id="new-account-btn"
@@ -49,7 +54,7 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="statContainer">
-        <Balance> </Balance>
+        <Balance data={transactions}> </Balance>
         <Button
           variant="contained"
           id="new-account-btn"
