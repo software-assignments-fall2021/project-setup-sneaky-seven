@@ -1,11 +1,6 @@
 // read env vars from .env file. Access variables in .env by 'process.env.MY_VARIABLE_NAME'
-<<<<<<< HEAD
-require("dotenv").config({ silent: true })
-const { Configuration, PlaidApi, PlaidEnvironments, AccountsGetRequest } = require('plaid')
-=======
 require("dotenv").config({ silent: true });
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
->>>>>>> 84eb739e507ea2287af714417e5b77e83213669e
 // import and instantiate express
 const express = require("express");
 // instantiate an Express object
@@ -95,18 +90,6 @@ app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
 
 // function to get categories from Plaid
-<<<<<<< HEAD
-app.get('/api/categories', async function (req, resp, next) {
-    try {
-        const response = await plaidClient.categoriesGet({})
-        const categories = response.data.categories
-        console.log(categories)
-        resp.json(categories)
-    } catch (error) {
-        console.log(error.response.data)
-    }
-})
-=======
 app.get("/api/categories", async (req, resp) => {
   try {
     const response = await plaidClient.categoriesGet({});
@@ -116,7 +99,6 @@ app.get("/api/categories", async (req, resp) => {
     console.log(error.response.data);
   }
 });
->>>>>>> 84eb739e507ea2287af714417e5b77e83213669e
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
