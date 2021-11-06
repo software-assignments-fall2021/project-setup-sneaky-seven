@@ -137,26 +137,19 @@ app.post('/api/set_access_token', async (request, response, next) => {
 
 app.post('/api/get_bank_accounts', async (request, response, next) => {
   console.log('enter get_bank_accounts')
-  // console.log(request.body)
-  // PUBLIC_TOKEN = request.body.public_token // PUBLIC_TOKEN is a global constant
-  // console.log(PUBLIC_TOKEN)
-  // var req = AccountsGetRequest = {
-  //   access_token: ACCESS_TOKEN,
-  // };
 
-  const access_token_obj = JSON.parse(JSON.parse(JSON.stringify(request.body.access_token_object)));
-  console.log("access token object parsed: " + access_token_obj);
-  console.log("access token parsed: " + typeof(access_token_obj));
+  const obj = JSON.parse(request.body.access_token_object);
+  console.log("access token object parsed: " + obj);
+  console.log(obj.access_token);
   // console.log("access token unparsed: " + request.body.access_token_object);
 
-  ACCESS_TOKEN = access_token_obj.access_token
+  ACCESS_TOKEN = obj.access_token
   try {
-    const response = await plaidClient.accountsGet({
+    const res = await plaidClient.accountsGet({
       access_token: ACCESS_TOKEN,
     });
-    const accounts = response.data.accounts;
-    prettyPrintResponse(accounts);
-    response.json(accounts);
+    const accounts = res.accounts;
+    return response.json(res.data.accounts);
   } catch (error) {
     prettyPrintResponse(error.response)
     return response.json(formatError(error.response))

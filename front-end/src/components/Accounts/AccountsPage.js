@@ -59,6 +59,7 @@ function AccountsPage(props) {
         .post('/api/create_link_token', {})
         .then((resp) => {
             setToken(resp.data.link_token)
+            console.log(token);
         })
 
         // get the banks linked
@@ -67,17 +68,19 @@ function AccountsPage(props) {
             access_token_object: localStorage.getItem("access_token_object")
         })
         .then((resp) => {
-            setData(resp.data.accounts)
+            // setData()
+            console.log(resp.data);
+            console.log(data);
         })
-    }, [])
+    }, [data])
 
     return (
         <>
         <h1>Accounts</h1>
-
+        {console.log(data)}
         {/* {data.map(bank => (
             <AccountPanel 
-                bankName={bank.bankName} 
+                bankName={bank.name} 
                 type={bank.type}
                 showAccountDetail={props.setShowDetail}
                 setBankDetailHeader={props.setBankDetailName}
