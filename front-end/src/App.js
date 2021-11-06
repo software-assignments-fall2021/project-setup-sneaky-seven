@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/App.css";
 import NavbarWrapper from "./components/Navbar/NavbarWrapper";
 
 const App = () => {
@@ -7,6 +7,6 @@ const App = () => {
       <NavbarWrapper />
     </div>
   );
-}
+};
 
 export default App;
