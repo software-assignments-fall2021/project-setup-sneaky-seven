@@ -156,21 +156,21 @@ app.post('/api/set_access_token', async (request, response, next) => {
   }
 })
 
+// Gets the bank accounts associated with the Link
+// https://plaid.com/docs/api/accounts/#accountsget
 app.post('/api/get_bank_accounts', async (request, response, next) => {
   console.log('enter get_bank_accounts')
-
-  const obj = JSON.parse(request.body.access_token_object);
-  console.log("access token object parsed: " + obj);
-  console.log(obj.access_token);
-  // console.log("access token unparsed: " + request.body.access_token_object);
-
-  ACCESS_TOKEN = obj.access_token
   try {
+    const obj = JSON.parse(request.body.access_token_object);
+
+    console.log("access token object parsed: " + obj);
+    console.log(obj.access_token);
+
+    ACCESS_TOKEN = obj.access_token
     const res = await plaidClient.accountsGet({
       access_token: ACCESS_TOKEN,
     });
     const accounts = res.accounts;
-    // return response.json(res.data.accounts);
     return response.json(constructAccountsArr(res.data.accounts));
   } catch (error) {
     prettyPrintResponse(error.response)

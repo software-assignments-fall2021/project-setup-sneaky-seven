@@ -57,7 +57,7 @@ const PlaidLink = (props) => {
  */
 function AccountsPage(props) {
   const [token, setToken] = useState(null);
-  const [data, setData] = useState([])
+  const [bankData, setBankData] = useState([])
 
   // generate a link_token (public token) and get linked banks
   useEffect(() => {
@@ -69,7 +69,7 @@ function AccountsPage(props) {
         access_token_object: localStorage.getItem("access_token_object")
     })
     .then((resp) => {
-        setData(resp.data)
+        setBankData(resp.data)
         console.log(resp);
         console.log(resp.data);
     })
@@ -78,8 +78,7 @@ function AccountsPage(props) {
   return (
     <>
         <h1>Accounts</h1>
-        {console.log(data)}
-        {data.map(bank => (
+        {bankData.map(bank => (
             <AccountPanel 
                 bankName={bank.name} 
                 type={bank.type}
