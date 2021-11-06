@@ -64,6 +64,27 @@ const formatError = (error) => {
   };
 };
 
+const constructAccountsArr = (banks) => {
+  const ret = []
+  banks.forEach(function (bank) {
+    console.log(bank.account_id)
+    console.log(bank.balances)
+    const bankObj = {
+      account_id: bank.account_id,
+      balances: {
+        available: bank.balances.available,
+        current: bank.balances.current,
+        currency: bank.balances.iso_currency_code
+      },
+      name: bank.name,
+      type: bank.type
+    };
+    ret.push(bankObj)
+  });
+  console.log(ret);
+  return ret;
+}
+
 // middleware for parsing incoming POST data
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
@@ -149,12 +170,14 @@ app.post('/api/get_bank_accounts', async (request, response, next) => {
       access_token: ACCESS_TOKEN,
     });
     const accounts = res.accounts;
-    return response.json(res.data.accounts);
+    // return response.json(res.data.accounts);
+    return response.json(constructAccountsArr(res.data.accounts));
   } catch (error) {
     prettyPrintResponse(error.response)
     return response.json(formatError(error.response))
   }
 })
+
 
 // export the express app we created to make it available to other modules
 module.exports = app

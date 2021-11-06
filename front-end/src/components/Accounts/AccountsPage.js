@@ -51,7 +51,7 @@ const PlaidLink = props => {
 function AccountsPage(props) {
     // const data = props.banks
     const [token, setToken] = useState(null)
-    const [data, setData] = useState(null)
+    const [data, setData] = useState([])
 
     // generate a link_token (public token)
     useEffect(() => {
@@ -68,23 +68,24 @@ function AccountsPage(props) {
             access_token_object: localStorage.getItem("access_token_object")
         })
         .then((resp) => {
-            // setData()
+            setData(resp.data)
+            console.log(resp);
             console.log(resp.data);
-            console.log(data);
         })
-    }, [data])
+    }, [])
 
     return (
         <>
         <h1>Accounts</h1>
         {console.log(data)}
-        {/* {data.map(bank => (
+        {data.map(bank => (
             <AccountPanel 
                 bankName={bank.name} 
                 type={bank.type}
+                balances={bank.balances}
                 showAccountDetail={props.setShowDetail}
                 setBankDetailHeader={props.setBankDetailName}
-            />))} */}
+            />))}
 
         {token === null ? (
             // insert your loading animation here
