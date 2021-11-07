@@ -1,5 +1,9 @@
-/* TODO: Update px to percentage to fit in smaller screen */
-.category-list-text {
+/* TODO(jennifer): Update px to percentage to fit in smaller screen */
+.category-text {
+  margin-left: 16px;
+}
+
+.category-item {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -10,11 +14,6 @@
   border: 2px solid black;
   border-radius: 15px;
   width: auto;
-}
-span {
-  margin-left: 16px;
-}
-li {
   margin: 15px;
   margin-right: 50px;
 }

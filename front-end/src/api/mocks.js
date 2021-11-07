@@ -9,6 +9,8 @@ const delayed = (data, ms = Math.random() * 4) => {
   };
 };
 
+export function postNewCategory(name, icon) {};
+
 export const getAllTransactions = [
   {
     id: 1,
@@ -69,6 +71,7 @@ export const getAccountInfo = [
 /** Takes an object and creates a new object where the values return the values of the original object, with a random delay */
 export const mocks = mapValues(
   {
+    postNewCategory,
     getAllTransactions,
     getTransactionById,
     getAccountInfo,

@@ -22,7 +22,7 @@ describe("testing routes", () => {
         .request(app)
         .get("/api/categories")
         .end(function (err, res) {
-          expect(res.body).to.include.members(["Bank Fees"]);
+          expect(res.body.map(c => c.name)).to.include.members(["Bank Fees"]);
           cb();
         });
     });
@@ -71,29 +71,5 @@ describe("testing printing/debugging functions", () => {
       expect(formatError(fakeData)).to.have.property("error");
       expect(formatError(fakeData).error).to.have.property("status_code");
     });
-  });
-});
-
-describe("testing filter categories function", () => {
-  it("returns categories without duplicates", () => {
-    const categories = [
-      { hierarchy: ["cat0"] },
-      { hierarchy: ["cat1"] },
-      { hierarchy: ["cat0"] },
-      { hierarchy: ["cat2"] },
-      { hierarchy: ["cat3"] },
-      { hierarchy: ["cat0"] },
-      { hierarchy: ["cat0"] },
-    ];
-    expect(filterCategories(categories)).to.include.members([
-      "cat0",
-      "cat1",
-      "cat2",
-      "cat3",
-    ]);
-  });
-  it("returns an empty list when user has no categories", () => {
-    const categories = [];
-    expect(filterCategories(categories)).to.include.members([]);
   });
 });

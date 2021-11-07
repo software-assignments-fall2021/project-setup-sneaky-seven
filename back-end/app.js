@@ -40,6 +40,22 @@ let ITEM_ID = null;
 // persistent data store
 let PAYMENT_ID = null;
 
+const categories = [
+  { name: 'Bank Fees',        icon: 'MdAccountBalance' },
+  { name: 'Cash Advance',     icon: 'MdAccountBalance' },
+  { name: 'Community',        icon: 'MdAccountBalance' },
+  { name: 'Food and Drink',   icon: 'MdOutlineLocalCafe' },
+  { name: 'Healthcare',       icon: 'AiOutlineHome' },
+  { name: 'Interest',         icon: 'MdAccountBalance' },
+  { name: 'Payment',          icon: 'MdAccountBalance' },
+  { name: 'Recreation',       icon: 'MdOutlineSportsHandball' },
+  { name: 'Service',          icon: 'MdOutlineCastForEducation' },
+  { name: 'Shops',            icon: 'MdOutlineLocalGroceryStore' },
+  { name: 'Tax',              icon: 'MdAccountBalance' },
+  { name: 'Transfer',         icon: 'MdAccountBalance' },
+  { name: 'Travel',           icon: 'MdEmojiTransportation' },
+];
+
 // Initialize the Plaid client
 const configuration = new Configuration({
   basePath: PlaidEnvironments[PLAID_ENV],
@@ -92,12 +108,17 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
   try {
-    const response = await plaidClient.categoriesGet({});
-    const categories = response.data.categories;
-    resp.json(filterCategories(categories));
+    resp.json(categories);
   } catch (error) {
     console.log(error.response.data);
   }
+});
+
+app.post("/api/categories", async (req, resp) => {
+  categories.push(req.body);
+  categories.sort((a, b) => a.name.localeCompare(b.name));
+
+  resp.json({});
 });
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
@@ -209,11 +230,5 @@ app.post("/contactInfo", async (req, resp) => {
   }
 });
 
-function filterCategories(data) {
-  const hierarchies = data.map((x) => x.hierarchy[0]);
-  const categories = [...new Set(hierarchies)];
-  console.log(categories);
-  return categories;
-}
 // export the express app we created to make it available to other modules
-module.exports = { app, filterCategories, prettyPrintResponse, formatError };
+module.exports = { app, prettyPrintResponse, formatError };
