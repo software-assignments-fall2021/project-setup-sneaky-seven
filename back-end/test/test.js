@@ -49,8 +49,59 @@ describe("testing routes", () => {
         });
     });
   });
+  describe("testing get and post route of /contactInfo", () => {
+    it("get route of /contactInfo returns a 200 status", function (cb) {
+      chai
+        .request(app)
+        .get("/contactInfo")
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
+    });
+    it("post route of /contactInfo returns a 200 status", function (cb) {
+      chai
+        .request(app)
+        .post("/contactInfo")
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
+    });
+    it("get returns an empty array if there was no previous post request", function (cb) {
+      chai
+        .request(app)
+        .get("/contactInfo")
+        .end(function (err, res) {
+          expect(res.body).to.empty;
+          cb();
+        });
+    });
+    it("returns expected content of contact information", function (cb) {
+      chai
+        .request(app)
+        .post("/contactInfo")
+        .send({
+          name: "Test1",
+          email: "TestEmail",
+          message: "TestMsg",
+        })
+        .end(function (err, res) {
+          chai
+            .request(app)
+            .get("/contactInfo")
+            .end(function (err, res2) {
+              expect(res2.body).to.include({
+                name: "Test1",
+                email: "TestEmail",
+                message: "TestMsg",
+              });
+              cb();
+            });
+        });
+    });
+  });
 });
-
 describe("testing printing/debugging functions", () => {
   beforeEach(function () {
     this.sinon.stub(console, "log");
