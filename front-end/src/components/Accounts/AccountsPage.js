@@ -56,37 +56,49 @@ const PlaidLink = (props) => {
     3. setBankDetailName (function to pass as prop to AccountPanel)
  */
 function AccountsPage(props) {
-  const data = props.banks;
   const [token, setToken] = useState(null);
+  const [bankData, setBankData] = useState([])
 
-  // generate a link_token (public token)
+  // generate a link_token (public token) and get linked banks
   useEffect(() => {
     axios.post("/api/create_link_token", {}).then((resp) => {
       setToken(resp.data.link_token);
     });
+
+    axios.post('/api/get_bank_accounts', {
+        access_token_object: localStorage.getItem("access_token_object")
+    })
+    .then((resp) => {
+        // no error defined means success
+        if(!resp.data.err) {
+            setBankData(resp.data)
+            console.log(resp);
+            console.log(resp.data);
+        }
+    })
   }, []);
 
   return (
     <>
-      <h1>Accounts</h1>
+        <h1>Accounts</h1>
+        {bankData.map(bank => (
+            <AccountPanel 
+                bankName={bank.name} 
+                type={bank.type}
+                balances={bank.balances}
+                showAccountDetail={props.setShowDetail}
+                setBankDetailHeader={props.setBankDetailName}
+            />))}
 
-      {data.map((bank) => (
-        <AccountPanel
-          bankName={bank.bankName}
-          type={bank.type}
-          showAccountDetail={props.setShowDetail}
-          setBankDetailHeader={props.setBankDetailName}
-        />
-      ))}
-
-      {token === null ? (
-        // insert your loading animation here
-        <div></div>
-      ) : (
-        <PlaidLink token={token} />
-      )}
+        {token === null ? (
+            // insert your loading animation here
+            <div></div>
+        ) : (
+            // Renders the button leading to Plaid bank adding
+            <PlaidLink token={token} />
+        )}
     </>
-  );
+    );
 }
 
 export default AccountsPage;

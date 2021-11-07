@@ -64,6 +64,27 @@ const formatError = (error) => {
   };
 };
 
+const constructAccountsArr = (banks) => {
+  const ret = []
+  banks.forEach(function (bank) {
+    console.log(bank.account_id)
+    console.log(bank.balances)
+    const bankObj = {
+      account_id: bank.account_id,
+      balances: {
+        available: bank.balances.available,
+        current: bank.balances.current,
+        currency: bank.balances.iso_currency_code
+      },
+      name: bank.name,
+      type: bank.type
+    };
+    ret.push(bankObj)
+  });
+  console.log(ret);
+  return ret;
+}
+
 // middleware for parsing incoming POST data
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
@@ -133,6 +154,31 @@ app.post("/api/set_access_token", async (request, response, next) => {
     return response.json(formatError(error.response));
   }
 });
+
+// Gets the bank accounts associated with the Link
+// https://plaid.com/docs/api/accounts/#accountsget
+app.post('/api/get_bank_accounts', async (request, response, next) => {
+  console.log('enter get_bank_accounts')
+  try {
+    const obj = JSON.parse(request.body.access_token_object);
+
+    console.log("access token object parsed: " + obj);
+    console.log(obj.access_token);
+
+    ACCESS_TOKEN = obj.access_token
+    const res = await plaidClient.accountsGet({
+      access_token: ACCESS_TOKEN,
+    });
+    const accounts = res.accounts;
+    return response.json(constructAccountsArr(res.data.accounts));
+  } catch (error) {
+    console.log("ERROR:");
+    prettyPrintResponse(error.response)
+    return response.json({
+      err: error
+    })
+  }
+})
 
 function filterCategories(data) {
   const hierarchies = data.map((x) => x.hierarchy[0]);
