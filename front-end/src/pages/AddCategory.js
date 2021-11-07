@@ -17,7 +17,10 @@ const IconGrid = ({ selectedIcon, setIcon }) => {
                 {Object.entries(iconNameToComponent).map(([name, Icon]) => {
                     const selectedStyle = name === selectedIcon ? 'selected-icon' : null;
                     return (
-                        <button type={'button'} className={cx('icon-button', selectedStyle)} onClick={() => setIcon(name)} >
+                        <button
+                            type={'button'}
+                            className={cx('icon-button', selectedStyle)}
+                            onClick={() => setIcon(name)} >
                             <Icon id={name} className={styles.fillSpace} />
                         </button>);
                 })
