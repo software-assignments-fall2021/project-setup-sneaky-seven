@@ -65,25 +65,25 @@ const formatError = (error) => {
 };
 
 const constructAccountsArr = (banks) => {
-  const ret = []
+  const ret = [];
   banks.forEach(function (bank) {
-    console.log(bank.account_id)
-    console.log(bank.balances)
+    console.log(bank.account_id);
+    console.log(bank.balances);
     const bankObj = {
       account_id: bank.account_id,
       balances: {
         available: bank.balances.available,
         current: bank.balances.current,
-        currency: bank.balances.iso_currency_code
+        currency: bank.balances.iso_currency_code,
       },
       name: bank.name,
-      type: bank.type
+      type: bank.type,
     };
-    ret.push(bankObj)
+    ret.push(bankObj);
   });
   console.log(ret);
   return ret;
-}
+};
 
 // middleware for parsing incoming POST data
 app.use(express.json()); // decode JSON-formatted incoming POST data
@@ -124,7 +124,7 @@ app.post("/api/create_link_token", async (request, response) => {
     prettyPrintResponse(createTokenResponse);
     response.json(createTokenResponse.data);
   } catch (error) {
-    prettyPrintResponse(error.response);
+    prettyPrintResponse(error);
     return response.json(formatError(error.response));
   }
 });
@@ -157,15 +157,15 @@ app.post("/api/set_access_token", async (request, response, next) => {
 
 // Gets the bank accounts associated with the Link
 // https://plaid.com/docs/api/accounts/#accountsget
-app.post('/api/get_bank_accounts', async (request, response, next) => {
-  console.log('enter get_bank_accounts')
+app.post("/api/get_bank_accounts", async (request, response, next) => {
+  console.log("enter get_bank_accounts");
   try {
     const obj = JSON.parse(request.body.access_token_object);
 
     console.log("access token object parsed: " + obj);
     console.log(obj.access_token);
 
-    ACCESS_TOKEN = obj.access_token
+    ACCESS_TOKEN = obj.access_token;
     const res = await plaidClient.accountsGet({
       access_token: ACCESS_TOKEN,
     });
@@ -175,10 +175,39 @@ app.post('/api/get_bank_accounts', async (request, response, next) => {
     console.log("ERROR:");
     prettyPrintResponse(error)
     return response.json({
-      err: error
-    })
+      err: error,
+    });
   }
-})
+});
+
+/*
+Contact Info get + post routes:
+  - stores the confirmation message info
+  - resets so calls to /contactConfirm will return default msg
+  - stores temp in array until db implementation
+*/
+let contactInfo = {};
+app.get("/contactInfo", async (req, resp) => {
+  try {
+    const confirmationMessage = contactInfo;
+    contactInfo = {};
+    console.log(confirmationMessage);
+    resp.json(confirmationMessage);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/contactInfo", async (req, resp) => {
+  try {
+    contactInfo.name = req.body.name;
+    contactInfo.email = req.body.email;
+    contactInfo.message = req.body.message;
+    resp.json(contactInfo);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 function filterCategories(data) {
   const hierarchies = data.map((x) => x.hierarchy[0]);

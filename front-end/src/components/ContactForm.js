@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./css/ContactForm.css";
+import axios from "axios";
 
 // TODO: connect to backend
 const ContactForm = () => {
   const [status, setStatus] = useState("Submit");
-
+  const history = useHistory();
   const handleSubmit = async (e) => {
     setStatus("Sending");
+    const contactInfo = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+      message: e.target.message.value,
+    };
+    const body = axios.post("/contactInfo", contactInfo);
+
+    history.push("/contactConfirm");
   };
 
   return (
@@ -47,7 +56,7 @@ const ContactForm = () => {
           </div>
         </div>
         <br />
-        <Button type="submit" component={Link} to="/" variant="contained">
+        <Button type="submit" variant="contained">
           {status}
         </Button>
       </form>

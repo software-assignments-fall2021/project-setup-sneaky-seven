@@ -9,6 +9,19 @@
   flex-direction: column;
 }
 
+.container-confirm {
+  background-color: #dcf7fa;
+  width: 20%;
+  margin: auto;
+  border: 2px solid #afecf4;
+  border-radius: 5px;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  font-family: monospace;
+  font-size: 15px;
+}
+
 hr {
   margin-left: 0;
   margin-right: 0;
