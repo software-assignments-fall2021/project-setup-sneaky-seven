@@ -31,16 +31,61 @@ Run the program:
    `git clone git@github.com:software-students-fall2021/project-setup-sneaky-seven.git`
 
 2. Make sure you have node and npm installed: learn [more](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)!
-3. Download dependencies:
+
+3. Run the front-end:
+   Go to that directory:
+   `cd front-end/`
+   Download dependencies:
+   `npm install`
+   Run the program
+   `npm run start`
+
+4. Run the back-end (separate terminal):
+
+   Go to that directory:
+
+   `cd back-end/`
+
+   Download dependencies:
 
    `npm install`
 
-4. Run program
+   Add the `.env` file:
+
+   `(Please contact any member for this as we don't want this on version control)`
+
+   Run the program
 
    `npm run start`
 
 5. Application should pop up [here](http://localhost:3000/)!
 
+Test the program:
+
+1. Download the necessary dependencies:
+
+   Unit Testing:
+
+   `npm install --save-dev mocha chai sinon mocha-sinon chai-http`
+
+   Code Coverage:
+
+   `npm i -D nyc`
+
+2. Run the following command in the back-end folder:
+
+   Go to backend:
+
+   `cd back-end/`
+
+   Run for unit test and code coverage:
+
+   `npx nyc mocha test/test.js`
+
 ## References
 
-Stay tuned!
+- [Plaid API](https://plaid.com/docs/)
+- [Mocha](https://mochajs.org/)
+- [Chai](https://www.chaijs.com/)
+- [Istanbul NYC](https://github.com/istanbuljs/nyc)
+- [Prof. Bloomberg Slides](https://knowledge.kitchen/Agile_Software_Engineering_Course_Schedule)

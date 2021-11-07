@@ -39,7 +39,7 @@
 - Make a pull request when changes are deemed adequate. Request reviews from at least two other people.
 - Consider the size of your contribution – is it too big for one pull request? is it essential to functionality? does it match with the team vision?
 
-### Instructions for Building and Testing the Project
+### Instructions for Building and testing
 
 Run the program:
 
@@ -48,12 +48,53 @@ Run the program:
    `git clone git@github.com:software-students-fall2021/project-setup-sneaky-seven.git`
 
 2. Make sure you have node and npm installed: learn [more](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)!
-3. Download dependencies:
+
+3. Run the front-end:
+   Go to that directory:
+   `cd front-end/`
+   Download dependencies:
+   `npm install`
+   Run the program
+   `npm run start`
+
+4. Run the back-end (separate terminal):
+
+   Go to that directory:
+
+   `cd back-end/`
+
+   Download dependencies:
 
    `npm install`
 
-4. Run program
+   Add the `.env` file:
+
+   `(Please contact any member for this as we don't want this on version control)`
+
+   Run the program
 
    `npm run start`
 
 5. Application should pop up [here](http://localhost:3000/)!
+
+Test the program:
+
+1. Download the necessary dependencies:
+
+   Unit Testing:
+
+   `npm install --save-dev mocha chai sinon mocha-sinon chai-http`
+
+   Code Coverage:
+
+   `npm i -D nyc`
+
+2. Run the following command in the back-end folder:
+
+   Go to backend:
+
+   `cd back-end/`
+
+   Run for unit test and code coverage:
+
+   `npx nyc mocha test/test.js`
