@@ -6,8 +6,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
 import { styles, iconNameToComponent } from '../utils';
 
-// DO NOT move these to another file. There's no reason to have 10 different files
-// per screen. 'Best Practices' are only useful when they ACTUALLY HELP YOUR PROJECT
 const IconGrid = ({ selectedIcon, setIcon }) => {
     return (
         <div className={cx(styles.centerContent, styles.flowDown)}>
