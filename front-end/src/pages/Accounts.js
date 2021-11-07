@@ -2,7 +2,6 @@ import "./css/Accounts.css";
 import React, { useEffect, useState } from "react";
 import AccountDetail from "../components/AccountDetail/AccountDetail";
 import AccountsPage from "../components/Accounts/AccountsPage";
-import axios from "axios";
 import { useAsync } from "../utils";
 import api from "../api";
 
@@ -19,19 +18,19 @@ function Accounts() {
   const { data: dataNullable, isLoaded } = useAsync(api.getAccountInfo, []);
   const data = dataNullable ?? [];
   const [showDetail, setShowDetail] = useState(false);
-  const [bankDetailName, setBankDetailName] = useState("");
+  const [bankDetails, setBankDetails] = useState("");
 
   const renderPage = showDetail ? (
     <AccountDetail
       showAccountDetail={setShowDetail}
-      setBankDetailHeader={setBankDetailName}
-      bankName={bankDetailName}
+      setBankDetailHeader={setBankDetails}
+      bankDetails={bankDetails}
     />
   ) : (
     <AccountsPage
       banks={data}
       setShowDetail={setShowDetail}
-      setBankDetailName={setBankDetailName}
+      setBankDetails={setBankDetails}
     />
   );
 
