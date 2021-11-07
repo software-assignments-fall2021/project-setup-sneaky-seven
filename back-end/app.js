@@ -40,6 +40,7 @@ let ITEM_ID = null;
 // persistent data store
 let PAYMENT_ID = null;
 
+let newCategories = [];
 // Initialize the Plaid client
 const configuration = new Configuration({
   basePath: PlaidEnvironments[PLAID_ENV],
@@ -72,13 +73,21 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 app.get("/api/categories", async (req, resp) => {
   try {
     const response = await plaidClient.categoriesGet({});
-    const categories = response.data.categories;
-    resp.json(filterCategories(categories));
+    const categories = response.data.categories.concat(newCategories);
+    resp.json(filterCategories(categories).sort());
   } catch (error) {
     console.log(error.response.data);
   }
 });
 
+app.post("/api/categories", async (req, resp) => {
+  try {
+    console.log(req.body);
+    newCategories.push(req.body);
+  } catch (error) {
+    console.log(error);
+  }
+});
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post("/api/create_link_token", async (request, response) => {
