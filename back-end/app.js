@@ -44,16 +44,16 @@ const categories = [
   { name: 'Bank Fees',        icon: 'MdAccountBalance' },
   { name: 'Cash Advance',     icon: 'MdAccountBalance' },
   { name: 'Community',        icon: 'MdAccountBalance' },
-  { name: 'Food and Drink',   icon: 'MdAccountBalance' },
-  { name: 'Healthcare',       icon: 'MdAccountBalance' },
+  { name: 'Food and Drink',   icon: 'MdOutlineLocalCafe' },
+  { name: 'Healthcare',       icon: 'AiOutlineHome' },
   { name: 'Interest',         icon: 'MdAccountBalance' },
   { name: 'Payment',          icon: 'MdAccountBalance' },
-  { name: 'Recreation',       icon: 'MdAccountBalance' },
-  { name: 'Service',          icon: 'MdAccountBalance' },
-  { name: 'Shops',            icon: 'MdAccountBalance' },
+  { name: 'Recreation',       icon: 'MdOutlineSportsHandball' },
+  { name: 'Service',          icon: 'MdOutlineCastForEducation' },
+  { name: 'Shops',            icon: 'MdOutlineLocalGroceryStore' },
   { name: 'Tax',              icon: 'MdAccountBalance' },
   { name: 'Transfer',         icon: 'MdAccountBalance' },
-  { name: 'Travel',           icon: 'MdAccountBalance' },
+  { name: 'Travel',           icon: 'MdEmojiTransportation' },
 ];
 
 // Initialize the Plaid client

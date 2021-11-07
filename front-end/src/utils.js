@@ -2,6 +2,9 @@ import React from "react";
 import { MdAccountBalance, MdEco, MdFace, MdFavorite } from 'react-icons/md';
 import { MdRedeem, MdTipsAndUpdates, MdPlayCircle, MdBusiness, MdListAlt } from 'react-icons/md';
 import { MdInventory, MdModeEdit, MdCloudQueue } from 'react-icons/md';
+import { MdOutlineLocalGroceryStore, MdEmojiTransportation, MdOutlineLocalCafe } from 'react-icons/md';
+import { MdOutlineCastForEducation, MdOutlineSportsHandball } from 'react-icons/md';
+import { AiOutlineHome } from 'react-icons/ai';
 
 export const styles = {
   muiButton: 'MuiButton-root',
@@ -25,6 +28,12 @@ export const iconNameToComponent = {
     MdInventory,
     MdModeEdit,
     MdCloudQueue,
+    MdOutlineLocalGroceryStore,
+    MdEmojiTransportation,
+    MdOutlineLocalCafe,
+    MdOutlineCastForEducation,
+    MdOutlineSportsHandball,
+    AiOutlineHome
 };
 
 export const timeout = async (ms) => {
