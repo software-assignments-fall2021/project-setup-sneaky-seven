@@ -172,8 +172,11 @@ app.post('/api/get_bank_accounts', async (request, response, next) => {
     const accounts = res.accounts;
     return response.json(constructAccountsArr(res.data.accounts));
   } catch (error) {
+    console.log("ERROR:");
     prettyPrintResponse(error.response)
-    return response.json(formatError(error.response))
+    return response.json({
+      err: error
+    })
   }
 })
 

@@ -69,9 +69,12 @@ function AccountsPage(props) {
         access_token_object: localStorage.getItem("access_token_object")
     })
     .then((resp) => {
-        setBankData(resp.data)
-        console.log(resp);
-        console.log(resp.data);
+        // no error defined means success
+        if(!resp.data.err) {
+            setBankData(resp.data)
+            console.log(resp);
+            console.log(resp.data);
+        }
     })
   }, []);
 
