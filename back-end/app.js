@@ -79,6 +79,36 @@ app.get("/api/categories", async (req, resp) => {
   }
 });
 
+// function to get transactions from Plaid
+app.get("/api/transactions/get", async (req, resp) => {
+  const request = {
+    access_token: accessToken,
+    start_date: "2018-01-01",
+    end_date: "2020-02-01",
+  };
+  try {
+    const response = await client.transactionsGet(request);
+    let transactions = response.data.transactions;
+    const total_transactions = response.data.total_transactions;
+    // Manipulate the offset parameter to paginate
+    // transactions and retrieve all available data
+    while (transactions.length < total_transactions) {
+      const paginatedRequest = {
+        access_token: accessToken,
+        start_date: "2018-01-01",
+        end_date: "2020-02-01",
+        options: {
+          offset: transactions.length,
+        },
+      };
+      const paginatedResponse = await client.transactionsGet(paginatedRequest);
+      transactions = transactions.concat(paginatedResponse.data.transactions);
+    }
+  } catch (error) {
+    console.log(error.response.data);
+  }
+});
+
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post("/api/create_link_token", async (request, response) => {
