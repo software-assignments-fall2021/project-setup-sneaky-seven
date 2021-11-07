@@ -83,11 +83,11 @@ function AccountsPage(props) {
         <h1>Accounts</h1>
         {bankData.map(bank => (
             <AccountPanel 
-                bankName={bank.name} 
+                bankDetails={bank} 
                 type={bank.type}
                 balances={bank.balances}
                 showAccountDetail={props.setShowDetail}
-                setBankDetailHeader={props.setBankDetailName}
+                setBankDetails={props.setBankDetails}
             />))}
 
         {token === null ? (
