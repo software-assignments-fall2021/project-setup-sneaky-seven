@@ -10,10 +10,12 @@ import "../css/AccountDetail.css";
  * @returns Details page for 1 bank account
  */
 function AccountDetail(props) {
+    console.log(props.bankDetails);
   return (
     <div>
-      <h1>{props.bankName}</h1>
-      <AccountDetailForm />
+      <h1>{props.bankDetails.name}</h1>
+      <h5>Available Balance: {props.bankDetails.balances.available} {props.bankDetails.balances.currency}</h5>
+      <h5>Current Balance: {props.bankDetails.balances.current} {props.bankDetails.balances.currency}</h5>
       <Button
         onClick={() => {
           props.showAccountDetail(false);
@@ -22,7 +24,7 @@ function AccountDetail(props) {
         variant="contained"
         id="save-details-btn"
       >
-        Save Details
+        Back
       </Button>
     </div>
   );

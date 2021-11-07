@@ -33,10 +33,10 @@ const AccountPanel = (props) => {
           fullWidth={true}
           onClick={() => {
             props.showAccountDetail(true);
-            props.setBankDetailHeader(props.bankName);
+            props.setBankDetails(props.bankDetails);
           }}
         >
-          {props.bankName}
+          {props.bankDetails.name}
         </Button>
       </ButtonGroup>
     </div>
