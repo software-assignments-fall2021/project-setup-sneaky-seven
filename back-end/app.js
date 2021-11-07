@@ -94,7 +94,6 @@ app.get("/api/categories", async (req, resp) => {
 });
 
 app.post("/api/categories", async (req, resp) => {
-  console.log(`added category called ${req.body.name} with value ${req.body.icon}`);
   categories.push(req.body);
   categories.sort((a, b) => a.name.localeCompare(b.name));
 
