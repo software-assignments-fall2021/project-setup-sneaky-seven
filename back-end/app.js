@@ -40,7 +40,22 @@ let ITEM_ID = null;
 // persistent data store
 let PAYMENT_ID = null;
 
-let newCategories = [];
+const categories = [
+  { name: 'Bank Fees',        icon: 'MdAccountBalance' },
+  { name: 'Cash Advance',     icon: 'MdAccountBalance' },
+  { name: 'Community',        icon: 'MdAccountBalance' },
+  { name: 'Food and Drink',   icon: 'MdAccountBalance' },
+  { name: 'Healthcare',       icon: 'MdAccountBalance' },
+  { name: 'Interest',         icon: 'MdAccountBalance' },
+  { name: 'Payment',          icon: 'MdAccountBalance' },
+  { name: 'Recreation',       icon: 'MdAccountBalance' },
+  { name: 'Service',          icon: 'MdAccountBalance' },
+  { name: 'Shops',            icon: 'MdAccountBalance' },
+  { name: 'Tax',              icon: 'MdAccountBalance' },
+  { name: 'Transfer',         icon: 'MdAccountBalance' },
+  { name: 'Travel',           icon: 'MdAccountBalance' },
+];
+
 // Initialize the Plaid client
 const configuration = new Configuration({
   basePath: PlaidEnvironments[PLAID_ENV],
@@ -72,22 +87,20 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
   try {
-    const response = await plaidClient.categoriesGet({});
-    const categories = response.data.categories.concat(newCategories);
-    resp.json(filterCategories(categories).sort());
+    resp.json(categories);
   } catch (error) {
     console.log(error.response.data);
   }
 });
 
 app.post("/api/categories", async (req, resp) => {
-  try {
-    console.log(req.body);
-    newCategories.push(req.body);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log(`added category called ${req.body.name} with value ${req.body.icon}`);
+  categories.push(req.body);
+  categories.sort((a, b) => a.name.localeCompare(b.name));
+
+  resp.json({});
 });
+
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post("/api/create_link_token", async (request, response) => {
@@ -143,11 +156,5 @@ app.post("/api/set_access_token", async (request, response, next) => {
   }
 });
 
-function filterCategories(data) {
-  const hierarchies = data.map((x) => x.hierarchy[0]);
-  const categories = [...new Set(hierarchies)];
-  console.log(categories);
-  return categories;
-}
 // export the express app we created to make it available to other modules
-module.exports = { app, filterCategories, prettyPrintResponse, formatError };
+module.exports = { app, prettyPrintResponse, formatError };

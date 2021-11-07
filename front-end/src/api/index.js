@@ -7,6 +7,27 @@ import axios from "axios";
 
 const MOCK = false;
 
+async function getCategoryList() {
+  try {
+    const result = await axios.get("/api/categories");
+    return result.data;
+  } catch (err) {
+    console.log(
+      "Something went wrong. We're probably out of requests for the day!"
+    );
+    console.error(err);
+    return _getAllTransactions;
+  }
+}
+
+async function postNewCategory(name, icon) {
+  try {
+    await axios.post("/api/categories", { name, icon });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 /** @returns {Promise<_getAllTransactions>} */
 async function getAllTransactions() {
   // TODO: fetch actual data
@@ -45,6 +66,8 @@ async function getAccountInfo() {
 }
 
 const api = {
+  postNewCategory,
+  getCategoryList,
   getAllTransactions,
   getTransactionById,
   getAccountInfo,
