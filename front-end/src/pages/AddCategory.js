@@ -1,40 +1,24 @@
 import React from 'react'
 import api from "../api";
-import Button from '@mui/material/Button';
-import { css, cx } from '@emotion/css';
+import cx from 'classnames';
+import './css/IconGrid.css';
 import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
-import { globalStyles, iconNameToComponent } from '../utils';
-
-// Please use CSS instead of importing a 'bespoke' component whose implementation
-// is literally just CSS.
-const styles = {
-    iconButton: css`
-    border-radius: 8px;
-    margin: 3px;
-    width: 50px;
-    height: 50px;`,
-    selectedIcon: css`
-    border: solid black 4px;
-    `,
-    icon: css`
-    width: 100%;
-    height: 100%;`,
-};
+import { styles, iconNameToComponent } from '../utils';
 
 // DO NOT move these to another file. There's no reason to have 10 different files
 // per screen. 'Best Practices' are only useful when they ACTUALLY HELP YOUR PROJECT
 const IconGrid = ({ selectedIcon, setIcon }) => {
     return (
-        <div className={cx(globalStyles.centerContent, globalStyles.flowDown)}>
+        <div className={cx(styles.centerContent, styles.flowDown)}>
             <b>Icons</b>
 
-            <div className={cx(globalStyles.centerContent, globalStyles.wrapContent)}>
+            <div className={cx(styles.centerContent, styles.wrapContent)}>
                 {Object.entries(iconNameToComponent).map(([name, Icon]) => {
-                    const selectedStyle = name === selectedIcon ? styles.selectedIcon : null;
+                    const selectedStyle = name === selectedIcon ? 'selected-icon' : null;
                     return (
-                        <button type={'button'} className={cx(styles.iconButton, selectedStyle)} onClick={() => setIcon(name)} >
-                            <Icon id={name} className={styles.icon} />
+                        <button type={'button'} className={cx('icon-button', selectedStyle)} onClick={() => setIcon(name)} >
+                            <Icon id={name} className={styles.fillSpace} />
                         </button>);
                 })
                 }
@@ -59,12 +43,12 @@ const AddCategory = () => {
         <div>
             <h1>Add Category</h1>
             <form onSubmit={onSubmit} className="container">
-                <label htmlFor="name" className={globalStyles.marginBottom}>Category Name:</label>
+                <label htmlFor="name" className={styles.marginBottom}>Category Name:</label>
                 <input type="text" id="name" name="name" required />
                 <IconGrid selectedIcon={icon} setIcon={setIcon} />
                 <button
                     type={'submit'}
-                    className={globalStyles.muiButton}
+                    className={styles.muiButton}
                 >
                     <AddIcon />
                     Add

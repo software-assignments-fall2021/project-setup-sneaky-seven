@@ -3,12 +3,13 @@ import { MdAccountBalance, MdEco, MdFace, MdFavorite } from 'react-icons/md';
 import { MdRedeem, MdTipsAndUpdates, MdPlayCircle, MdBusiness, MdListAlt } from 'react-icons/md';
 import { MdInventory, MdModeEdit, MdCloudQueue } from 'react-icons/md';
 
-export const globalStyles = {
+export const styles = {
   muiButton: 'MuiButton-root',
   marginBottom: 'margin-bottom-16',
   centerContent: 'center-content',
   flowDown: 'flow-down',
-  wrapContent: 'wrap-content'
+  wrapContent: 'wrap-content',
+  fillSpace: 'fill-space'
 };
 
 export const iconNameToComponent = {
