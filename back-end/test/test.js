@@ -22,7 +22,7 @@ describe("testing routes", () => {
         .request(app)
         .get("/api/categories")
         .end(function (err, res) {
-          expect(res.body.map(c => c.name)).to.include.members(["Bank Fees"]);
+          expect(res.body.map((c) => c.name)).to.include.members(["Bank Fees"]);
           cb();
         });
     });
@@ -47,6 +47,26 @@ describe("testing routes", () => {
           expect(res).to.have.status(200);
           cb();
         });
+    });
+  });
+  describe("testing get route /faq", () => {
+    it("returns a 200 status", function (cb) {
+      chai
+        .request(app)
+        .get("/faq")
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
+    });
+    it("returns correct faq data", function (cb) {
+      chai
+        .request(app)
+        .get("/faq")
+        .end(function (err, res) {
+          expect(res.body.rows).to.have.lengthOf(3);
+        });
+      cb();
     });
   });
   describe("testing get and post route of /contactInfo", () => {

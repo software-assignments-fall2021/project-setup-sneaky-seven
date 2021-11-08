@@ -57,6 +57,23 @@ const categories = [
   { name: "Travel", icon: "MdEmojiTransportation" },
 ];
 
+const FAQData = {
+  rows: [
+    {
+      title: "Lorem ipsum dolor sit amet 1?",
+      content: "Lorem ipsum dolor sit amet 1",
+    },
+    {
+      title: "Lorem ipsum dolor sit amet 2?",
+      content: "Lorem ipsum dolor sit amet 2",
+    },
+    {
+      title: "Lorem ipsum dolor sit amet 3?",
+      content: "Lorem ipsum dolor sit amet 3",
+    },
+  ],
+};
+
 // Initialize the Plaid client
 const configuration = new Configuration({
   basePath: PlaidEnvironments[PLAID_ENV],
@@ -253,6 +270,11 @@ app.get("/api/get_transactions", async (request, response, next) => {
       err: error,
     });
   }
+});
+
+app.get("/faq", async (req, resp) => {
+  console.log(FAQData);
+  resp.json(FAQData);
 });
 
 /*
