@@ -6,7 +6,40 @@ const path = require("path");
 require("mocha-sinon");
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 
+
 describe("testing routes", () => {
+  describe("testing post route on /api/get_bank_accounts with no req body", () => {
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/get_bank_accounts")
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
+  describe("testing post route on /api/get_bank_accounts with req body", () => {
+    beforeEach(function () {
+      this.sinon.stub(JSON, "parse").returns({
+        access_token: "test_access_token"
+      });
+    });
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/get_bank_accounts")
+        .send({
+          access_token_object: {
+            access_token: "test_access_token"
+          },
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
   describe("testing get route /api/categories", () => {
     it("returns a 200 status", function (cb) {
       chai

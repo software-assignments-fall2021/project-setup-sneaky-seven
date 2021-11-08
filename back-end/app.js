@@ -115,6 +115,7 @@ app.get("/api/categories", async (req, resp) => {
 });
 
 app.post("/api/categories", async (req, resp) => {
+  console.log(req.body);
   categories.push(req.body);
   categories.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -178,25 +179,26 @@ app.post("/api/set_access_token", async (request, response, next) => {
 
 // Gets the bank accounts associated with the Link
 // https://plaid.com/docs/api/accounts/#accountsget
-app.post("/api/get_bank_accounts", async (request, response, next) => {
+app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    const obj = JSON.parse(request.body.access_token_object);
+    console.log(req.body);
+    console.log(req.body.access_token_object);
 
-    console.log("access token object parsed: " + obj);
-    console.log(obj.access_token);
-
+    const obj = JSON.parse(req.body.access_token_object);
     ACCESS_TOKEN = obj.access_token;
-    const res = await plaidClient.accountsGet({
-      access_token: ACCESS_TOKEN,
-    });
+
+    const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN, });
     const accounts = res.accounts;
+    
     return response.json(constructAccountsArr(res.data.accounts));
   } catch (error) {
-    console.log("ERROR:");
+    console.log("get_bank_accounts error:");
     prettyPrintResponse(error);
+    // unauthorized if no access token, else forbidden access
+    response.status(400)
     return response.json({
-      err: error,
+      err: error
     });
   }
 });
