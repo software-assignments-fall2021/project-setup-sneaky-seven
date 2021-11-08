@@ -1,3 +1,4 @@
+const { DateTime } = require("luxon");
 // read env vars from .env file. Access variables in .env by 'process.env.MY_VARIABLE_NAME'
 require("dotenv").config({ silent: true });
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
@@ -41,19 +42,19 @@ let ITEM_ID = null;
 let PAYMENT_ID = null;
 
 const categories = [
-  { name: 'Bank Fees',        icon: 'MdAccountBalance' },
-  { name: 'Cash Advance',     icon: 'MdAccountBalance' },
-  { name: 'Community',        icon: 'MdAccountBalance' },
-  { name: 'Food and Drink',   icon: 'MdOutlineLocalCafe' },
-  { name: 'Healthcare',       icon: 'AiOutlineHome' },
-  { name: 'Interest',         icon: 'MdAccountBalance' },
-  { name: 'Payment',          icon: 'MdAccountBalance' },
-  { name: 'Recreation',       icon: 'MdOutlineSportsHandball' },
-  { name: 'Service',          icon: 'MdOutlineCastForEducation' },
-  { name: 'Shops',            icon: 'MdOutlineLocalGroceryStore' },
-  { name: 'Tax',              icon: 'MdAccountBalance' },
-  { name: 'Transfer',         icon: 'MdAccountBalance' },
-  { name: 'Travel',           icon: 'MdEmojiTransportation' },
+  { name: "Bank Fees", icon: "MdAccountBalance" },
+  { name: "Cash Advance", icon: "MdAccountBalance" },
+  { name: "Community", icon: "MdAccountBalance" },
+  { name: "Food and Drink", icon: "MdOutlineLocalCafe" },
+  { name: "Healthcare", icon: "AiOutlineHome" },
+  { name: "Interest", icon: "MdAccountBalance" },
+  { name: "Payment", icon: "MdAccountBalance" },
+  { name: "Recreation", icon: "MdOutlineSportsHandball" },
+  { name: "Service", icon: "MdOutlineCastForEducation" },
+  { name: "Shops", icon: "MdOutlineLocalGroceryStore" },
+  { name: "Tax", icon: "MdAccountBalance" },
+  { name: "Transfer", icon: "MdAccountBalance" },
+  { name: "Travel", icon: "MdEmojiTransportation" },
 ];
 
 // Initialize the Plaid client
@@ -71,13 +72,34 @@ const configuration = new Configuration({
 const plaidClient = new PlaidApi(configuration);
 
 const prettyPrintResponse = (response) => {
-  console.log(response.data);
+  if (response.data) console.log(response.data);
+  else console.log(JSON.stringify(response));
 };
 
 const formatError = (error) => {
   return {
     error: { ...error.data, status_code: error.status },
   };
+};
+
+const constructTransactionArr = (transactions) => {
+  const ret = [];
+  transactions.forEach(function (transaction) {
+    console.log(transaction.account_id);
+    console.log(transaction.amount);
+    const tranObj = {
+      account_id: transaction.account_id,
+      amount: transaction.amount,
+      merchant: transaction.merchant_name,
+      date: transaction.date,
+      currency: transaction.iso_currency_code,
+      category: transaction.category,
+      location: transaction.location,
+    };
+    ret.push(tranObj);
+  });
+  console.log(ret);
+  return ret;
 };
 
 const constructAccountsArr = (banks) => {
@@ -199,6 +221,38 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     response.status(400)
     return response.json({
       err: error
+    });
+  }
+});
+// Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
+// https://plaid.com/docs/api/products/#transactionsget
+app.get("/api/get_transactions", async (request, response, next) => {
+  console.log("enter get_transactions");
+
+  try {
+    const now = DateTime.now();
+    const today = now.toFormat("yyyy-MM-dd");
+    const thirtyDaysAgo = now.minus({ days: 30 }).toFormat("yyyy-MM-dd");
+    const options = {
+      access_token: ACCESS_TOKEN,
+      start_date: thirtyDaysAgo,
+      end_date: today,
+      options: {
+        count: 100,
+        offset: 0,
+      },
+    };
+    console.log(options);
+    const result = await plaidClient.transactionsGet(options);
+    console.log(JSON.stringify(result.data));
+    const transactions = result.data.transactions;
+    return response.json(constructTransactionArr(transactions));
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.json({
+      err: error,
     });
   }
 });
