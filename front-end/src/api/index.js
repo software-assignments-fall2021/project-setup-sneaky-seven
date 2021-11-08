@@ -45,6 +45,18 @@ async function getAllTransactions() {
   }
 }
 
+/** @returns {Promise<_getAllTransactions>} */
+async function getRecentTransactions() {
+  // TODO: fetch actual data
+  try {
+    const result = await axios("/api/get_transactions");
+    return result.data;
+  } catch (err) {
+    console.error(err);
+    return _getAllTransactions;
+  }
+}
+
 async function getTransactionById(id) {
   const transactions = await api.getAllTransactions();
   return transactions.find((transaction) => transaction.id === id);
@@ -69,6 +81,7 @@ const api = {
   postNewCategory,
   getCategoryList,
   getAllTransactions,
+  getRecentTransactions,
   getTransactionById,
   getAccountInfo,
 };
