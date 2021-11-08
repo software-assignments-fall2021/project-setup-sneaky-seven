@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from "react"
-import Faq from "react-faq-component"
-import FAQData from "./FAQData"
+import React, { useEffect, useState } from "react";
+import Faq from "react-faq-component";
+import axios from "axios";
+import { useAsync } from "../../utils";
 
 const FAQ = () => {
+  const { data } = useAsync(async () => axios.get("/faq"), []);
 
-    const styles = {
-        bgColor: 'white',
-        titleTextColor: "black",
-        rowTitleColor: "black",
-        rowContentColor: 'grey',
-        // arrowColor: "red",
-    }
-    
-    const config = {
-        animate: true,
-        // arrowIcon: "V",
-        // tabFocus: true
-    }
+  const styles = {
+    bgColor: "#dcf7fa",
+    titleTextColor: "black",
+    rowTitleColor: "black",
+    rowContentColor: "grey",
+  };
 
-    return (
-        <div>
-            <Faq
-                data={FAQData}
-                styles={styles}
-                config={config}
-            />
-        </div>
-    )
-}
+  const config = {
+    animate: true,
+  };
+  const info = data?.data ?? {};
+  console.log(info);
+  return (
+    <div className="container">
+      <Faq data={info} styles={styles} config={config} />
+    </div>
+  );
+};
 
-export default FAQ
+export default FAQ;
