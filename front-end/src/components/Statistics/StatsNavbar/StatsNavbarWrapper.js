@@ -19,6 +19,11 @@ const StatsNavbarWrapper = ({ data }) => {
           exact
           component={() => <Balance data={data} />}
         />
+        <Route
+          path="/statistics"
+          exact
+          component={() => <Balance data={data} />}
+        />
       </Switch>
     </Router>
   );

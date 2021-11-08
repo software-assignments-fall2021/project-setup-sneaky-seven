@@ -8,10 +8,11 @@ import { useAsync } from "../utils";
 import { Link } from "react-router-dom";
 import "../components/css/Homepage.css";
 import api from "../api";
+import axios from "axios";
 
 const Homepage = () => {
-  const { data: transactionData } = useAsync(api.getAllTransactions, []);
-  const transactions = transactionData ?? [];
+  const { data } = useAsync(async () => axios.get("/api/get_transactions"), []);
+  const transactions = data?.data ?? [];
 
   return (
     <div>
