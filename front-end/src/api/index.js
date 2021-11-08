@@ -47,7 +47,6 @@ async function getAllTransactions() {
 
 /** @returns {Promise<_getAllTransactions>} */
 async function getRecentTransactions() {
-  // TODO: fetch actual data
   try {
     const result = await axios("/api/get_transactions");
     return result.data;

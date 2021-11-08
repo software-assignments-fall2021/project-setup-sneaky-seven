@@ -88,6 +88,7 @@ const constructTransactionArr = (transactions) => {
     console.log(transaction.account_id);
     console.log(transaction.amount);
     const tranObj = {
+      id: transaction.transaction_id,
       account_id: transaction.account_id,
       amount: transaction.amount,
       merchant: transaction.merchant_name,
@@ -222,6 +223,7 @@ app.post("/api/get_bank_accounts", async (request, response, next) => {
     });
   }
 });
+
 // Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
 // https://plaid.com/docs/api/products/#transactionsget
 app.get("/api/get_transactions", async (request, response, next) => {
@@ -249,7 +251,7 @@ app.get("/api/get_transactions", async (request, response, next) => {
     console.log("ERROR:");
     console.log(error);
     prettyPrintResponse(error);
-    return response.json({
+    return response.status(500).json({
       err: error,
     });
   }

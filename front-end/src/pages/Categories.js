@@ -14,6 +14,8 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
         if (category === null) {
             return [];
         }
+
+        console.log(data);
         return data?.filter(t => t.category.includes(category.name)) ?? [];
     }, [category, data]);
 
