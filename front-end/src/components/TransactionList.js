@@ -9,21 +9,21 @@ const currenySymbol = {
 };
 
 export function Transaction({
-  id,
+  transaction_id,
   amount,
   merchant,
   category,
-  account,
+  account_name,
   date,
   currency,
 }) {
   const formattedDate = DateTime.fromISO(date ?? 0).toFormat("DDDD");
-  const amountColor = amount >= 0 ? "green" : "red";
+  const amountColor = amount <= 0 ? "green" : "red";
   const symbol = currenySymbol[currency];
 
   let history = useHistory();
   function handleClick() {
-    history.push("/transactions/" + id);
+    history.push("/transactions/" + transaction_id);
   }
 
   return (
@@ -32,14 +32,14 @@ export function Transaction({
         <CategoryIcon text={category} />
         <div className="text-details">
           <p className="bold">{merchant}</p>
-          <p>{category}</p>
-          <p>{account}</p>
+          <p>{category[0]}</p>
+          <p>{account_name}</p>
         </div>
       </div>
 
       <div className="right italics">
         <p className="bold" style={{ color: amountColor }}>
-          {symbol} {amount}
+          {symbol} {amount * -1}
         </p>
         <p>{formattedDate}</p>
       </div>
@@ -51,7 +51,7 @@ export default function TransactionList({ data }) {
   return (
     <div>
       {(data ?? []).map((transaction) => (
-        <Transaction key={transaction.id} {...transaction} />
+        <Transaction key={transaction.transaction_id} {...transaction} />
       ))}
     </div>
   );

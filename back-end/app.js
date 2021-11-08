@@ -99,20 +99,30 @@ const formatError = (error) => {
   };
 };
 
-const constructTransactionArr = (transactions) => {
+const constructTransactionArr = (transactions, accounts) => {
   const ret = [];
+  const accountNameMap = accounts.reduce(
+    (currentMap, { account_id, name }) => ({
+      ...currentMap,
+      [account_id]: name,
+    }),
+    {}
+  );
   transactions.forEach(function (transaction) {
     console.log(transaction.account_id);
     console.log(transaction.amount);
     const tranObj = {
       id: transaction.transaction_id,
       account_id: transaction.account_id,
+      account_name: accountNameMap[transaction.account_id],
+      transaction_id: transaction.transaction_id,
       amount: transaction.amount,
       merchant: transaction.merchant_name,
       date: transaction.date,
       currency: transaction.iso_currency_code,
       category: transaction.category,
       location: transaction.location,
+      transaction_code: transaction.transaction_code,
     };
     ret.push(tranObj);
   });
@@ -228,17 +238,17 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     const obj = JSON.parse(req.body.access_token_object);
     ACCESS_TOKEN = obj.access_token;
 
-    const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN, });
+    const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN });
     const accounts = res.accounts;
-    
+
     return response.json(constructAccountsArr(res.data.accounts));
   } catch (error) {
     console.log("get_bank_accounts error:");
     prettyPrintResponse(error);
     // unauthorized if no access token, else forbidden access
-    response.status(400)
+    response.status(400);
     return response.json({
-      err: error
+      err: error,
     });
   }
 });
@@ -264,8 +274,8 @@ app.get("/api/get_transactions", async (request, response, next) => {
     console.log(options);
     const result = await plaidClient.transactionsGet(options);
     console.log(JSON.stringify(result.data));
-    const transactions = result.data.transactions;
-    return response.json(constructTransactionArr(transactions));
+    const { accounts, transactions } = result.data;
+    return response.json(constructTransactionArr(transactions, accounts));
   } catch (error) {
     console.log("ERROR:");
     console.log(error);

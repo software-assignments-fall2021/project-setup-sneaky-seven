@@ -1,39 +1,52 @@
 import React from "react";
-import { MdAccountBalance, MdEco, MdFace, MdFavorite } from 'react-icons/md';
-import { MdRedeem, MdTipsAndUpdates, MdPlayCircle, MdBusiness, MdListAlt } from 'react-icons/md';
-import { MdInventory, MdModeEdit, MdCloudQueue } from 'react-icons/md';
-import { MdOutlineLocalGroceryStore, MdEmojiTransportation, MdOutlineLocalCafe } from 'react-icons/md';
-import { MdOutlineCastForEducation, MdOutlineSportsHandball } from 'react-icons/md';
-import { AiOutlineHome } from 'react-icons/ai';
+import { MdAccountBalance, MdEco, MdFace, MdFavorite } from "react-icons/md";
+import {
+  MdRedeem,
+  MdTipsAndUpdates,
+  MdPlayCircle,
+  MdBusiness,
+  MdListAlt,
+} from "react-icons/md";
+import { MdInventory, MdModeEdit, MdCloudQueue } from "react-icons/md";
+import {
+  MdOutlineLocalGroceryStore,
+  MdEmojiTransportation,
+  MdOutlineLocalCafe,
+} from "react-icons/md";
+import {
+  MdOutlineCastForEducation,
+  MdOutlineSportsHandball,
+} from "react-icons/md";
+import { AiOutlineHome } from "react-icons/ai";
 
 export const styles = {
-  muiButton: 'MuiButton-root',
-  marginBottom: 'margin-bottom-16',
-  centerContent: 'center-content',
-  flowDown: 'flow-down',
-  wrapContent: 'wrap-content',
-  fillSpace: 'fill-space'
+  muiButton: "MuiButton-root",
+  marginBottom: "margin-bottom-16",
+  centerContent: "center-content",
+  flowDown: "flow-down",
+  wrapContent: "wrap-content",
+  fillSpace: "fill-space",
 };
 
 export const iconNameToComponent = {
-    MdAccountBalance,
-    MdEco,
-    MdFace,
-    MdFavorite,
-    MdRedeem,
-    MdTipsAndUpdates,
-    MdPlayCircle,
-    MdBusiness,
-    MdListAlt,
-    MdInventory,
-    MdModeEdit,
-    MdCloudQueue,
-    MdOutlineLocalGroceryStore,
-    MdEmojiTransportation,
-    MdOutlineLocalCafe,
-    MdOutlineCastForEducation,
-    MdOutlineSportsHandball,
-    AiOutlineHome
+  MdAccountBalance,
+  MdEco,
+  MdFace,
+  MdFavorite,
+  MdRedeem,
+  MdTipsAndUpdates,
+  MdPlayCircle,
+  MdBusiness,
+  MdListAlt,
+  MdInventory,
+  MdModeEdit,
+  MdCloudQueue,
+  MdOutlineLocalGroceryStore,
+  MdEmojiTransportation,
+  MdOutlineLocalCafe,
+  MdOutlineCastForEducation,
+  MdOutlineSportsHandball,
+  AiOutlineHome,
 };
 
 export const timeout = async (ms) => {

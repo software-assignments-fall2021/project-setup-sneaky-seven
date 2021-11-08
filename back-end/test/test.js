@@ -91,6 +91,16 @@ describe("testing routes", () => {
           expect(res).to.have.status(200);
           cb();
         });
+      });
+  describe("testing get route /faq", () => {
+    it("returns a 200 status", function (cb) {
+      chai
+        .request(app)
+        .get("/faq")
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
     });
     it("returns correct faq data", function (cb) {
       chai
