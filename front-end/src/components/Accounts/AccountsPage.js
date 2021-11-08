@@ -57,7 +57,7 @@ const PlaidLink = (props) => {
  */
 function AccountsPage(props) {
   const [token, setToken] = useState(null);
-  const [bankData, setBankData] = useState([])
+  const [bankData, setBankData] = useState([]);
 
   // generate a link_token (public token) and get linked banks
   useEffect(() => {
@@ -65,40 +65,42 @@ function AccountsPage(props) {
       setToken(resp.data.link_token);
     });
 
-    axios.post('/api/get_bank_accounts', {
-        access_token_object: localStorage.getItem("access_token_object")
-    })
-    .then((resp) => {
+    axios
+      .post("/api/get_bank_accounts", {
+        access_token_object: localStorage.getItem("access_token_object"),
+      })
+      .then((resp) => {
         // no error defined means success
-        if(!resp.data.err) {
-            setBankData(resp.data)
-            console.log(resp);
-            console.log(resp.data);
+        if (!resp.data.err) {
+          setBankData(resp.data);
+          console.log(resp);
+          console.log(resp.data);
         }
-    })
+      });
   }, []);
 
   return (
     <>
-        <h1>Accounts</h1>
-        {bankData.map(bank => (
-            <AccountPanel 
-                bankDetails={bank} 
-                type={bank.type}
-                balances={bank.balances}
-                showAccountDetail={props.setShowDetail}
-                setBankDetails={props.setBankDetails}
-            />))}
+      <h1>Accounts</h1>
+      {bankData.map((bank) => (
+        <AccountPanel
+          bankDetails={bank}
+          type={bank.type}
+          balances={bank.balances}
+          showAccountDetail={props.setShowDetail}
+          setBankDetails={props.setBankDetails}
+        />
+      ))}
 
-        {token === null ? (
-            // insert your loading animation here
-            <div></div>
-        ) : (
-            // Renders the button leading to Plaid bank adding
-            <PlaidLink token={token} />
-        )}
+      {token === null ? (
+        // insert your loading animation here
+        <div></div>
+      ) : (
+        // Renders the button leading to Plaid bank adding
+        <PlaidLink token={token} />
+      )}
     </>
-    );
+  );
 }
 
 export default AccountsPage;
