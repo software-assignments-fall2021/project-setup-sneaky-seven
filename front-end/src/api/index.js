@@ -32,9 +32,7 @@ async function postNewCategory(name, icon) {
 async function getAllTransactions() {
   // TODO: fetch actual data
   try {
-    const result = await axios(
-      "https://my.api.mockaroo.com/budget_web_app.json?key=d9fa63b0"
-    );
+    const result = await axios.get("/api/get_transactions");
     return result.data;
   } catch (err) {
     console.log(
@@ -57,8 +55,9 @@ async function getRecentTransactions() {
 }
 
 async function getTransactionById(id) {
-  const transactions = await api.getAllTransactions();
-  return transactions.find((transaction) => transaction.id === id);
+  const transactions = await getAllTransactions();
+  console.log("getting");
+  return transactions.find((transaction) => transaction.transaction_id === id);
 }
 
 async function getAccountInfo() {

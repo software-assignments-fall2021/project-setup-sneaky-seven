@@ -20,8 +20,10 @@ export function TransactionDetail() {
   const [notes, setNotes] = useState("");
   const [checkedHide, setCheckedHide] = useState(false);
   const [checkedDuplicate, setCheckedDuplicate] = useState(false);
+
+  //retreive transaction
   const { data: transaction } = useAsync(async () => {
-    const result = await api.getTransactionById(Number(id));
+    const result = await api.getTransactionById(id);
     setSelectedCategory(result?.category);
     return result;
   }, [id]);
@@ -36,9 +38,10 @@ export function TransactionDetail() {
 
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[transaction?.currency];
-  const formattedDate = DateTime.fromISO(transaction?.date ?? 0).toFormat(
-    "DDDD"
-  );
+
+  const formattedDate = transaction?.date
+    ? DateTime.fromISO(transaction?.date).toFormat("DDDD")
+    : "";
 
   return (
     <article className="transactionView">

@@ -1,90 +1,98 @@
-import React from 'react'
-import AddIcon from '@mui/icons-material/Add';
-import api from '../api';
-import './css/Categories.css';
-import { Transaction } from '../components/TransactionList';
-import { useHistory } from 'react-router-dom';
-import { iconNameToComponent, useAsync, styles } from '../utils';
-import { AiOutlineClose } from 'react-icons/ai';
-import cx from 'classnames';
+import React from "react";
+import AddIcon from "@mui/icons-material/Add";
+import api from "../api";
+import "./css/Categories.css";
+import { Transaction } from "../components/TransactionList";
+import { useHistory } from "react-router-dom";
+import { iconNameToComponent, useAsync, styles } from "../utils";
+import { AiOutlineClose } from "react-icons/ai";
+import cx from "classnames";
 
 const CategoryOverlay = ({ category, closeOverlay }) => {
-    const { data } = useAsync(api.getRecentTransactions, []);
-    const transactions = React.useMemo(() => {
-        if (category === null) {
-            return [];
-        }
-
-        console.log(data);
-        return data?.filter(t => t.category.includes(category.name)) ?? [];
-    }, [category, data]);
-
+  const { data } = useAsync(api.getRecentTransactions, []);
+  const transactions = React.useMemo(() => {
     if (category === null) {
-        return null;
+      return [];
     }
 
-    const Icon = iconNameToComponent[category.icon];
+    console.log(data);
+    return data?.filter((t) => t.category.includes(category.name)) ?? [];
+  }, [category, data]);
 
-    return (
-        <div className={cx(styles.centerContent, 'overlay-background')}>
-            <div className='overlay-content'>
-                <button
-                    className={cx(styles.muiButton, 'overlay-close')}
-                    onClick={closeOverlay}
-                >
-                    <AiOutlineClose />
-                </button>
+  if (category === null) {
+    return null;
+  }
 
-                <h2>Category: {category.name}</h2>
+  const Icon = iconNameToComponent[category.icon];
 
-                <Icon className='category-icon' />
+  return (
+    <div className={cx(styles.centerContent, "overlay-background")}>
+      <div className="overlay-content">
+        <button
+          className={cx(styles.muiButton, "overlay-close")}
+          onClick={closeOverlay}
+        >
+          <AiOutlineClose />
+        </button>
 
-                <h4>Transactions</h4>
+        <h2>Category: {category.name}</h2>
 
-                <div className='overlay-transactions-wrapper'>
-                <div className={cx('overlay-transactions')}>
-                    {transactions.map(t => <Transaction key={t.id} {...t} />)}
-                </div>
-                </div>
+        <Icon className="category-icon" />
 
-            </div>
+        <h4>Transactions</h4>
+
+        <div className="overlay-transactions-wrapper">
+          <div className={cx("overlay-transactions")}>
+            {transactions.map((t) => (
+              <Transaction key={t.id} {...t} />
+            ))}
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 const Categories = () => {
-    const { data: categoryData } = useAsync(api.getCategoryList, []);
-    const categoryList = categoryData ?? [];
-    const history = useHistory();
-    const addCategory = React.useCallback(() => history.push("/categories/addCategory"), [history]);
-    const [current, setCurrent] = React.useState(null);
-    const closeOverlay = React.useCallback(() => setCurrent(null), [setCurrent]);
+  const { data: categoryData } = useAsync(api.getCategoryList, []);
+  const categoryList = categoryData ?? [];
+  const history = useHistory();
+  const addCategory = React.useCallback(
+    () => history.push("/categories/addCategory"),
+    [history]
+  );
+  const [current, setCurrent] = React.useState(null);
+  const closeOverlay = React.useCallback(() => setCurrent(null), [setCurrent]);
 
-    return (
-        <>
-            <CategoryOverlay category={current} closeOverlay={closeOverlay} />
-            <div className='categories-page'>
-                <h1>Category</h1>
-                <button
-                    type={'button'}
-                    className={styles.muiButton}
-                    onClick={addCategory}
-                ><AddIcon />Add Category</button>
-                {categoryList.map((item, index) => {
-                    const Icon = iconNameToComponent[item.icon];
-                    return (
-                        <button
-                            key={item.name}
-                            className='category-item'
-                            onClick={() => setCurrent(item)}>
-                            <Icon />
-                            <span className={'category-text'} >{item.name}</span>
-                        </button>
-                    );
-                })}
-            </div>
-        </>
-    );
-}
+  return (
+    <>
+      <CategoryOverlay category={current} closeOverlay={closeOverlay} />
+      <div className="categories-page">
+        <h1>Category</h1>
+        <button
+          type={"button"}
+          className={styles.muiButton}
+          onClick={addCategory}
+        >
+          <AddIcon />
+          Add Category
+        </button>
+        {categoryList.map((item, index) => {
+          const Icon = iconNameToComponent[item.icon];
+          return (
+            <button
+              key={item.name}
+              className="category-item"
+              onClick={() => setCurrent(item)}
+            >
+              <Icon />
+              <span className={"category-text"}>{item.name}</span>
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
+};
 
-export default Categories
+export default Categories;

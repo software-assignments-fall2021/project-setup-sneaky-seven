@@ -6,7 +6,6 @@ const path = require("path");
 require("mocha-sinon");
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 
-
 describe("testing routes", () => {
   describe("testing post route on /api/get_bank_accounts with no req body", () => {
     it("returns a 400 status", function (cb) {
@@ -22,7 +21,7 @@ describe("testing routes", () => {
   describe("testing post route on /api/get_bank_accounts with req body", () => {
     beforeEach(function () {
       this.sinon.stub(JSON, "parse").returns({
-        access_token: "test_access_token"
+        access_token: "test_access_token",
       });
     });
     it("returns a 400 status", function (cb) {
@@ -31,7 +30,7 @@ describe("testing routes", () => {
         .post("/api/get_bank_accounts")
         .send({
           access_token_object: {
-            access_token: "test_access_token"
+            access_token: "test_access_token",
           },
         })
         .end(function (err, res) {
@@ -92,88 +91,107 @@ describe("testing routes", () => {
           cb();
         });
     });
-    it("returns correct faq data", function (cb) {
-      chai
-        .request(app)
-        .get("/faq")
-        .end(function (err, res) {
-          expect(res.body.rows).to.have.lengthOf(3);
-        });
-      cb();
+    describe("testing get route /faq", () => {
+      it("returns a 200 status", function (cb) {
+        chai
+          .request(app)
+          .get("/faq")
+          .end(function (err, res) {
+            expect(res).to.have.status(200);
+            cb();
+          });
+      });
+      it("returns correct faq data", function (cb) {
+        chai
+          .request(app)
+          .get("/faq")
+          .end(function (err, res) {
+            expect(res.body.rows).to.have.lengthOf(3);
+          });
+        cb();
+      });
     });
-  });
-  describe("testing get and post route of /contactInfo", () => {
-    it("get route of /contactInfo returns a 200 status", function (cb) {
-      chai
-        .request(app)
-        .get("/contactInfo")
-        .end(function (err, res) {
-          expect(res).to.have.status(200);
-          cb();
-        });
-    });
-    it("post route of /contactInfo returns a 200 status", function (cb) {
-      chai
-        .request(app)
-        .post("/contactInfo")
-        .end(function (err, res) {
-          expect(res).to.have.status(200);
-          cb();
-        });
-    });
-    it("get returns an empty array if there was no previous post request", function (cb) {
-      chai
-        .request(app)
-        .get("/contactInfo")
-        .end(function (err, res) {
-          expect(res.body).to.empty;
-          cb();
-        });
-    });
-    it("returns expected content of contact information", function (cb) {
-      chai
-        .request(app)
-        .post("/contactInfo")
-        .send({
-          name: "Test1",
-          email: "TestEmail",
-          message: "TestMsg",
-        })
-        .end(function (err, res) {
-          chai
-            .request(app)
-            .get("/contactInfo")
-            .end(function (err, res2) {
-              expect(res2.body).to.include({
-                name: "Test1",
-                email: "TestEmail",
-                message: "TestMsg",
+    describe("testing get and post route of /contactInfo", () => {
+      it("get route of /contactInfo returns a 200 status", function (cb) {
+        chai
+          .request(app)
+          .get("/contactInfo")
+          .end(function (err, res) {
+            expect(res).to.have.status(200);
+            cb();
+          });
+      });
+      it("post route of /contactInfo returns a 200 status", function (cb) {
+        chai
+          .request(app)
+          .post("/contactInfo")
+          .end(function (err, res) {
+            expect(res).to.have.status(200);
+            cb();
+          });
+      });
+      it("get returns an empty array if there was no previous post request", function (cb) {
+        chai
+          .request(app)
+          .get("/contactInfo")
+          .end(function (err, res) {
+            expect(res.body).to.empty;
+            cb();
+          });
+      });
+      it("returns expected content of contact information", function (cb) {
+        chai
+          .request(app)
+          .post("/contactInfo")
+          .send({
+            name: "Test1",
+            email: "TestEmail",
+            message: "TestMsg",
+          })
+          .end(function (err, res) {
+            chai
+              .request(app)
+              .get("/contactInfo")
+              .end(function (err, res2) {
+                expect(res2.body).to.include({
+                  name: "Test1",
+                  email: "TestEmail",
+                  message: "TestMsg",
+                });
+                cb();
               });
-              cb();
-            });
-        });
+          });
+      });
     });
   });
-});
-describe("testing printing/debugging functions", () => {
-  beforeEach(function () {
-    this.sinon.stub(console, "log");
-  });
-
-  describe("testing prettyPrintResponse function", () => {
-    it("reads api response and prints out relevant data information", () => {
-      const fakeData = { data: "important data", status: 200, language: "en" };
-      prettyPrintResponse(fakeData);
-      expect(console.log.calledOnce).to.be.true;
-      expect(console.log.calledWith("important data")).to.be.true;
+  describe("testing printing/debugging functions", () => {
+    beforeEach(function () {
+      this.sinon.stub(console, "log");
     });
-  });
 
-  describe("testing formatError function", () => {
-    it("reads api response and prints out relevant error information", () => {
-      const fakeData = { data: "important data", status: 500, language: "en" };
-      expect(formatError(fakeData)).to.have.property("error");
-      expect(formatError(fakeData).error).to.have.property("status_code");
+    describe("testing prettyPrintResponse function", () => {
+      it("reads api response and prints out relevant data information", () => {
+        const fakeData = {
+          data: "important data",
+          status: 200,
+          language: "en",
+        };
+        prettyPrintResponse(fakeData);
+        expect(console.log.calledOnce).to.be.true;
+        expect(console.log.calledWith("important data")).to.be.true;
+      });
+    });
+
+    describe("testing formatError function", () => {
+      it("reads api response and prints out relevant error information", () => {
+        const fakeData = {
+          data: "important data",
+          status: 500,
+          language: "en",
+        };
+        expect(formatError(fakeData)).to.have.property("error");
+        expect(formatError(fakeData).error).to.have.property("status_code");
+      });
     });
   });
 });
