@@ -1,20 +1,31 @@
 .statsNavbar {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #060b26;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #060b26;
 }
 
 .statsNavLink {
-    display: flex;
-    float: right;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  display: flex;
+  float: right;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 .statsNavLink:hover {
-    background-color: #1a83ff;
+  background-color: #1a83ff;
+}
+
+.container-s {
+  background-color: #dcf7fa;
+  width: 80%;
+  margin: auto;
+  border: 2px solid #afecf4;
+  border-radius: 5px;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
 }
