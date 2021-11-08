@@ -224,7 +224,7 @@ app.post("/api/get_bank_accounts", async (request, response, next) => {
 });
 // Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
 // https://plaid.com/docs/api/products/#transactionsget
-app.post("/api/get_transactions", async (request, response, next) => {
+app.get("/api/get_transactions", async (request, response, next) => {
   console.log("enter get_transactions");
 
   try {
