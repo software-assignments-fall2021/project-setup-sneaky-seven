@@ -6,6 +6,9 @@ const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
 const express = require("express");
 // instantiate an Express object
 const app = express();
+// import mongoose module to connect to MongoDB Atlas
+const mongoose = require('mongoose')
+
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
@@ -40,6 +43,42 @@ let ITEM_ID = null;
 // We store the payment_id in memory - in production, store it in a secure
 // persistent data store
 let PAYMENT_ID = null;
+
+// Database config 
+let DB_PASSWORD = process.env.DB_PASSWORD
+const DB_NAME = "database"
+const db_url = `mongodb+srv://sneaky-seven:${DB_PASSWORD}@cluster0.6ophh.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
+const DB_PARAMS={
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+}
+mongoose.connect(db_url, DB_PARAMS)
+  .then(() => {
+      console.log('Connected to database ')
+  })
+  .catch((err) => {
+      console.error(`Error connecting to the database. \n${err}`);
+  })
+
+// Example function to show how to post to database 
+// Mongoose quickstart: https://mongoosejs.com/docs/index.html
+const postAccessTokenToDatabase = async ( access_token_object ) => {
+  console.log('enter postAccessTokenToDatabase');
+  // Step 1: create schema 
+  const accessTokenSchema = new mongoose.Schema({
+    access_token: String, 
+    item_id: String
+  });
+
+  // Step 2: compile schema to model 
+  const AccessToken = mongoose.model('AccessToken', accessTokenSchema);
+
+  // Step 3: create a schema instance 
+  const accessTokenInstance = new AccessToken(access_token_object);
+
+  // Step 4: save to database
+  await accessTokenInstance.save();
+}
 
 const categories = [
   { name: "Bank Fees", icon: "MdAccountBalance" },
@@ -221,6 +260,12 @@ app.post("/api/set_access_token", async (request, response, next) => {
       item_id: ITEM_ID,
       error: null,
     });
+
+    postAccessTokenToDatabase({
+      access_token: ACCESS_TOKEN,
+      item_id: ITEM_ID,
+    }); 
+
   } catch (error) {
     prettyPrintResponse(error.response);
     return response.json(formatError(error.response));
