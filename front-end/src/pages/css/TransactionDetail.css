@@ -31,6 +31,8 @@
 }
 
 .transDetails {
+  padding: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -43,6 +45,7 @@
 }
 
 .transactionField {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -50,14 +53,17 @@
   width: 100%;
 }
 
-.transactionFieldLabel {
+.transactionFieldText {
+  box-sizing: border-box;
   font-size: 25px;
 }
 
-.transactionFieldText {
+.transactionFieldLabel {
+  box-sizing: border-box;
   text-align: left;
   color: gray;
   font-size: 15px;
+  margin-bottom: 4px;
 }
 
 .checkBoxes {
@@ -77,6 +83,7 @@ input[type="checkbox"] {
 .categoryIconsWrapper {
   box-sizing: border-box;
   overflow-x: scroll;
+  width: 100%;
   padding-top: 10px;
 }
 
