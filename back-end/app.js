@@ -45,14 +45,12 @@ let ITEM_ID = null;
 let PAYMENT_ID = null;
 
 // Database config 
-let DB_PASSWORD = process.env.DB_PASSWORD
-const DB_NAME = "database"
-const db_url = `mongodb+srv://sneaky-seven:${DB_PASSWORD}@cluster0.6ophh.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
-const DB_PARAMS={
+const DB_URL = process.env.DB_URL
+const DB_PARAMS = {
   useNewUrlParser: true, 
   useUnifiedTopology: true 
 }
-mongoose.connect(db_url, DB_PARAMS)
+mongoose.connect(DB_URL, DB_PARAMS)
   .then(() => {
       console.log('Connected to database ')
   })
@@ -60,25 +58,25 @@ mongoose.connect(db_url, DB_PARAMS)
       console.error(`Error connecting to the database. \n${err}`);
   })
 
-// Example function to show how to post to database 
+// Function to post access_token to database  
 // Mongoose quickstart: https://mongoosejs.com/docs/index.html
-const postAccessTokenToDatabase = async ( access_token_object ) => {
-  console.log('enter postAccessTokenToDatabase');
-  // Step 1: create schema 
-  const accessTokenSchema = new mongoose.Schema({
-    access_token: String, 
-    item_id: String
-  });
+// TODO: finalize the structure of storing access_token. 
+// const postAccessTokenToDatabase = async ( access_token_object ) => {
+//   // Step 1: create schema 
+//   const accessTokenSchema = new mongoose.Schema({
+//     access_token: String, 
+//     item_id: String
+//   });
 
-  // Step 2: compile schema to model 
-  const AccessToken = mongoose.model('AccessToken', accessTokenSchema);
+//   // Step 2: compile schema to model 
+//   const AccessToken = mongoose.model('AccessToken', accessTokenSchema);
 
-  // Step 3: create a schema instance 
-  const accessTokenInstance = new AccessToken(access_token_object);
+//   // Step 3: create a schema instance 
+//   const accessTokenInstance = new AccessToken(access_token_object);
 
-  // Step 4: save to database
-  await accessTokenInstance.save();
-}
+//   // Step 4: save to database
+//   await accessTokenInstance.save();
+// }
 
 const categories = [
   { name: "Bank Fees", icon: "MdAccountBalance" },
