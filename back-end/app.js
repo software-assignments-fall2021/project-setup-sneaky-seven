@@ -235,8 +235,7 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     console.log(req.body);
     console.log(req.body.access_token_object);
 
-    const obj = JSON.parse(req.body.access_token_object);
-    ACCESS_TOKEN = obj.access_token;
+    ACCESS_TOKEN = req.body.access_token_object;
 
     const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN });
     const accounts = res.accounts;

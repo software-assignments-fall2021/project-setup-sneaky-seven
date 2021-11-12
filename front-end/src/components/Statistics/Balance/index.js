@@ -41,7 +41,7 @@ const Balance = ({ data }) => {
   useAsync(async () => {
     axios.post("/api/create_link_token", {}).then((resp) => {
       setToken(resp.data.link_token);
-    });
+      }).catch(err => console.log(err));
 
     axios
       .post("/api/get_bank_accounts", {
@@ -51,7 +51,7 @@ const Balance = ({ data }) => {
         if (!resp.data.err) {
           setBankData(resp.data);
         }
-      });
+      }).catch(err => console.log(err));
   }, []);
 
   const base = bankData[0]?.balances?.available ?? 0;

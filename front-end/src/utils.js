@@ -63,7 +63,33 @@ export const pick = (obj, keys) => {
   const output = {};
   keys.forEach((k) => (output[k] = obj[k]));
   return output;
-};
+}
+
+// NOTE: This only memoizes one value. Which is good enough for this app probably
+export const memoize = (func) => {
+  let mostRecent = undefined;
+  let value = undefined;
+
+  return (...args) => {
+    if (mostRecent === undefined || mostRecent.length !== args.length) {
+      value = func(...args);
+      mostRecent = args;
+      return value;
+    }
+
+    const memoValid = args.reduce(
+      (agg, current, index) => agg && mostRecent[index] === current,
+      true
+    );
+
+    if (!memoValid) {
+      value = func(...args);
+      mostRecent = args;
+    }
+
+    return value;
+  };
+};;
 
 export const mapKeys = (obj, mapper) => {
   const output = {};
