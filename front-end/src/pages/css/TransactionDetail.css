@@ -10,6 +10,7 @@
   justify-content: space-between;
   height: 60px;
 }
+
 .transactionAmount {
   display: flex;
   justify-content: center;
@@ -18,11 +19,13 @@
   align-self: center;
   box-sizing: border-box;
 }
+
 .transBackButton {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .transBackButton:hover {
   background-color: rgba(128, 128, 128, 0.267);
 }
@@ -34,22 +37,24 @@
   justify-content: flex-start;
   width: 100%;
 }
+
 .transDetails > div:nth-child(odd) {
   background-color: #efefef;
 }
 
-.transDetails div {
+.transactionField {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 10px 10px;
   width: 100%;
 }
-.transDetails div p {
+
+.transactionFieldLabel {
   font-size: 25px;
 }
 
-.transDetails div label {
+.transactionFieldText {
   text-align: left;
   color: gray;
   font-size: 15px;
@@ -57,25 +62,29 @@
 
 .checkBoxes {
   display: flex;
-  flex-direction: row !important;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: space-evenly;
   background-color: white;
+  gap: 20px;
 }
-.checkBoxes div {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
+
 input[type="checkbox"] {
   width: 20px;
   height: 20px;
 }
 
+.categoryIconsWrapper {
+  box-sizing: border-box;
+  overflow-x: scroll;
+  padding-top: 10px;
+}
+
 .categoryIcons {
   display: flex;
-  flex-direction: row !important;
+  flex-direction: row;
   justify-content: flex-start;
+  flex-wrap: nowrap;
   gap: 10px;
 }
 

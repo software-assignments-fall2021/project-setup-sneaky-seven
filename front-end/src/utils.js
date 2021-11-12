@@ -18,6 +18,15 @@ import {
   MdOutlineSportsHandball,
 } from "react-icons/md";
 import { AiOutlineHome } from "react-icons/ai";
+import {
+  FaUtensils,
+  FaMoneyBillWave,
+  FaShoppingCart,
+  FaCarAlt,
+  FaPlane,
+  FaCocktail,
+  FaLaughSquint,
+} from "react-icons/fa";
 
 export const styles = {
   muiButton: "MuiButton-root",
@@ -29,6 +38,13 @@ export const styles = {
 };
 
 export const iconNameToComponent = {
+  FaUtensils,
+  FaMoneyBillWave,
+  FaShoppingCart,
+  FaCarAlt,
+  FaPlane,
+  FaCocktail,
+  FaLaughSquint,
   MdAccountBalance,
   MdEco,
   MdFace,

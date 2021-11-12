@@ -13,8 +13,17 @@ const currenySymbol = {
   USD: "$",
 };
 
+const Field = ({ title, text, children }) => {
+  return (<div className="transactionField">
+    <label className="transactionFieldLabel">{title}</label>
+    {children ??  <p className="transactionFieldText">{text}</p>}
+  </div>);
+};
+
 export function TransactionDetail() {
   let { id } = useParams();
+  const { data: categoryData } = useAsync(api.getCategoryList, []);
+  const categoryList = categoryData ?? [];
   const [selectedCategory, setSelectedCategory] = useState(undefined);
   const history = useHistory();
   const [notes, setNotes] = useState("");
@@ -30,10 +39,6 @@ export function TransactionDetail() {
 
   function handleBackClick() {
     history.goBack();
-  }
-
-  function handleCatClick(newCategory) {
-    setSelectedCategory(newCategory);
   }
 
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
@@ -55,79 +60,64 @@ export function TransactionDetail() {
         <div style={{ width: "50px", height: "50px" }}></div>
       </div>
       <div className="transDetails">
-        <div>
-          <label>Merchant</label>
-          <p>{transaction?.merchant}</p>
-        </div>
-        <div>
-          <label>Date</label>
-          <p>{formattedDate}</p>
-        </div>
-        <div>
-          <label>Category</label>
-          <div className="categoryIcons">
-            {[
-              "food",
-              "shopping",
-              "automotive",
-              "travel",
-              "nightlife",
-              "entertainment",
-            ].map((category) => (
-              <span
-                className="catIcon"
-                onClick={() => handleCatClick(category)}
-              >
-                <CategoryIcon
-                  text={category}
-                  size={50}
-                  color={
-                    selectedCategory === category
-                      ? "rgba(0, 4, 255, 0.733)"
-                      : "grey"
-                  }
-                  borderColor={
-                    selectedCategory === category
-                      ? "rgba(0, 4, 255, 0.733)"
-                      : "grey"
-                  }
-                />
-              </span>
-            ))}
+        <Field title={"Merchant"} text={transaction?.merchant ?? "None"}  />
+        <Field title={"Date"} text={formattedDate}  />
+        <Field title={"Category"}>
+          <div className="categoryIconsWrapper">
+            <div className="categoryIcons">
+              {categoryList.map((category) => (
+                <div
+                  className="catIcon"
+                  title={category.name}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  <CategoryIcon
+                    icon={category.icon}
+                    size={50}
+                    color={
+                      selectedCategory === category
+                        ? "rgba(0, 4, 255, 0.733)"
+                        : "grey"
+                    }
+                    borderColor={
+                      selectedCategory === category
+                        ? "rgba(0, 4, 255, 0.733)"
+                        : "grey"
+                    }
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div>
-          <label>Currency</label>
-          <p>{transaction?.currency}</p>
-        </div>
-        <div>
-          <label>Notes</label>
+        </Field>
+        <Field title={"Currency"} text={transaction?.currency} />
+        <Field title={"Notes"} >
           <input
             type="text"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
-        </div>
-        <div className="checkBoxes">
-          <div>
-            <label>Hide</label>
-            <input
-              type="checkbox"
-              checked={checkedHide}
-              onChange={(e) => setCheckedHide(e.target.checked)}
-            />
-            <div></div>
+        </Field>
+        <Field title={"Settings"}>
+          <div className="checkBoxes">
+            <div>
+              <input
+                type="checkbox"
+                checked={checkedHide}
+                onChange={(e) => setCheckedHide(e.target.checked)}
+              />
+              <label>Hide</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                checked={checkedDuplicate}
+                onChange={(e) => setCheckedDuplicate(e.target.checked)}
+              />
+              <label>Mark Duplicate</label>
+            </div>
           </div>
-          <div>
-            <label>Mark Duplicate</label>
-            <input
-              type="checkbox"
-              checked={checkedDuplicate}
-              onChange={(e) => setCheckedDuplicate(e.target.checked)}
-            />
-            <div></div>
-          </div>
-        </div>
+        </Field>
       </div>
     </article>
   );
