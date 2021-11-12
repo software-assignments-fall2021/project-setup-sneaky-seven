@@ -1,61 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
 import { useAsync } from "../../../utils";
-import PieChart from "../Charts/PieChart";
 import BarChart from "../Charts/BarChart";
 import api from "../../../api/index";
 import "../../css/balanceByAccount.css";
 
-const BalanceByAccount = ({ account, balance }) => {
-  return (
-    <article className="balanceByAccount">
-      <div className="left">
-        <p className="bold">{account}</p>
-      </div>
-      <div className="right">
-        <p>Balance: {balance.toFixed(2)}</p>
-      </div>
-    </article>
-  );
-};
-
-// accountToBalance is an object which maps: account => balance
-const BalanceByAccountList = ({ accountToBalance }) => {
-  return (
-    <div>
-      {Object.getOwnPropertyNames(accountToBalance).map((account) => (
-        <BalanceByAccount
-          account={account}
-          balance={accountToBalance[account]}
-        />
-      ))}
-    </div>
-  );
-};
-
 const Balance = ({ data }) => {
-  const [token, setToken] = useState(null);
-  const [bankData, setBankData] = useState([]);
+  const { accessToken } = api.useAccessToken();
+  const { data: bankDataNullable } = useAsync(async () => {
+    const resp = await axios.post("/api/get_bank_accounts", { access_token_object: accessToken });
+    if (!resp.data.err) {
+      return resp.data;
+    }
 
-  // generate a link_token (public token) and get linked banks
-  useAsync(async () => {
-    axios.post("/api/create_link_token", {}).then((resp) => {
-      setToken(resp.data.link_token);
-      }).catch(err => console.log(err));
-
-    axios
-      .post("/api/get_bank_accounts", {
-        access_token_object: localStorage.getItem("access_token_object"),
-      })
-      .then((resp) => {
-        if (!resp.data.err) {
-          setBankData(resp.data);
-        }
-      }).catch(err => console.log(err));
+    return undefined;
   }, []);
 
+  const bankData = bankDataNullable ?? [];
   const base = bankData[0]?.balances?.available ?? 0;
-  console.log(base);
+
   // Gather data
   const accountToBalance = {};
   const dateToBalance = {};

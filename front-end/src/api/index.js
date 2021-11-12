@@ -4,7 +4,7 @@ import {
   getAccountInfo as _getAccountInfo,
 } from "./mocks";
 import axios from "axios";
-import { useAsync } from '../utils';
+import React from "react";
 
 const MOCK = false;
 
@@ -19,6 +19,31 @@ async function getCategoryList() {
     console.error(err);
     return _getAllTransactions;
   }
+}
+
+// TODO(michelle): Remove this when we have a real database that stores real access tokens.
+//    Access tokens should be stored in the DB (when we have a DB):
+//    https://plaid.com/docs/api/tokens/#token-exchange-flow
+const listeners = [];
+let accessToken = localStorage.getItem("access_token");
+function useAccessToken() {
+  const [dummy, setDummy] = React.useState(0);
+
+  React.useEffect(() => {
+    if (dummy === 0) {
+      listeners.push(setDummy);
+      setDummy(1);
+    }
+  }, [dummy, setDummy]);
+
+  const fetchToken = React.useCallback(async (public_token) => {
+    const resp = await axios.post("/api/set_access_token", { public_token });
+    accessToken = resp.data.access_token;
+    localStorage.setItem("access_token", accessToken);
+    listeners.forEach(listener => listener(d => d + 1));
+  }, []);
+
+  return { accessToken, fetchToken };
 }
 
 async function postNewCategory(name, icon) {
@@ -83,6 +108,7 @@ const api = {
   getRecentTransactions,
   getTransactionById,
   getAccountInfo,
+  useAccessToken
 };
 
 if (MOCK) {

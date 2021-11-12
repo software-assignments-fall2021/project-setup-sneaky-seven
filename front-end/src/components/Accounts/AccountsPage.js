@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AccountPanel from "./AccountPanel";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import "../css/AccountsPage.css";
 import axios from "axios";
+import api from "../../api";
 import { usePlaidLink } from "react-plaid-link";
 import { useAsync } from '../../utils';
 
 // TODO: replace all console.log with logger
-const PlaidLink = ({ linkToken, setAccessToken }) => {
-  const onSuccess = async (public_token, metadata) => {
-    // send public_token to server to exchange for access_token
-    console.log("enter onSuccess");
-    console.log(public_token);
-    const resp = await axios.post("/api/set_access_token", { public_token });
-    console.log(resp.data);
-    setAccessToken(resp.data.access_token);
-  };
-
+const PlaidLink = ({ linkToken, fetchAccessToken }) => {
   const config = {
     token: linkToken,
-    onSuccess,
+    onSuccess: fetchAccessToken,
     // onExit
     // onEvent
     env: "sandbox",
   };
 
-  const { open, ready, error } = usePlaidLink(config);
+  const { open, ready } = usePlaidLink(config);
 
   return (
     <Button
@@ -53,7 +45,7 @@ const PlaidLink = ({ linkToken, setAccessToken }) => {
     3. setBankDetailName (function to pass as prop to AccountPanel)
  */
 function AccountsPage(props) {
-  const [accessToken, _setAccessToken] = useState(localStorage.getItem("access_token_object"));
+  const { accessToken, fetchToken } = api.useAccessToken();
   const { data: bankDataNullable } = useAsync(async () => {
     if (accessToken === null) {
         return [];
@@ -61,8 +53,6 @@ function AccountsPage(props) {
 
     const resp = await axios.post("/api/get_bank_accounts", { access_token_object: accessToken });
     if (!resp.data.err) {
-      console.log(resp);
-      console.log(resp.data);
       return resp.data;
     }
 
@@ -72,10 +62,6 @@ function AccountsPage(props) {
     const result = await axios.post("/api/create_link_token", {});
     return result.data.link_token;
   }, []);
-  const setAccessToken = React.useCallback((token) => {
-    localStorage.setItem("access_token_object", token);
-    _setAccessToken(token);
-  }, [_setAccessToken]);
   const bankData = bankDataNullable ?? [];
 
   return (
@@ -96,7 +82,7 @@ function AccountsPage(props) {
         <div></div>
       ) : (
         // Renders the button leading to Plaid bank adding
-        <PlaidLink linkToken={linkToken} setAccessToken={setAccessToken} />
+        <PlaidLink linkToken={linkToken} fetchAccessToken={fetchToken} />
       )}
     </>
   );
