@@ -8,6 +8,10 @@ import "../../css/balanceByAccount.css";
 const Balance = ({ data }) => {
   const { accessToken } = api.useAccessToken();
   const { data: bankDataNullable } = useAsync(async () => {
+    if (accessToken === null) {
+      return undefined;
+    }
+
     const resp = await axios.post("/api/get_bank_accounts", { access_token_object: accessToken });
     if (!resp.data.err) {
       return resp.data;
