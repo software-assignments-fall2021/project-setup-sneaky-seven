@@ -259,10 +259,11 @@ app.post("/api/set_access_token", async (request, response, next) => {
       error: null,
     });
 
-    postAccessTokenToDatabase({
-      access_token: ACCESS_TOKEN,
-      item_id: ITEM_ID,
-    }); 
+    // TODO: complete posting access_token to database
+    // postAccessTokenToDatabase({
+    //   access_token: ACCESS_TOKEN,
+    //   item_id: ITEM_ID,
+    // }); 
 
   } catch (error) {
     prettyPrintResponse(error.response);
