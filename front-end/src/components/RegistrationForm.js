@@ -2,13 +2,42 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./css/RegisterLogin.css";
+import axios from "axios";
 
-// TODO: connect to backend
 const RegistrationForm = () => {
-  const [status, setStatus] = useState("Submit");
+  const [email, updateEmail] = useState("");
+  const [password, updatePassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    setStatus("Sending");
+  const handleSubmit = () => {
+    console.log(email + " " + password);
+
+    axios
+      .post(
+        "/api/register",
+        { email, password },
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        // sessionStorage.setItem("jwt_token", res.data.token);
+      })
+      .catch((err) => {
+        window.alert(err.response.data);
+      });
+  };
+
+  const handleEmailChange = (event) => {
+    event.preventDefault();
+    updateEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    event.preventDefault();
+    updatePassword(event.target.value);
   };
 
   return (
@@ -36,19 +65,37 @@ const RegistrationForm = () => {
               <label htmlFor="email">
                 <b> Email:</b>
               </label>
-              <input type="text" id="email" required />
+              <input
+                type="text"
+                id="email"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
             </div>
             <br />
             <div>
               <label htmlFor="password">
                 <b>Password:</b>
               </label>
-              <input type="text" id="password" required />
+              <input
+                type="text"
+                id="password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
             </div>
             <br />
           </div>
           <br />
-          <Button type="submit" component={Link} to="/" variant="contained">
+          <Button
+            type="submit"
+            component={Link}
+            to="/"
+            variant="contained"
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </form>
