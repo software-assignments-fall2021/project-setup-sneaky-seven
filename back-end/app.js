@@ -17,6 +17,7 @@ const constructTransactionArr = require('./functions/constructTransactionArray')
 const prettyPrintResponse = require('./functions/prettyPrintResponse');
 const formatError = require('./functions/formatError');
 const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
+const accessTokenSchema = require('./schemas/accessTokenSchema'); 
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;

@@ -1,12 +1,10 @@
+const accessTokenSchema = require('../schemas/accessTokenSchema');
+
 // Function to post access_token to database  
 // Mongoose quickstart: https://mongoosejs.com/docs/index.html
 // TODO: finalize the structure of storing access_token. 
 const postAccessTokenToDatabase = async ( access_token_object ) => {
-  // Step 1: create schema 
-  const accessTokenSchema = new mongoose.Schema({
-    access_token: String, 
-    item_id: String
-  });
+  // step 1: construct schema (imported from '../schemas/accessTokenSchema')
 
   // Step 2: compile schema to model 
   const AccessToken = mongoose.model('AccessToken', accessTokenSchema);
