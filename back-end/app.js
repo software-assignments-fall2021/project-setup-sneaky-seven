@@ -7,7 +7,16 @@ const express = require("express");
 // instantiate an Express object
 const app = express();
 // import mongoose module to connect to MongoDB Atlas
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+// import constants (to be removed once they are in DB)
+const categories = require('./constants/categories');
+const FAQData = require('./constants/FAQData');
+// import functions
+const constructAccountsArr = require('./functions/constructAccountsArray');
+const constructTransactionArr = require('./functions/constructTransactionArray');
+const prettyPrintResponse = require('./functions/prettyPrintResponse');
+const formatError = require('./functions/formatError');
+const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -58,58 +67,6 @@ mongoose.connect(DB_URL, DB_PARAMS)
       console.error(`Error connecting to the database. \n${err}`);
   })
 
-// Function to post access_token to database  
-// Mongoose quickstart: https://mongoosejs.com/docs/index.html
-// TODO: finalize the structure of storing access_token. 
-// const postAccessTokenToDatabase = async ( access_token_object ) => {
-//   // Step 1: create schema 
-//   const accessTokenSchema = new mongoose.Schema({
-//     access_token: String, 
-//     item_id: String
-//   });
-
-//   // Step 2: compile schema to model 
-//   const AccessToken = mongoose.model('AccessToken', accessTokenSchema);
-
-//   // Step 3: create a schema instance 
-//   const accessTokenInstance = new AccessToken(access_token_object);
-
-//   // Step 4: save to database
-//   await accessTokenInstance.save();
-// }
-
-const categories = [
-  { name: "Bank Fees", icon: "MdAccountBalance" },
-  { name: "Cash Advance", icon: "MdAccountBalance" },
-  { name: "Community", icon: "MdAccountBalance" },
-  { name: "Food and Drink", icon: "MdOutlineLocalCafe" },
-  { name: "Healthcare", icon: "AiOutlineHome" },
-  { name: "Interest", icon: "MdAccountBalance" },
-  { name: "Payment", icon: "MdAccountBalance" },
-  { name: "Recreation", icon: "MdOutlineSportsHandball" },
-  { name: "Service", icon: "MdOutlineCastForEducation" },
-  { name: "Shops", icon: "MdOutlineLocalGroceryStore" },
-  { name: "Tax", icon: "MdAccountBalance" },
-  { name: "Transfer", icon: "MdAccountBalance" },
-  { name: "Travel", icon: "MdEmojiTransportation" },
-];
-
-const FAQData = {
-  rows: [
-    {
-      title: "Lorem ipsum dolor sit amet 1?",
-      content: "Lorem ipsum dolor sit amet 1",
-    },
-    {
-      title: "Lorem ipsum dolor sit amet 2?",
-      content: "Lorem ipsum dolor sit amet 2",
-    },
-    {
-      title: "Lorem ipsum dolor sit amet 3?",
-      content: "Lorem ipsum dolor sit amet 3",
-    },
-  ],
-};
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -124,69 +81,6 @@ const configuration = new Configuration({
 });
 
 const plaidClient = new PlaidApi(configuration);
-
-const prettyPrintResponse = (response) => {
-  if (response.data) console.log(response.data);
-  else console.log(JSON.stringify(response));
-};
-
-const formatError = (error) => {
-  return {
-    error: { ...error.data, status_code: error.status },
-  };
-};
-
-const constructTransactionArr = (transactions, accounts) => {
-  const ret = [];
-  const accountNameMap = accounts.reduce(
-    (currentMap, { account_id, name }) => ({
-      ...currentMap,
-      [account_id]: name,
-    }),
-    {}
-  );
-  transactions.forEach(function (transaction) {
-    console.log(transaction.account_id);
-    console.log(transaction.amount);
-    const tranObj = {
-      id: transaction.transaction_id,
-      account_id: transaction.account_id,
-      account_name: accountNameMap[transaction.account_id],
-      transaction_id: transaction.transaction_id,
-      amount: transaction.amount,
-      merchant: transaction.merchant_name,
-      date: transaction.date,
-      currency: transaction.iso_currency_code,
-      category: transaction.category,
-      location: transaction.location,
-      transaction_code: transaction.transaction_code,
-    };
-    ret.push(tranObj);
-  });
-  console.log(ret);
-  return ret;
-};
-
-const constructAccountsArr = (banks) => {
-  const ret = [];
-  banks.forEach(function (bank) {
-    console.log(bank.account_id);
-    console.log(bank.balances);
-    const bankObj = {
-      account_id: bank.account_id,
-      balances: {
-        available: bank.balances.available,
-        current: bank.balances.current,
-        currency: bank.balances.iso_currency_code,
-      },
-      name: bank.name,
-      type: bank.type,
-    };
-    ret.push(bankObj);
-  });
-  console.log(ret);
-  return ret;
-};
 
 // middleware for parsing incoming POST data
 app.use(express.json()); // decode JSON-formatted incoming POST data
