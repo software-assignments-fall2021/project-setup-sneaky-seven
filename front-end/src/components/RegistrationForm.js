@@ -23,7 +23,7 @@ const RegistrationForm = () => {
       )
       .then((res) => {
         console.log(res.data);
-        // sessionStorage.setItem("jwt_token", res.data.token);
+        sessionStorage.setItem("user", JSON.stringify(res.data));
       })
       .catch((err) => {
         window.alert(err.response.data);

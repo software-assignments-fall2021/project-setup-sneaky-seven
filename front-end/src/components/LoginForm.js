@@ -23,9 +23,9 @@ const LoginForm = () => {
         }
       )
       .then((res) => {
-        // sessionStorage.setItem("jwt_token", res.data.token);
         console.log(res.data);
-        updateCanLogin(true);
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        updateCanLogin(true); // TODO: fix the problem that the page will redirect to homepage when click twice
       })
       .catch((err) => {
         window.alert(err.response.data);

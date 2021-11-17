@@ -200,22 +200,6 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 app.post('/api/login', async (req, res) => {
   console.log('enter login backend')
   console.log(req.body)
-  // const user = {
-  //   email: req.body.email,
-  //   password: req.body.password
-  // }
-
-  // // TODO: check from database if user has entered the correct email and password combo
-  // if(user.email == 'jennifer@gmail.com' && user.password == 'hh') {
-  //   jwt.sign({user}, process.env.TOKEN_SECRET_KEY, (err, token) => {
-  //     res.json({
-  //       token
-  //     });
-  //   });
-  // } else {
-  //   console.log('Cannot log in'); 
-  //   res.status(401).send("Email or password incorrect. Please try again."); 
-  // }
 
   const { email, password } = req.body;
 
@@ -225,16 +209,15 @@ app.post('/api/login', async (req, res) => {
     // Create token
     const token = jwt.sign(
       { user_id: user._id, email },
-      process.env.TOKEN_KEY,
+      process.env.TOKEN_SECRET_KEY,
     );
 
     // save user token
     user.jwt_token = token;
 
-    // user
     res.status(200).json(user);
   } else {
-    res.status(401).send("Invalid Credentials");
+    res.status(401).send("Invalid Credentials. Please try again.");
   }
 });
 
@@ -245,7 +228,7 @@ app.post("/api/register", async (req, res) => {
     // Validate if user exist in our database
     const oldUser = await User.findOne({ email });
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res.status(409).send("User Already Exist. Please Log in");
     }
 
     // New user. Create user in our database
@@ -259,8 +242,10 @@ app.post("/api/register", async (req, res) => {
       { user_id: user._id, email }, // when create a new document, Mongoose automatically add '_id' property
       process.env.TOKEN_SECRET_KEY,
     );
+
     // save user token
     user.jwt_token = token;
+    // await user.save(); This is to save to database, but I'm not sure if we need to do that. 
 
     // return new user
     res.status(201).json(user);
