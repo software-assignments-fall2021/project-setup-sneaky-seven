@@ -274,9 +274,9 @@ app.get("/api/get_transactions", async (request, response, next) => {
         offset: 0,
       },
     };
-    console.log(options);
+    // console.log(options);
     const result = await plaidClient.transactionsGet(options);
-    console.log(JSON.stringify(result.data));
+    // console.log(JSON.stringify(result.data));
     const { accounts, transactions } = result.data;
     return response.json(constructTransactionArr(transactions, accounts));
   } catch (error) {

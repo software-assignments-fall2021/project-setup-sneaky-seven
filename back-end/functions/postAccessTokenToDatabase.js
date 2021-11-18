@@ -16,7 +16,7 @@ const postAccessTokenToDatabase = async ( access_token_object, userId ) => {
       }
     })
 
-  accessTokenInstance.save(function(err) {
+  await accessTokenInstance.save(function(err) {
     if(err) {
       console.log(err);
     } else {
