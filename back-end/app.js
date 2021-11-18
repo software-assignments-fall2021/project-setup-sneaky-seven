@@ -20,7 +20,6 @@ const constructTransactionArr = require('./functions/constructTransactionArray')
 const prettyPrintResponse = require('./functions/prettyPrintResponse');
 const formatError = require('./functions/formatError');
 const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
-const accessTokenSchema = require('./schemas/accessTokenSchema'); 
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -144,7 +143,8 @@ app.post("/api/register", async (req, res) => {
 
     // save user token
     user.jwt_token = token;
-    // await user.save(); This is to save to database, not sure if we need to do that, so leave blank for now. 
+    // save user to database so we can access and update array of access tokens
+    await user.save();  
 
     // return new user
     res.status(201).json(user);
@@ -205,6 +205,7 @@ app.post("/api/create_link_token", async (request, response) => {
 app.post("/api/set_access_token", async (request, response, next) => {
   console.log("enter set_access_token");
   console.log(request.body);
+  const id = request.body._id;
   PUBLIC_TOKEN = request.body.public_token; // PUBLIC_TOKEN is a global constant
   console.log(PUBLIC_TOKEN);
   try {
@@ -220,11 +221,11 @@ app.post("/api/set_access_token", async (request, response, next) => {
       error: null,
     });
 
-    // TODO: complete posting access_token to database
-    // postAccessTokenToDatabase({
-    //   access_token: ACCESS_TOKEN,
-    //   item_id: ITEM_ID,
-    // }); 
+    // complete posting access_token to database
+    postAccessTokenToDatabase({
+      access_token: ACCESS_TOKEN,
+      item_id: ITEM_ID,
+    }, id); 
 
   } catch (error) {
     prettyPrintResponse(error.response);
@@ -237,9 +238,6 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    console.log(req.body);
-    console.log(req.body.access_token_object);
-
     const obj = JSON.parse(req.body.access_token_object);
     ACCESS_TOKEN = obj.access_token;
 

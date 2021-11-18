@@ -15,8 +15,8 @@ const constructTransactionArr = (transactions, accounts) => {
       {}
     );
     transactions.forEach(function (transaction) {
-      console.log(transaction.account_id);
-      console.log(transaction.amount);
+      // console.log(transaction.account_id);
+      // console.log(transaction.amount);
       const tranObj = {
         id: transaction.transaction_id,
         account_id: transaction.account_id,
@@ -32,7 +32,7 @@ const constructTransactionArr = (transactions, accounts) => {
       };
       ret.push(tranObj);
     });
-    console.log(ret);
+    // console.log(ret);
     return ret;
   };
 
