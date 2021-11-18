@@ -7,8 +7,8 @@
 const constructAccountsArr = (banks) => {
     const ret = [];
     banks.forEach(function (bank) {
-      console.log(bank.account_id);
-      console.log(bank.balances);
+      // console.log(bank.account_id);
+      // console.log(bank.balances);
       const bankObj = {
         account_id: bank.account_id,
         balances: {
@@ -21,7 +21,7 @@ const constructAccountsArr = (banks) => {
       };
       ret.push(bankObj);
     });
-    console.log(ret);
+    // console.log(ret);
     return ret;
   };
 

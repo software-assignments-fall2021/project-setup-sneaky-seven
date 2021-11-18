@@ -1,19 +1,28 @@
-const accessTokenSchema = require('../schemas/accessTokenSchema');
+const AccessTokenModel = require('../model/accessToken');
+const UserModel = require("../model/user");
 
 // Function to post access_token to database  
 // Mongoose quickstart: https://mongoosejs.com/docs/index.html
-// TODO: finalize the structure of storing access_token. 
-const postAccessTokenToDatabase = async ( access_token_object ) => {
-  // step 1: construct schema (imported from '../schemas/accessTokenSchema')
+const postAccessTokenToDatabase = async ( access_token_object, userId ) => {
+  // create a schema instance 
+  const accessTokenInstance = new AccessTokenModel(access_token_object);
+  // save to database
+  UserModel.updateOne({ _id: userId },
+    { $push: {access_token: accessTokenInstance} }, function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log("Successfully pushed new access token to user in db.");
+      }
+    })
 
-  // Step 2: compile schema to model 
-  const AccessToken = mongoose.model('AccessToken', accessTokenSchema);
-
-  // Step 3: create a schema instance 
-  const accessTokenInstance = new AccessToken(access_token_object);
-
-  // Step 4: save to database
-  await accessTokenInstance.save();
+  await accessTokenInstance.save(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("Successfully saved new access token to db.");
+    }
+  });
 };
 
 module.exports = postAccessTokenToDatabase;

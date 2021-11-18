@@ -15,6 +15,7 @@ const PlaidLink = (props) => {
     axios
       .post("/api/set_access_token", {
         public_token: public_token,
+        _id: JSON.parse(sessionStorage.getItem('user'))._id,
       })
       .then((resp) => {
         console.log(resp.data);
