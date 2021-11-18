@@ -12,9 +12,17 @@ const postAccessTokenToDatabase = async ( access_token_object, userId ) => {
       if(err) {
         console.log(err);
       } else {
-        console.log("Successfully saved new access token to db.");
+        console.log("Successfully pushed new access token to user in db.");
       }
     })
+
+  accessTokenInstance.save(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("Successfully saved new access token to db.");
+    }
+  });
 };
 
 module.exports = postAccessTokenToDatabase;
