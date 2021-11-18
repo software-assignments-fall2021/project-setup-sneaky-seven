@@ -8,6 +8,9 @@ const express = require("express");
 const app = express();
 // import mongoose module to connect to MongoDB Atlas
 const mongoose = require('mongoose');
+// import jsonwebtoken for user login 
+const jwt = require('jsonwebtoken')
+
 // import constants (to be removed once they are in DB)
 const categories = require('./constants/categories');
 const FAQData = require('./constants/FAQData');
@@ -67,7 +70,8 @@ mongoose.connect(DB_URL, DB_PARAMS)
   .catch((err) => {
       console.error(`Error connecting to the database. \n${err}`);
   })
-
+// importing user context
+const UserModel = require("./model/user");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -86,6 +90,68 @@ const plaidClient = new PlaidApi(configuration);
 // middleware for parsing incoming POST data
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
+
+// Get user info from frontend and sign 
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate if user exist in our database
+    const user = await UserModel.findOne({ email });
+    if (user && password == user.password) {
+      // Create token
+      const token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.TOKEN_SECRET_KEY,
+      );
+
+      // save user token
+      user.jwt_token = token;
+
+      res.status(200).json(user);
+    } else if(user == null) {
+      res.status(404).send("Email is not registered. Please register.");
+    } else {
+      res.status(401).send("Invalid Credentials. Please try again.");
+    }
+  } catch(err) {
+    console.log(err);
+  }
+  
+});
+
+app.post("/api/register", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate if user exist in our database
+    const oldUser = await UserModel.findOne({ email });
+    if (oldUser) {
+      return res.status(409).send("User already exist. Please log in");
+    }
+
+    // New user. Create user in our database
+    const user = await UserModel.create({
+      email: email.toLowerCase(), // sanitize: convert email to lowercase
+      password,
+    });
+
+    // Create token
+    const token = jwt.sign(
+      { user_id: user._id, email }, // when create a new document, Mongoose automatically add '_id' property
+      process.env.TOKEN_SECRET_KEY,
+    );
+
+    // save user token
+    user.jwt_token = token;
+    // await user.save(); This is to save to database, not sure if we need to do that, so leave blank for now. 
+
+    // return new user
+    res.status(201).json(user);
+  } catch(err) {
+    console.log(err);
+  }
+});
 
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
