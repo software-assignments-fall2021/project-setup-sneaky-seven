@@ -71,8 +71,7 @@ mongoose.connect(DB_URL, DB_PARAMS)
       console.error(`Error connecting to the database. \n${err}`);
   })
 // importing user context
-const User = require("./model/user");
-
+const UserModel = require("./model/user");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -98,7 +97,7 @@ app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
 
     // Validate if user exist in our database
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (user && password == user.password) {
       // Create token
       const token = jwt.sign(
@@ -126,13 +125,13 @@ app.post("/api/register", async (req, res) => {
     const { email, password } = req.body;
 
     // Validate if user exist in our database
-    const oldUser = await User.findOne({ email });
+    const oldUser = await UserModel.findOne({ email });
     if (oldUser) {
       return res.status(409).send("User already exist. Please log in");
     }
 
     // New user. Create user in our database
-    const user = await User.create({
+    const user = await UserModel.create({
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password,
     });
