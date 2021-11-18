@@ -198,29 +198,31 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 
 // Get user info from frontend and sign 
 app.post('/api/login', async (req, res) => {
-  console.log('enter login backend')
-  console.log(req.body)
+  try {
+    const { email, password } = req.body;
 
-  const { email, password } = req.body;
+    // Validate if user exist in our database
+    const user = await User.findOne({ email });
+    if (user && password == user.password) {
+      // Create token
+      const token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.TOKEN_SECRET_KEY,
+      );
 
-  // Validate if user exist in our database
-  const user = await User.findOne({ email });
-  if (user && password == user.password) {
-    // Create token
-    const token = jwt.sign(
-      { user_id: user._id, email },
-      process.env.TOKEN_SECRET_KEY,
-    );
+      // save user token
+      user.jwt_token = token;
 
-    // save user token
-    user.jwt_token = token;
-
-    res.status(200).json(user);
-  } else if(user == null) {
-    res.status(404).send("Email is not registered. Please register.");
-  } else {
-    res.status(401).send("Invalid Credentials. Please try again.");
+      res.status(200).json(user);
+    } else if(user == null) {
+      res.status(404).send("Email is not registered. Please register.");
+    } else {
+      res.status(401).send("Invalid Credentials. Please try again.");
+    }
+  } catch(err) {
+    console.log(err);
   }
+  
 });
 
 app.post("/api/register", async (req, res) => {
@@ -230,7 +232,7 @@ app.post("/api/register", async (req, res) => {
     // Validate if user exist in our database
     const oldUser = await User.findOne({ email });
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Log in");
+      return res.status(409).send("User already exist. Please log in");
     }
 
     // New user. Create user in our database
@@ -247,7 +249,7 @@ app.post("/api/register", async (req, res) => {
 
     // save user token
     user.jwt_token = token;
-    // await user.save(); This is to save to database, but I'm not sure if we need to do that. 
+    // await user.save(); This is to save to database, not sure if we need to do that, so leave blank for now. 
 
     // return new user
     res.status(201).json(user);

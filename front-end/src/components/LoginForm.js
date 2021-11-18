@@ -7,11 +7,9 @@ import axios from "axios";
 const LoginForm = () => {
   const [email, updateEmail] = useState("");
   const [password, updatePassword] = useState("");
-  const [canLogin, updateCanLogin] = useState(false); 
+  const [canLogin, updateCanLogin] = useState(false);
 
   const handleSubmit = () => {
-    console.log(email + " " + password);
-
     axios
       .post(
         "/api/login",
@@ -23,13 +21,12 @@ const LoginForm = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         sessionStorage.setItem("user", JSON.stringify(res.data));
-        updateCanLogin(true); // TODO: fix the problem that the page will redirect to homepage when click twice
+        updateCanLogin(true);
       })
       .catch((err) => {
         window.alert(err.response.data);
-      })
+      });
   };
 
   const handleEmailChange = (event) => {
@@ -85,7 +82,7 @@ const LoginForm = () => {
           >
             Submit
           </Button>
-          { canLogin && <Redirect to="/homepage"/>} 
+          {canLogin && <Redirect to="/homepage" />}
         </form>
       </div>
       <br />

@@ -9,8 +9,6 @@ const RegistrationForm = () => {
   const [password, updatePassword] = useState("");
 
   const handleSubmit = () => {
-    console.log(email + " " + password);
-
     axios
       .post(
         "/api/register",
@@ -22,8 +20,8 @@ const RegistrationForm = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         sessionStorage.setItem("user", JSON.stringify(res.data));
+        window.alert("Successful register. Please log in");
       })
       .catch((err) => {
         window.alert(err.response.data);
