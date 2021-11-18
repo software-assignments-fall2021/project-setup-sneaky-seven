@@ -216,6 +216,8 @@ app.post('/api/login', async (req, res) => {
     user.jwt_token = token;
 
     res.status(200).json(user);
+  } else if(user == null) {
+    res.status(404).send("Email is not registered. Please register.");
   } else {
     res.status(401).send("Invalid Credentials. Please try again.");
   }

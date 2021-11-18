@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./css/RegisterLogin.css";
 import axios from "axios";
@@ -80,12 +80,12 @@ const LoginForm = () => {
           <Button
             type="submit"
             component={Link}
-            to={canLogin ? "/homepage": "/"}
             variant="contained"
             onClick={handleSubmit}
           >
             Submit
           </Button>
+          { canLogin && <Redirect to="/homepage"/>} 
         </form>
       </div>
       <br />
