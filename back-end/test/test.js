@@ -4,8 +4,8 @@ chai.use(chaiHTTP);
 const expect = chai.expect;
 const path = require("path");
 require("mocha-sinon");
-const constructAccountsArr = require('../functions/constructAccountsArray')
-const constructTransactionArr = require('../functions/constructTransactionArray')
+const constructAccountsArr = require("../functions/constructAccountsArray");
+const constructTransactionArr = require("../functions/constructTransactionArray");
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 
 describe("testing routes", () => {
@@ -206,41 +206,48 @@ describe("testing routes", () => {
   });
   describe("testing constructing accounts array function", () => {
     describe("testing constructAccountsArray function with bank info", () => {
-        it("reads function response and returns constructed array", () => {
+      it("reads function response and returns constructed array", () => {
         const fakeData = [
-            {
-              account_id: 'reAXq01pJmFqvNK3yrR4SPYe7wDQg9FBw595w',
-              balances: {
-                available: 3.50,
-                current: 3.50,
-                iso_currency_code: 'USD',
-                limit: null,
-                unofficial_currency_code: null
-              },
-              mask: '8638',
-              name: 'CHASE COLLEGE',
-              official_name: null,
-              subtype: 'checking',
-              type: 'depository'
-            }
-          ];
+          {
+            account_id: "reAXq01pJmFqvNK3yrR4SPYe7wDQg9FBw595w",
+            balances: {
+              available: 3.5,
+              current: 3.5,
+              iso_currency_code: "USD",
+              limit: null,
+              unofficial_currency_code: null,
+            },
+            mask: "8638",
+            name: "CHASE COLLEGE",
+            official_name: null,
+            subtype: "checking",
+            type: "depository",
+          },
+        ];
 
         const ret = [
-            {
-              account_id: 'reAXq01pJmFqvNK3yrR4SPYe7wDQg9FBw595w',
-              balances: { available: 3.50, current: 3.50, currency: 'USD' },
-              name: 'CHASE COLLEGE',
-              type: 'depository'
-            }
-          ];
+          {
+            account_id: "reAXq01pJmFqvNK3yrR4SPYe7wDQg9FBw595w",
+            balances: { available: 3.5, current: 3.5, currency: "USD" },
+            name: "CHASE COLLEGE",
+            type: "depository",
+          },
+        ];
         expect(constructAccountsArr(fakeData)).to.deep.equal(ret);
-        });
+      });
     });
   });
   describe("testing constructing transactions array function", () => {
     describe("testing constructAccountsArray function with no banks", () => {
       it("reads function response and returns empty array", () => {
         expect(constructTransactionArr([], [])).to.deep.equal([]);
+      });
+    });
+    describe("testing constructTransactions with one bank", () => {
+      it("properly reduces transaction function and returns the correct fields", () => {
+        expect(constructTransactionArr([{}], [{}])[0]).to.have.property(
+          "account_id"
+        );
       });
     });
   });
