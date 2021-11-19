@@ -95,6 +95,11 @@ app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Validate email and password 
+    if(!email || !password) {
+      return res.status(400).send("All input is required.");
+    } 
+    
     // Validate if user exist in our database
     const user = await UserModel.findOne({ email });
     if (user && password == user.password) {
@@ -106,6 +111,7 @@ app.post('/api/login', async (req, res) => {
 
       // save user token
       user.jwt_token = token;
+      await user.save(); 
 
       res.status(200).json(user);
     } else if(user == null) {
@@ -122,6 +128,13 @@ app.post('/api/login', async (req, res) => {
 app.post("/api/register", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate email and password
+    if(!email || !password) {
+      return res.status(400).send("All input is required.");
+    } else if(password.length < 7) {
+      return res.status(400).send("Password must have length greater than 7.");
+    }
 
     // Validate if user exist in our database
     const oldUser = await UserModel.findOne({ email });
