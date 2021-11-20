@@ -15,11 +15,12 @@ const jwt = require("jsonwebtoken");
 const categories = require("./constants/categories");
 const FAQData = require("./constants/FAQData");
 // import functions
-const constructAccountsArr = require("./functions/constructAccountsArray");
-const constructTransactionArr = require("./functions/constructTransactionArray");
-const prettyPrintResponse = require("./functions/prettyPrintResponse");
-const formatError = require("./functions/formatError");
-const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
+const constructAccountsArr = require('./functions/constructAccountsArray');
+const constructTransactionArr = require('./functions/constructTransactionArray');
+const prettyPrintResponse = require('./functions/prettyPrintResponse');
+const formatError = require('./functions/formatError');
+const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
+const getAccessTokens = require('./functions/getAccessTokens');
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -253,13 +254,20 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    const obj = JSON.parse(req.body.access_token_object);
+    const obj = req.body.access_token_object;
+    const userId = req.body._id;
     ACCESS_TOKEN = obj.access_token;
 
-    const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN });
-    const accounts = res.accounts;
+    const accessTokensArr = await getAccessTokens(userId);
 
-    return response.json(constructAccountsArr(res.data.accounts));
+    const allAccounts = []
+    for(const token of accessTokensArr) {
+      const tempAccount = await plaidClient.accountsGet({ access_token: token.access_token });
+      for(const accountObj of tempAccount.data.accounts) {
+        allAccounts.push(accountObj);
+      }
+    }
+    return response.json(constructAccountsArr(allAccounts));
   } catch (error) {
     console.log("get_bank_accounts error:");
     prettyPrintResponse(error);
