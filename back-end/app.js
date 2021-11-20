@@ -239,18 +239,20 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    console.log("req body: ");
-    const obj = JSON.parse(req.body.access_token_object);
-    // const userId = JSON.parse(req.body._id);
-    console.log("user id given from frontend: " + userId);
+    const obj = req.body.access_token_object;
+    const userId = req.body._id;
     ACCESS_TOKEN = obj.access_token;
 
-    // const accessTokensArr = await getAccessTokens(userId);
+    const accessTokensArr = await getAccessTokens(userId);
 
-    const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN });
-    const accounts = res.accounts;
-
-    return response.json(constructAccountsArr(res.data.accounts));
+    const allAccounts = []
+    for(const token of accessTokensArr) {
+      const tempAccount = await plaidClient.accountsGet({ access_token: token.access_token });
+      for(const accountObj of tempAccount.data.accounts) {
+        allAccounts.push(accountObj);
+      }
+    }
+    return response.json(constructAccountsArr(allAccounts));
   } catch (error) {
     console.log("get_bank_accounts error:");
     prettyPrintResponse(error);
