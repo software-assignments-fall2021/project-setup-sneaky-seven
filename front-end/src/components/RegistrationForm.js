@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./css/RegisterLogin.css";
 import axios from "axios";
@@ -7,6 +7,7 @@ import axios from "axios";
 const RegistrationForm = () => {
   const [email, updateEmail] = useState("");
   const [password, updatePassword] = useState("");
+  const [canLogin, updateCanLogin] = useState(false);
 
   const handleSubmit = () => {
     axios
@@ -21,6 +22,7 @@ const RegistrationForm = () => {
       )
       .then((res) => {
         sessionStorage.setItem("user", JSON.stringify(res.data));
+        updateCanLogin(true); 
         window.alert("Successful register. Please log in");
       })
       .catch((err) => {
@@ -90,12 +92,12 @@ const RegistrationForm = () => {
           <Button
             type="submit"
             component={Link}
-            to="/"
             variant="contained"
             onClick={handleSubmit}
           >
             Submit
           </Button>
+          {canLogin && <Redirect to="/" />}
         </form>
       </div>
       <br />

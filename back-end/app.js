@@ -7,20 +7,28 @@ const express = require("express");
 // instantiate an Express object
 const app = express();
 // import mongoose module to connect to MongoDB Atlas
-const mongoose = require('mongoose');
-// import jsonwebtoken for user login 
-const jwt = require('jsonwebtoken')
+const mongoose = require("mongoose");
+// import jsonwebtoken for user login
+const jwt = require("jsonwebtoken");
 
 // import constants (to be removed once they are in DB)
-const categories = require('./constants/categories');
-const FAQData = require('./constants/FAQData');
+const categories = require("./constants/categories");
+const FAQData = require("./constants/FAQData");
 // import functions
+<<<<<<< HEAD
 const constructAccountsArr = require('./functions/constructAccountsArray');
 const constructTransactionArr = require('./functions/constructTransactionArray');
 const prettyPrintResponse = require('./functions/prettyPrintResponse');
 const formatError = require('./functions/formatError');
 const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
 const getAccessTokens = require('./functions/getAccessTokens');
+=======
+const constructAccountsArr = require("./functions/constructAccountsArray");
+const constructTransactionArr = require("./functions/constructTransactionArray");
+const prettyPrintResponse = require("./functions/prettyPrintResponse");
+const formatError = require("./functions/formatError");
+const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
+>>>>>>> 3843439196847aba457b0d40ae65207d2dfc2feb
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -57,19 +65,20 @@ let ITEM_ID = null;
 // persistent data store
 let PAYMENT_ID = null;
 
-// Database config 
-const DB_URL = process.env.DB_URL
+// Database config
+const DB_URL = process.env.DB_URL;
 const DB_PARAMS = {
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-}
-mongoose.connect(DB_URL, DB_PARAMS)
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+mongoose
+  .connect(DB_URL, DB_PARAMS)
   .then(() => {
-      console.log('Connected to database ')
+    console.log("Connected to database ");
   })
   .catch((err) => {
-      console.error(`Error connecting to the database. \n${err}`);
-  })
+    console.error(`Error connecting to the database. \n${err}`);
+  });
 // importing user context
 const UserModel = require("./model/user");
 
@@ -91,10 +100,15 @@ const plaidClient = new PlaidApi(configuration);
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
 
-// Get user info from frontend and sign 
-app.post('/api/login', async (req, res) => {
+// Get user info from frontend and sign
+app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate email and password
+    if (!email || !password) {
+      return res.status(400).send("All input is required.");
+    }
 
     // Validate if user exist in our database
     const user = await UserModel.findOne({ email });
@@ -102,27 +116,34 @@ app.post('/api/login', async (req, res) => {
       // Create token
       const token = jwt.sign(
         { user_id: user._id, email },
-        process.env.TOKEN_SECRET_KEY,
+        process.env.TOKEN_SECRET_KEY
       );
 
       // save user token
       user.jwt_token = token;
+      await user.save();
 
       res.status(200).json(user);
-    } else if(user == null) {
+    } else if (user == null) {
       res.status(404).send("Email is not registered. Please register.");
     } else {
       res.status(401).send("Invalid Credentials. Please try again.");
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-  
 });
 
 app.post("/api/register", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate email and password
+    if (!email || !password) {
+      return res.status(400).send("All input is required.");
+    } else if (password.length < 7) {
+      return res.status(400).send("Password must have length greater than 7.");
+    }
 
     // Validate if user exist in our database
     const oldUser = await UserModel.findOne({ email });
@@ -139,17 +160,17 @@ app.post("/api/register", async (req, res) => {
     // Create token
     const token = jwt.sign(
       { user_id: user._id, email }, // when create a new document, Mongoose automatically add '_id' property
-      process.env.TOKEN_SECRET_KEY,
+      process.env.TOKEN_SECRET_KEY
     );
 
     // save user token
     user.jwt_token = token;
     // save user to database so we can access and update array of access tokens
-    await user.save();  
+    await user.save();
 
     // return new user
     res.status(201).json(user);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 });
@@ -223,11 +244,13 @@ app.post("/api/set_access_token", async (request, response, next) => {
     });
 
     // complete posting access_token to database
-    postAccessTokenToDatabase({
-      access_token: ACCESS_TOKEN,
-      item_id: ITEM_ID,
-    }, id); 
-
+    postAccessTokenToDatabase(
+      {
+        access_token: ACCESS_TOKEN,
+        item_id: ITEM_ID,
+      },
+      id
+    );
   } catch (error) {
     prettyPrintResponse(error.response);
     return response.json(formatError(error.response));
@@ -298,7 +321,6 @@ app.get("/api/get_transactions", async (request, response, next) => {
 });
 
 app.get("/faq", async (req, resp) => {
-  console.log(FAQData);
   resp.json(FAQData);
 });
 
