@@ -15,11 +15,14 @@ const jwt = require("jsonwebtoken");
 const categories = require("./constants/categories");
 const FAQData = require("./constants/FAQData");
 // import functions
-const constructAccountsArr = require("./functions/constructAccountsArray");
-const constructTransactionArr = require("./functions/constructTransactionArray");
-const prettyPrintResponse = require("./functions/prettyPrintResponse");
-const formatError = require("./functions/formatError");
-const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
+
+const constructAccountsArr = require('./functions/constructAccountsArray');
+const constructTransactionArr = require('./functions/constructTransactionArray');
+const prettyPrintResponse = require('./functions/prettyPrintResponse');
+const formatError = require('./functions/formatError');
+const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
+const getAccessTokens = require('./functions/getAccessTokens');
+
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -96,6 +99,11 @@ app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Validate email and password
+    if (!email || !password) {
+      return res.status(400).send("All input is required.");
+    }
+
     // Validate if user exist in our database
     const user = await UserModel.findOne({ email });
     if (user && password == user.password) {
@@ -107,6 +115,7 @@ app.post("/api/login", async (req, res) => {
 
       // save user token
       user.jwt_token = token;
+      await user.save();
 
       res.status(200).json(user);
     } else if (user == null) {
@@ -122,6 +131,13 @@ app.post("/api/login", async (req, res) => {
 app.post("/api/register", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate email and password
+    if (!email || !password) {
+      return res.status(400).send("All input is required.");
+    } else if (password.length < 7) {
+      return res.status(400).send("Password must have length greater than 7.");
+    }
 
     // Validate if user exist in our database
     const oldUser = await UserModel.findOne({ email });
@@ -240,13 +256,20 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    const obj = JSON.parse(req.body.access_token_object);
+    const obj = req.body.access_token_object;
+    const userId = req.body._id;
     ACCESS_TOKEN = obj.access_token;
 
-    const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN });
-    const accounts = res.accounts;
+    const accessTokensArr = await getAccessTokens(userId);
 
-    return response.json(constructAccountsArr(res.data.accounts));
+    const allAccounts = []
+    for(const token of accessTokensArr) {
+      const tempAccount = await plaidClient.accountsGet({ access_token: token.access_token });
+      for(const accountObj of tempAccount.data.accounts) {
+        allAccounts.push(accountObj);
+      }
+    }
+    return response.json(constructAccountsArr(allAccounts));
   } catch (error) {
     console.log("get_bank_accounts error:");
     prettyPrintResponse(error);
@@ -314,7 +337,6 @@ app.get("/api/get_transactions", async (request, response, next) => {
 });
 
 app.get("/faq", async (req, resp) => {
-  console.log(FAQData);
   resp.json(FAQData);
 });
 
