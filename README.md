@@ -80,7 +80,7 @@ Test the program:
 
    Run for unit test and code coverage:
 
-   `npx nyc mocha test/test.js`
+   `npx nyc mocha test/test.js --exit`
 
 ## References
 
