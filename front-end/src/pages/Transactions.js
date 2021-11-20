@@ -5,18 +5,10 @@ import "./css/Transactions.css";
 import axios from "axios";
 
 function Transactions() {
-  const [transactions, setTransactions] = useState();
-  useEffect(() => {
-    (async () => {
-      const result = await api.getAllTransactions();
-      setTransactions(result);
-    })();
-  }, []);
-
   return (
     <div>
       <h1>Transactions</h1>
-      <TransactionList data={transactions} />
+      <TransactionList />
     </div>
   );
 }

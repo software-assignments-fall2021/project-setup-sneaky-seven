@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import "../components/css/Homepage.css";
 import api from "../api";
 import axios from "axios";
+import HomePageTransactionList from "../components/HomePageTransactionList.js";
 
 const Homepage = () => {
   const { data } = useAsync(async () => axios.get("/api/get_transactions"), []);
@@ -30,7 +31,7 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="container-home">
-        <Transactions> </Transactions>
+        <HomePageTransactionList> </HomePageTransactionList>
         <Button
           variant="contained"
           id="new-account-btn"

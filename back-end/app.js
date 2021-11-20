@@ -15,12 +15,14 @@ const jwt = require("jsonwebtoken");
 const categories = require("./constants/categories");
 const FAQData = require("./constants/FAQData");
 // import functions
+
 const constructAccountsArr = require('./functions/constructAccountsArray');
 const constructTransactionArr = require('./functions/constructTransactionArray');
 const prettyPrintResponse = require('./functions/prettyPrintResponse');
 const formatError = require('./functions/formatError');
 const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
 const getAccessTokens = require('./functions/getAccessTokens');
+
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -282,16 +284,19 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
 // Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
 // https://plaid.com/docs/api/products/#transactionsget
 app.get("/api/get_transactions", async (request, response, next) => {
-  console.log("enter get_transactions");
-
   try {
+    days = request.query.time;
+    dayOffset = request.query.ofst;
     const now = DateTime.now();
-    const today = now.toFormat("yyyy-MM-dd");
-    const thirtyDaysAgo = now.minus({ days: 30 }).toFormat("yyyy-MM-dd");
+    endDate = now.minus({ days: dayOffset }).toFormat("yyyy-MM-dd");
+    startDate = now
+      .minus({ days: dayOffset })
+      .minus({ days: days })
+      .toFormat("yyyy-MM-dd");
     const options = {
       access_token: ACCESS_TOKEN,
-      start_date: thirtyDaysAgo,
-      end_date: today,
+      start_date: startDate,
+      end_date: endDate,
       options: {
         count: 100,
         offset: 0,
@@ -299,8 +304,27 @@ app.get("/api/get_transactions", async (request, response, next) => {
     };
     // console.log(options);
     const result = await plaidClient.transactionsGet(options);
+    let transactions = result.data.transactions;
+    const total_transactions = result.data.total_transactions;
+    // Manipulate the offset parameter to paginate
+    // transactions and retrieve all available data
+    while (transactions.length < total_transactions) {
+      const paginatedRequest = {
+        access_token: ACCESS_TOKEN,
+        start_date: startDate,
+        end_date: endDate,
+        options: {
+          count: 100,
+          offset: transactions.length,
+        },
+      };
+      const paginatedResponse = await plaidClient.transactionsGet(
+        paginatedRequest
+      );
+      transactions = transactions.concat(paginatedResponse.data.transactions);
+    }
     // console.log(JSON.stringify(result.data));
-    const { accounts, transactions } = result.data;
+    const accounts = result.data.accounts;
     return response.json(constructTransactionArr(transactions, accounts));
   } catch (error) {
     console.log("ERROR:");
