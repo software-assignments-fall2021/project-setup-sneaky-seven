@@ -20,6 +20,7 @@ const constructTransactionArr = require('./functions/constructTransactionArray')
 const prettyPrintResponse = require('./functions/prettyPrintResponse');
 const formatError = require('./functions/formatError');
 const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
+const getAccessTokens = require('./functions/getAccessTokens');
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -238,8 +239,13 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
+    console.log("req body: ");
     const obj = JSON.parse(req.body.access_token_object);
+    // const userId = JSON.parse(req.body._id);
+    console.log("user id given from frontend: " + userId);
     ACCESS_TOKEN = obj.access_token;
+
+    // const accessTokensArr = await getAccessTokens(userId);
 
     const res = await plaidClient.accountsGet({ access_token: ACCESS_TOKEN });
     const accounts = res.accounts;

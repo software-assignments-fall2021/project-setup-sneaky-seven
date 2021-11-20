@@ -69,6 +69,7 @@ function AccountsPage(props) {
     axios
       .post("/api/get_bank_accounts", {
         access_token_object: localStorage.getItem("access_token_object"),
+        // _id: (sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user'))._id : null),
       })
       .then((resp) => {
         // no error defined means success
