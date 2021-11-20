@@ -1,8 +1,8 @@
-import {
-  mocks,
-  getAllTransactions as _getAllTransactions,
-  getAccountInfo as _getAccountInfo,
-} from "./mocks";
+// import {
+//   mocks,
+//   getAllTransactions as _getAllTransactions,
+//   getAccountInfo as _getAccountInfo,
+// } from "./mocks";
 import axios from "axios";
 
 const MOCK = false;
@@ -16,7 +16,7 @@ async function getCategoryList() {
       "Something went wrong. We're probably out of requests for the day!"
     );
     console.error(err);
-    return _getAllTransactions;
+    throw err;
   }
 }
 
@@ -29,17 +29,18 @@ async function postNewCategory(name, icon) {
 }
 
 /** @returns {Promise<_getAllTransactions>} */
-async function getAllTransactions() {
-  // TODO: fetch actual data
+async function getAllTransactions(days = 30, offset = 0) {
   try {
-    const result = await axios.get("/api/get_transactions");
+    const result = await axios.get("/api/get_transactions", {
+      params: { time: days, ofst: offset },
+    });
     return result.data;
   } catch (err) {
     console.log(
       "Something went wrong. We're probably out of requests for the day!"
     );
     console.error(err);
-    return _getAllTransactions;
+    throw err;
   }
 }
 
@@ -50,7 +51,7 @@ async function getRecentTransactions() {
     return result.data;
   } catch (err) {
     console.error(err);
-    return _getAllTransactions;
+    throw err;
   }
 }
 
@@ -71,7 +72,7 @@ async function getAccountInfo() {
       "Something went wrong. We're probably out of requests for the day!"
     );
     console.error(err);
-    return _getAccountInfo;
+    throw err;
   }
 }
 
@@ -84,8 +85,8 @@ const api = {
   getAccountInfo,
 };
 
-if (MOCK) {
-  Object.assign(api, mocks);
-}
+// if (MOCK) {
+//   Object.assign(api, mocks);
+// }
 
 export default api;

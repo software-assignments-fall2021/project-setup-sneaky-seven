@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import api from "../api";
 import "./css/TransactionList.css";
 import CategoryIcon from "./CategoryIcon";
 import { useHistory } from "react-router";
 import { DateTime } from "luxon";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const currenySymbol = {
   USD: "$",
@@ -47,12 +49,32 @@ export function Transaction({
   );
 }
 
-export default function TransactionList({ data }) {
+export default function TransactionList() {
+  const [data, setData] = useState([]);
+  const [offset, setOffset] = useState(0);
+  async function getMoreData() {
+    console.log("getting more data");
+    const res = await api.getAllTransactions(30, offset + 30);
+    setOffset((offset) => offset + 30);
+    setData((data) => data.concat(res));
+  }
+  useEffect(() => {
+    (async () => {
+      const result = await api.getAllTransactions(30);
+      setData(result);
+    })();
+  }, []);
   return (
     <div>
       {(data ?? []).map((transaction) => (
         <Transaction key={transaction.transaction_id} {...transaction} />
       ))}
+      <InfiniteScroll
+        dataLength={data?.length}
+        next={getMoreData}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
+      />
     </div>
   );
 }
