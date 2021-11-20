@@ -261,9 +261,6 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
 // Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
 // https://plaid.com/docs/api/products/#transactionsget
 app.get("/api/get_transactions", async (request, response, next) => {
-  console.log("enter get_transactions");
-  console.log(request.query.ofst);
-
   try {
     days = request.query.time;
     dayOffset = request.query.ofst;
@@ -273,8 +270,6 @@ app.get("/api/get_transactions", async (request, response, next) => {
       .minus({ days: dayOffset })
       .minus({ days: days })
       .toFormat("yyyy-MM-dd");
-    console.log(endDate);
-    console.log(startDate);
     const options = {
       access_token: ACCESS_TOKEN,
       start_date: startDate,
