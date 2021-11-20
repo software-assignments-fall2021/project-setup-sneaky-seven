@@ -15,20 +15,12 @@ const jwt = require("jsonwebtoken");
 const categories = require("./constants/categories");
 const FAQData = require("./constants/FAQData");
 // import functions
-<<<<<<< HEAD
 const constructAccountsArr = require('./functions/constructAccountsArray');
 const constructTransactionArr = require('./functions/constructTransactionArray');
 const prettyPrintResponse = require('./functions/prettyPrintResponse');
 const formatError = require('./functions/formatError');
 const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
 const getAccessTokens = require('./functions/getAccessTokens');
-=======
-const constructAccountsArr = require("./functions/constructAccountsArray");
-const constructTransactionArr = require("./functions/constructTransactionArray");
-const prettyPrintResponse = require("./functions/prettyPrintResponse");
-const formatError = require("./functions/formatError");
-const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
->>>>>>> 3843439196847aba457b0d40ae65207d2dfc2feb
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
