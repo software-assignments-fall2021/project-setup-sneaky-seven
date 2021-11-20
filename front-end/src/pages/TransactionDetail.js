@@ -14,19 +14,13 @@ const currenySymbol = {
 };
 
 export function TransactionDetail() {
-  let { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState(undefined);
   const history = useHistory();
   const [notes, setNotes] = useState("");
   const [checkedHide, setCheckedHide] = useState(false);
   const [checkedDuplicate, setCheckedDuplicate] = useState(false);
 
-  //retreive transaction
-  const { data: transaction } = useAsync(async () => {
-    const result = await api.getTransactionById(id);
-    setSelectedCategory(result?.category);
-    return result;
-  }, [id]);
+  const transaction = history.location.state;
 
   function handleBackClick() {
     history.goBack();

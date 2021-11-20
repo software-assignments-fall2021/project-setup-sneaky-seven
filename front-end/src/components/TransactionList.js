@@ -10,22 +10,24 @@ const currenySymbol = {
   USD: "$",
 };
 
-export function Transaction({
-  transaction_id,
-  amount,
-  merchant,
-  category,
-  account_name,
-  date,
-  currency,
-}) {
+export function Transaction(props) {
+  const {
+    transaction_id,
+    amount,
+    merchant,
+    category,
+    account_name,
+    date,
+    currency,
+  } = props;
+
   const formattedDate = DateTime.fromISO(date ?? 0).toFormat("DDDD");
   const amountColor = amount <= 0 ? "green" : "red";
   const symbol = currenySymbol[currency];
 
   let history = useHistory();
   function handleClick() {
-    history.push("/transactions/" + transaction_id);
+    history.push("/TransactionsDetail", props);
   }
 
   return (

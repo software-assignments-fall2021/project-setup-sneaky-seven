@@ -32,7 +32,13 @@ async function postNewCategory(name, icon) {
 async function getAllTransactions(days = 30, offset = 0) {
   try {
     const result = await axios.get("/api/get_transactions", {
-      params: { time: days, ofst: offset },
+      params: {
+        time: days,
+        ofst: offset,
+        _id: sessionStorage.getItem("user")
+          ? JSON.parse(sessionStorage.getItem("user"))._id
+          : null,
+      },
     });
     return result.data;
   } catch (err) {
@@ -45,10 +51,12 @@ async function getAllTransactions(days = 30, offset = 0) {
 }
 
 /** @returns {Promise<_getAllTransactions>} */
-async function getRecentTransactions() {
+async function getRecentTransactions(count = 10) {
   try {
-    const result = await axios("/api/get_transactions");
-    return result.data;
+    const result = await getAllTransactions(90);
+    const transactions =
+      result.length > count ? result.slice(0, count) : result;
+    return transactions;
   } catch (err) {
     console.error(err);
     throw err;
