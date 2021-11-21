@@ -8,15 +8,8 @@ import { iconNameToComponent, useAsync, styles } from "../utils";
 import { AiOutlineClose, AiFillDelete } from "react-icons/ai";
 import cx from "classnames";
 
-const DeleteCategories = ({ name, icon, closeOverlay }) => {
-  // const history = useHistory();
-  console.log("delete" + name);
-  // history.push("/categories/addCategory");
-};
-
 const CategoryOverlay = ({ category, closeOverlay }) => {
   const { data } = useAsync(api.getRecentTransactions, []);
-  // const { data } = { data: [] };
   const transactions = React.useMemo(() => {
     if (category === null) {
       return [];

@@ -6,7 +6,6 @@ async function getCategoryList() {
     const id = sessionStorage.getItem("user")
       ? JSON.parse(sessionStorage.getItem("user"))._id
       : null;
-
     const result = await axios.get("/api/categories", { params: { _id: id } });
     return result.data;
   } catch (err) {

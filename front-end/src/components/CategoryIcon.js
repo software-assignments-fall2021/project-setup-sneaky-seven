@@ -1,11 +1,9 @@
 import React from "react";
 import { iconNameToComponent } from "../utils";
-import { FaMoneyBillWave } from "react-icons/fa";
-// import { useAsync } from "../../utils";
-// import { api } from "../../utils";
 
 import {
   FaUtensils,
+  FaMoneyBillWave,
   FaShoppingCart,
   FaCarAlt,
   FaPlane,

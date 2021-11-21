@@ -43,7 +43,6 @@ export function TransactionDetail() {
   }
 
   function handleCatClick(id, newCategory) {
-    console.log("handle here" + selectedCategory);
     setSelectedCategory(newCategory);
     api.setTransactionCategory(id, newCategory);
   }
@@ -64,8 +63,6 @@ export function TransactionDetail() {
 
   return (
     <article className="transactionView">
-      {console.log("sel", selectedCategory)}
-
       <div className="subheader">
         <div className="transBackButton" onClick={handleBackClick}>
           <IoIosArrowRoundBack size={50} />

@@ -11,17 +11,6 @@ const currenySymbol = {
   USD: "$",
 };
 
-async function FindIcon(name) {
-  const { data: categoryData } = await useAsync(api.getCategoryList, []);
-  const categoryList = categoryData ?? [];
-  for (let category in categoryList) {
-    if (name == category.name) {
-      return category.icon;
-    }
-    console.log(category.name);
-  }
-}
-
 export function Transaction(props) {
   const { data: categoryData, isLoaded } = useAsync(api.getCategoryList, []); // this is index.js
   const categoryList = categoryData ?? [];

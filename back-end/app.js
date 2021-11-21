@@ -14,7 +14,6 @@ const jwt = require("jsonwebtoken");
 // import constants (to be removed once they are in DB)
 const categories = require("./constants/categories");
 const getCategories = require("./functions/getCategories");
-
 const FAQData = require("./constants/FAQData");
 // import functions
 const getTransactionsForAccount = require("./functions/getTransactions");
@@ -25,7 +24,6 @@ const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase
 const getAccessTokens = require("./functions/getAccessTokens");
 const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
 const postCategory = require("./functions/postCategory");
-
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
@@ -177,14 +175,11 @@ app.post("/api/register", async (req, res) => {
 app.get("/api/categories", async (req, resp) => {
   try {
     const userId = req.query._id;
-
     const categories = await getCategories(userId);
     categories.categories.sort((a, b) => a.name.localeCompare(b.name));
     resp.json(categories.categories);
   } catch (error) {
-    console.log("error");
     console.log(error);
-    console.log(error.response);
   }
 });
 
@@ -198,7 +193,6 @@ app.post("/api/categories", async (req, resp) => {
     },
     userId
   );
-  console.log("result" + result);
   resp.json(result);
 });
 

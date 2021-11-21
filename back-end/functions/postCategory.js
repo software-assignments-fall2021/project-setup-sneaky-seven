@@ -9,13 +9,6 @@ const postCategory = async (category, userId) => {
     "categories.name": category.name,
   });
   if (!duplicate) {
-    // UserModel.update({ _id: userId }, { $set: { categories: [] } }, function (
-    //   err,
-    //   affected
-    // ) {
-    //   console.log("affected: ", affected);
-    // });
-
     UserModel.findOneAndUpdate(
       { _id: userId, "categories.name": { $ne: category.name } },
       { $push: { categories: category } },
