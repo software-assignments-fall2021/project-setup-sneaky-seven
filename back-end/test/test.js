@@ -6,8 +6,54 @@ const path = require("path");
 require("mocha-sinon");
 const constructAccountsArr = require("../functions/constructAccountsArray");
 const constructTransactionArr = require("../functions/constructTransactionArray");
-Object.assign(global, require(path.join(__dirname, "../app.js")));
+const setTransactionNotesInDatabase = require("../functions/setTransactionNotesInDatabase");
+const setTransactionCategoryInDatabase = require("../functions/setTransactionCategoryInDatabase");
 
+Object.assign(global, require(path.join(__dirname, "../app.js")));
+transactionsTest = [
+  {
+    account_id: "BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp",
+    amount: 2307.21,
+    iso_currency_code: "USD",
+    unofficial_currency_code: null,
+    category: ["Shops", "Computers and Electronics"],
+    category_id: "19013000",
+    check_number: null,
+    date: "2017-01-29",
+    datetime: null,
+    authorized_date: "2017-01-27",
+    authorized_datetime: null,
+    location: {
+      address: "300 Post St",
+      city: "San Francisco",
+      region: "CA",
+      postal_code: "94108",
+      country: "US",
+      lat: 40.740352,
+      lon: -74.001761,
+      store_number: "1235",
+    },
+    name: "Apple Store",
+    merchant_name: "Apple",
+    payment_meta: {
+      by_order_of: null,
+      payee: null,
+      payer: null,
+      payment_method: null,
+      payment_processor: null,
+      ppd_id: null,
+      reason: null,
+      reference_number: null,
+    },
+    payment_channel: "in store",
+    pending: false,
+    pending_transaction_id: null,
+    account_owner: null,
+    transaction_id: "lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje",
+    transaction_code: null,
+    transaction_type: "place",
+  },
+];
 describe("testing routes", () => {
   describe("testing post route on /api/get_bank_accounts with no req body", () => {
     it("returns a 400 status", function (cb) {
@@ -20,6 +66,31 @@ describe("testing routes", () => {
         });
     });
   });
+
+  describe("testing post route on /api/setTransactionNotes with no req body", () => {
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/setTransactionNotes")
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
+
+  describe("testing post route on /api/setTransactionCategory with no req body", () => {
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/setTransactionCategory")
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
+
   describe("testing post route on /api/get_bank_accounts with req body", () => {
     beforeEach(function () {
       this.sinon.stub(JSON, "parse").returns({
@@ -34,6 +105,60 @@ describe("testing routes", () => {
           access_token_object: {
             access_token: "test_access_token",
           },
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
+  describe("testing get route on /api/get_transactions with no req body", () => {
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .get("/api/get_transactions")
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
+
+  describe("testing get route on /api/get_transactions with bad req body", () => {
+    beforeEach(function () {
+      this.sinon.stub(JSON, "parse").returns({
+        access_token: "test_access_token",
+      });
+    });
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .get("/api/get_transactions")
+        .send({
+          _id: "6197040bc16e9e0522901b1a",
+          time: 30,
+          ofst: 0,
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+  });
+  describe("testing post route on /api/setTransactionCategory with bad req body", () => {
+    beforeEach(function () {
+      this.sinon.stub(JSON, "parse").returns({
+        access_token: "test_access_token",
+      });
+    });
+    it("returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/setTransactionCategory")
+        .send({
+          transaction_id: "rM6pZKV4wDcX950w5Q3QcdkPbEvXREtBA4Exd",
+          newCategory: "Automotive",
+          user_id: "6197040bc16e9e0522901b1f",
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -240,14 +365,36 @@ describe("testing routes", () => {
   describe("testing constructing transactions array function", () => {
     describe("testing constructAccountsArray function with no banks", () => {
       it("reads function response and returns empty array", () => {
-        expect(constructTransactionArr([], [])).to.deep.equal([]);
+        expect(constructTransactionArr([], [], [{}])).to.deep.equal([]);
       });
     });
+
     describe("testing constructTransactions with one bank", () => {
       it("properly reduces transaction function and returns the correct fields", () => {
-        expect(constructTransactionArr([{}], [{}])[0]).to.have.property(
-          "account_id"
+        expect(constructTransactionArr(transactionsTest, [{}])[0], [
+          {
+            transaction_id: "xMRXVBvwqycvaKwJKxgACBBaqExPk5FMAPVLX",
+            category: "Travel",
+            _id: "6199f907c3f0e5d878a38fe8",
+            notes: "Yay notes work!",
+          },
+        ]).to.have.property("account_id");
+      });
+    });
+  });
+  describe("testing set transaction category function", () => {
+    describe("testing set transaction category function with no banks", () => {
+      it("reads function response and returns nothing", () => {
+        expect(
+          setTransactionCategoryInDatabase("aa", "ss", "dd") === undefined
         );
+      });
+    });
+  });
+  describe("testing set transaction notes function", () => {
+    describe("testing set transaction notes function with no banks", () => {
+      it("reads function response and returns nothing", () => {
+        expect(setTransactionNotesInDatabase("aa", "ss", "dd") === undefined);
       });
     });
   });

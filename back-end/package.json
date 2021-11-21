@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js --ignore client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx nyc mocha test/test.js --exit"
   },
   "author": "",
   "license": "ISC",
