@@ -44,11 +44,14 @@
   align-self: flex-end;
 }
 
+.overlay-close {
+  align-items: center;
+}
+
 .category-icon {
   height: 100px;
   width: 100px;
 }
-
 
 .categories-page {
   box-sizing: border-box;

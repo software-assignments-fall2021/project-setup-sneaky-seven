@@ -1,7 +1,13 @@
 import axios from "axios";
+import categories from "./categories";
+
 async function getCategoryList() {
   try {
-    const result = await axios.get("/api/categories");
+    const id = sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))._id
+      : null;
+
+    const result = await axios.get("/api/categories", { params: { _id: id } });
     return result.data;
   } catch (err) {
     console.log(
@@ -14,7 +20,11 @@ async function getCategoryList() {
 
 async function postNewCategory(name, icon) {
   try {
-    await axios.post("/api/categories", { name, icon });
+    const id = sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))._id
+      : null;
+    const result = await axios.post("/api/categories", { id, name, icon });
+    return result.data;
   } catch (err) {
     console.error(err);
   }

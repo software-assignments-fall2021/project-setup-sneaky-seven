@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
+import { useAsync } from "../utils";
 import "./css/TransactionList.css";
 import CategoryIcon from "./CategoryIcon";
 import { useHistory } from "react-router";
@@ -10,7 +11,20 @@ const currenySymbol = {
   USD: "$",
 };
 
+async function FindIcon(name) {
+  const { data: categoryData } = await useAsync(api.getCategoryList, []);
+  const categoryList = categoryData ?? [];
+  for (let category in categoryList) {
+    if (name == category.name) {
+      return category.icon;
+    }
+    console.log(category.name);
+  }
+}
+
 export function Transaction(props) {
+  const { data: categoryData, isLoaded } = useAsync(api.getCategoryList, []); // this is index.js
+  const categoryList = categoryData ?? [];
   const {
     transaction_id,
     amount,
@@ -30,25 +44,30 @@ export function Transaction(props) {
   function handleClick() {
     history.push("/TransactionsDetail", props);
   }
-  return (
-    <article className="transaction" onClick={handleClick}>
-      <div className="left">
-        <CategoryIcon text={category} />
-        <div className="text-details">
-          <p className="bold">{merchant}</p>
-          <p>{category}</p>
-          <p>{account_name}</p>
+  if (isLoaded) {
+    return (
+      <article className="transaction" onClick={handleClick}>
+        <div className="left">
+          <CategoryIcon
+            icon={categoryList.find((x) => x.name === category)?.icon}
+          />
+          <div className="text-details">
+            <p className="bold">{merchant}</p>
+            <p>{category}</p>
+            <p>{account_name}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="right italics">
-        <p className="bold" style={{ color: amountColor }}>
-          {symbol} {amount * -1}
-        </p>
-        <p>{formattedDate}</p>
-      </div>
-    </article>
-  );
+        <div className="right italics">
+          <p className="bold" style={{ color: amountColor }}>
+            {symbol} {amount * -1}
+          </p>
+          <p>{formattedDate}</p>
+        </div>
+      </article>
+    );
+  }
+  return null;
 }
 
 export default function TransactionList() {

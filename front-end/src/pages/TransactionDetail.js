@@ -13,7 +13,19 @@ const currenySymbol = {
   USD: "$",
 };
 
+const Field = ({ title, text, children }) => {
+  return (
+    <div className="transactionField">
+      <label className="transactionFieldLabel">{title}</label>
+      {children ?? <p className="transactionFieldText">{text}</p>}
+    </div>
+  );
+};
+
 export function TransactionDetail() {
+  const { data: categoryData } = useAsync(api.getCategoryList, []);
+  const categoryList = categoryData ?? [];
+
   const history = useHistory();
 
   const [checkedHide, setCheckedHide] = useState(false);
@@ -22,15 +34,16 @@ export function TransactionDetail() {
   if (!transaction) {
     history.goBack();
   }
-  const [notes, setNotes] = useState(transaction.notes);
+  const [notes, setNotes] = useState(transaction?.notes);
   const [selectedCategory, setSelectedCategory] = useState(
-    transaction.category
+    transaction?.category
   );
   function handleBackClick() {
     history.goBack();
   }
 
   function handleCatClick(id, newCategory) {
+    console.log("handle here" + selectedCategory);
     setSelectedCategory(newCategory);
     api.setTransactionCategory(id, newCategory);
   }
@@ -51,6 +64,8 @@ export function TransactionDetail() {
 
   return (
     <article className="transactionView">
+      {console.log("sel", selectedCategory)}
+
       <div className="subheader">
         <div className="transBackButton" onClick={handleBackClick}>
           <IoIosArrowRoundBack size={50} />
@@ -61,56 +76,44 @@ export function TransactionDetail() {
         <div style={{ width: "50px", height: "50px" }}></div>
       </div>
       <div className="transDetails">
-        <div>
-          <label>Merchant</label>
-          <p>{transaction?.merchant}</p>
-        </div>
-        <div>
-          <label>Date</label>
-          <p>{formattedDate}</p>
-        </div>
-        <div>
-          <label>Category</label>
-          <div className="categoryIcons">
-            {[
-              "Food",
-              "Shops",
-              "Automotive",
-              "Travel",
-              "Nightlife",
-              "Entertainment",
-            ].map((category) => (
-              <span
-                className="catIcon"
-                onClick={() =>
-                  handleCatClick(transaction.transaction_id, category)
-                }
-              >
-                <CategoryIcon
-                  text={category}
-                  size={50}
-                  color={
-                    selectedCategory === category
-                      ? "rgba(0, 4, 255, 0.733)"
-                      : "grey"
-                  }
-                  borderColor={
-                    selectedCategory === category
-                      ? "rgba(0, 4, 255, 0.733)"
-                      : "grey"
-                  }
-                />
-              </span>
-            ))}
+        <Field title={"Merchant"} text={transaction?.merchant ?? "None"} />
+        <Field title={"Date"} text={formattedDate} />
+        <Field title={"Category"}>
+          <div className="categoryIconsWrapper">
+            <div className="categoryIcons">
+              {categoryList.map((category) => (
+                <div
+                  className="catIcon"
+                  title={category.name}
+                  onClick={() => {
+                    console.log("cat", category);
+                    console.log("select cat", selectedCategory);
+                    handleCatClick(transaction.transaction_id, category.name);
+                  }}
+                >
+                  <CategoryIcon
+                    icon={category.icon}
+                    size={50}
+                    color={
+                      selectedCategory === category.name
+                        ? "rgba(0, 4, 255, 0.733)"
+                        : "grey"
+                    }
+                    borderColor={
+                      selectedCategory === category.name
+                        ? "rgba(0, 4, 255, 0.733)"
+                        : "grey"
+                    }
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div>
-          <label>Currency</label>
-          <p>{transaction?.currency}</p>
-        </div>
-        <div>
+        </Field>
+        <Field title={"Currency"} text={transaction?.currency} />
+        <Field title={"Notes"}>
+          {" "}
           <form onSubmit={handleSubmit}>
-            <label>Notes</label>
             <input
               type="text"
               value={notes}
@@ -118,7 +121,7 @@ export function TransactionDetail() {
             />
             <input type="submit" value="Submit" />
           </form>
-        </div>
+        </Field>
       </div>
     </article>
   );

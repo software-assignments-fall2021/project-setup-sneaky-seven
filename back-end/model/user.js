@@ -9,6 +9,13 @@ const userSchema = new mongoose.Schema(
     jwt_token: { type: String },
     transactions: { type: [TransactionsSchema] },
     access_token: { type: [AccessTokenSchema] },
+    categories: [
+      {
+        icon: { type: String },
+        name: String,
+        transactions: Object,
+      },
+    ],
   },
   { strict: false }
 );
