@@ -10,12 +10,12 @@ import {
 } from "react-icons/fa";
 
 const textToIcon = {
-  food: FaUtensils,
-  shopping: FaShoppingCart,
-  automotive: FaCarAlt,
-  travel: FaPlane,
-  nightlife: FaCocktail,
-  entertainment: FaLaughSquint,
+  Food: FaUtensils,
+  Shops: FaShoppingCart,
+  Automotive: FaCarAlt,
+  Travel: FaPlane,
+  Nightlife: FaCocktail,
+  Entertainment: FaLaughSquint,
 };
 
 export default function CategoryIcon({

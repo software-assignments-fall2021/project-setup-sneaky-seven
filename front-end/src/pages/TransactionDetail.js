@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import api from "../api";
 import { useAsync } from "../utils";
-import { getTransactionById } from "../api/mocks";
+
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useHistory } from "react-router";
 import "./css/TransactionDetail.css";
@@ -14,28 +14,34 @@ const currenySymbol = {
 };
 
 export function TransactionDetail() {
-  let { id } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(undefined);
   const history = useHistory();
-  const [notes, setNotes] = useState("");
+
   const [checkedHide, setCheckedHide] = useState(false);
   const [checkedDuplicate, setCheckedDuplicate] = useState(false);
-
-  //retreive transaction
-  const { data: transaction } = useAsync(async () => {
-    const result = await api.getTransactionById(id);
-    setSelectedCategory(result?.category);
-    return result;
-  }, [id]);
-
+  const transaction = history.location.state;
+  if (!transaction) {
+    history.goBack();
+  }
+  const [notes, setNotes] = useState(transaction.notes);
+  const [selectedCategory, setSelectedCategory] = useState(
+    transaction.category
+  );
   function handleBackClick() {
     history.goBack();
   }
 
-  function handleCatClick(newCategory) {
+  function handleCatClick(id, newCategory) {
     setSelectedCategory(newCategory);
+    api.setTransactionCategory(id, newCategory);
   }
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    api.setTransactionNotes(
+      transaction.transaction_id,
+      transaction.category,
+      notes
+    );
+  };
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[transaction?.currency];
 
@@ -67,16 +73,18 @@ export function TransactionDetail() {
           <label>Category</label>
           <div className="categoryIcons">
             {[
-              "food",
-              "shopping",
-              "automotive",
-              "travel",
-              "nightlife",
-              "entertainment",
+              "Food",
+              "Shops",
+              "Automotive",
+              "Travel",
+              "Nightlife",
+              "Entertainment",
             ].map((category) => (
               <span
                 className="catIcon"
-                onClick={() => handleCatClick(category)}
+                onClick={() =>
+                  handleCatClick(transaction.transaction_id, category)
+                }
               >
                 <CategoryIcon
                   text={category}
@@ -101,32 +109,15 @@ export function TransactionDetail() {
           <p>{transaction?.currency}</p>
         </div>
         <div>
-          <label>Notes</label>
-          <input
-            type="text"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-        </div>
-        <div className="checkBoxes">
-          <div>
-            <label>Hide</label>
+          <form onSubmit={handleSubmit}>
+            <label>Notes</label>
             <input
-              type="checkbox"
-              checked={checkedHide}
-              onChange={(e) => setCheckedHide(e.target.checked)}
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
             />
-            <div></div>
-          </div>
-          <div>
-            <label>Mark Duplicate</label>
-            <input
-              type="checkbox"
-              checked={checkedDuplicate}
-              onChange={(e) => setCheckedDuplicate(e.target.checked)}
-            />
-            <div></div>
-          </div>
+            <input type="submit" value="Submit" />
+          </form>
         </div>
       </div>
     </article>

@@ -5,7 +5,7 @@
  * @param {*} accounts
  * @returns
  */
-const constructTransactionArr = (transactions, accounts) => {
+const constructTransactionArr = (transactions, accounts, txCatArr) => {
   const ret = [];
   const accountNameMap = accounts.reduce(
     (currentMap, { account_id, name }) => ({
@@ -14,21 +14,29 @@ const constructTransactionArr = (transactions, accounts) => {
     }),
     {}
   );
+
   transactions.forEach(function (transaction) {
-    // console.log(transaction.account_id);
-    // console.log(transaction.amount);
+    const txDB = txCatArr.find(
+      (tx) => tx.transaction_id === transaction.transaction_id
+    );
+    const cat = txDB ? txDB.category : transaction.category[0];
+    const note = txDB ? txDB.notes : "";
+    const name =
+      transaction.merchant_name ??
+      transaction.name.split(" ").slice(0, 2).join(" ");
     const tranObj = {
       id: transaction.transaction_id,
       account_id: transaction.account_id,
       account_name: accountNameMap[transaction.account_id],
       transaction_id: transaction.transaction_id,
       amount: transaction.amount,
-      merchant: transaction.merchant_name,
+      merchant: name,
       date: transaction.date,
       currency: transaction.iso_currency_code,
-      category: transaction.category,
+      category: cat,
       location: transaction.location,
       transaction_code: transaction.transaction_code,
+      notes: note,
     };
     ret.push(tranObj);
   });
