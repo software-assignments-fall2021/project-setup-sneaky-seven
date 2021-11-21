@@ -56,7 +56,7 @@ Run the program:
 
    Run the program
 
-   `npm run start`
+   `npm start`
 
 5. Application should pop up [here](http://localhost:3000/)!
 
@@ -80,7 +80,7 @@ Test the program:
 
    Run for unit test and code coverage:
 
-   `npx nyc mocha test/test.js --exit`
+   `npm test`
 
 ## References
 
