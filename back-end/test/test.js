@@ -9,6 +9,10 @@ const constructTransactionArr = require("../functions/constructTransactionArray"
 const setTransactionNotesInDatabase = require("../functions/setTransactionNotesInDatabase");
 const setTransactionCategoryInDatabase = require("../functions/setTransactionCategoryInDatabase");
 
+const UserModel = require("../model/user");
+Object.assign(global, require(path.join(__dirname, "../app.js")));
+
+
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 transactionsTest = [
   {
@@ -391,11 +395,123 @@ describe("testing routes", () => {
       });
     });
   });
+
   describe("testing set transaction notes function", () => {
     describe("testing set transaction notes function with no banks", () => {
       it("reads function response and returns nothing", () => {
         expect(setTransactionNotesInDatabase("aa", "ss", "dd") === undefined);
       });
+  describe("testing post route on /api/register", () => {
+    it("fails to register user due to empty input, returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: '',
+          password: ''
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+    it("fails to register user due to invalid password length, returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: 'jennifer-unit-test@gmail',
+          password: 'hh'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+    it("successfully register user and returns a 201 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: 'jennifer-unit-test@gmail',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(201);
+          cb();
+        });
+    });
+    it("fails to register user due to user already exists, returns a 409 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: 'jennifer-unit-test@gmail',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(409);
+          cb();
+        });
+    });
+    // remove mock user from the database 
+    after(async () => {
+      await UserModel.deleteOne({ email: 'jennifer-unit-test@gmail' });
+    })
+  });
+  describe("testing post route on /api/login", () => {
+    it("fails to log in user due to empty input, returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: '',
+          password: ''
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+    it("fails to log in user due to user nonexistence, returns a 404 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: 'jennifer-unit-test@gmail.com',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(404);
+          cb();
+        });
+    });
+    it("fails to log in user due to invalid credentials, returns a 401 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: 'alan@gmail.com',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(401);
+          cb();
+        });
+    });
+    it("successfully log in user, returns a 200 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: 'alan@gmail.com',
+          password: 'test123'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
+
     });
   });
 });

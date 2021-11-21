@@ -5,7 +5,7 @@ import "./css/Categories.css";
 import { Transaction } from "../components/TransactionList";
 import { useHistory } from "react-router-dom";
 import { iconNameToComponent, useAsync, styles } from "../utils";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiFillDelete } from "react-icons/ai";
 import cx from "classnames";
 
 const CategoryOverlay = ({ category, closeOverlay }) => {
@@ -14,8 +14,6 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
     if (category === null) {
       return [];
     }
-
-    console.log(data);
     return data?.filter((t) => t.category.includes(category.name)) ?? [];
   }, [category, data]);
 
@@ -34,13 +32,9 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
         >
           <AiOutlineClose />
         </button>
-
         <h2>Category: {category.name}</h2>
-
         <Icon className="category-icon" />
-
         <h4>Transactions</h4>
-
         <div className="overlay-transactions-wrapper">
           <div className={cx("overlay-transactions")}>
             {transactions.map((t) => (
@@ -54,7 +48,7 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
 };
 
 const Categories = () => {
-  const { data: categoryData } = useAsync(api.getCategoryList, []);
+  const { data: categoryData } = useAsync(api.getCategoryList, []); // this is index.js
   const categoryList = categoryData ?? [];
   const history = useHistory();
   const addCategory = React.useCallback(

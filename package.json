@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/software-students-fall2021/project-setup-sneaky-seven/issues"
   },
-  "homepage": "https://github.com/software-students-fall2021/project-setup-sneaky-seven#readme"
+  "homepage": "https://github.com/software-students-fall2021/project-setup-sneaky-seven#readme",
+  "dependencies": {
+    "sessionstorage": "^0.1.0"
+  }
 }
