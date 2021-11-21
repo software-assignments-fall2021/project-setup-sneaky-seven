@@ -13,6 +13,7 @@ const jwt = require("jsonwebtoken");
 
 // import constants (to be removed once they are in DB)
 const categories = require("./constants/categories");
+const getCategories = require("./functions/getCategories");
 const FAQData = require("./constants/FAQData");
 // import functions
 const getTransactionsForAccount = require("./functions/getTransactions");
@@ -22,6 +23,7 @@ const formatError = require("./functions/formatError");
 const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
 const getAccessTokens = require("./functions/getAccessTokens");
 const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
+const postCategory = require("./functions/postCategory");
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
@@ -148,6 +150,7 @@ app.post("/api/register", async (req, res) => {
     const user = await UserModel.create({
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password,
+      categories,
     });
 
     // Create token
@@ -171,18 +174,26 @@ app.post("/api/register", async (req, res) => {
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
   try {
-    resp.json(categories);
+    const userId = req.query._id;
+    const categories = await getCategories(userId);
+    categories.categories.sort((a, b) => a.name.localeCompare(b.name));
+    resp.json(categories.categories);
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error);
   }
 });
 
 app.post("/api/categories", async (req, resp) => {
-  console.log(req.body);
-  categories.push(req.body);
-  categories.sort((a, b) => a.name.localeCompare(b.name));
-
-  resp.json({});
+  const userId = req.body.id;
+  const result = await postCategory(
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      transactions: {},
+    },
+    userId
+  );
+  resp.json(result);
 });
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
@@ -285,7 +296,6 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
 // Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
 // https://plaid.com/docs/api/products/#transactionsget
 app.get("/api/get_transactions", async (request, response) => {
-  console.log("getting transactions");
   try {
     let allTransactions = [];
     const userId = request.query._id;

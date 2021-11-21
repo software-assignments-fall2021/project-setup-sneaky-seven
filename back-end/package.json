@@ -16,7 +16,9 @@
     "jsonwebtoken": "8.5.1",
     "luxon": "2.1.0",
     "mongoose": "6.0.12",
-    "plaid": "9.5.0"
+    "plaid": "9.5.0",
+    "react-infinite-scroll-component": "6.1.0",
+    "sessionstorage": "0.1.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",

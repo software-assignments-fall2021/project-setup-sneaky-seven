@@ -15,7 +15,7 @@ const PlaidLink = (props) => {
     axios
       .post("/api/set_access_token", {
         public_token: public_token,
-        _id: JSON.parse(sessionStorage.getItem('user'))._id,
+        _id: JSON.parse(sessionStorage.getItem("user"))._id,
       })
       .then((resp) => {
         console.log(resp.data);
@@ -68,8 +68,12 @@ function AccountsPage(props) {
 
     axios
       .post("/api/get_bank_accounts", {
-        access_token_object: JSON.parse(localStorage.getItem("access_token_object")),
-        _id: (sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user'))._id : null),
+        access_token_object: JSON.parse(
+          localStorage.getItem("access_token_object")
+        ),
+        _id: sessionStorage.getItem("user")
+          ? JSON.parse(sessionStorage.getItem("user"))._id
+          : null,
       })
       .then((resp) => {
         // no error defined means success
