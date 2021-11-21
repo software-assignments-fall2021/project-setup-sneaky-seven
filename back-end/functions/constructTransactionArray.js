@@ -16,7 +16,7 @@ const constructTransactionArr = (transactions, accounts, txCatArr) => {
   );
 
   transactions.forEach(function (transaction) {
-    const txDB = txCatArr.find(
+    const txDB = txCatArr?.find(
       (tx) => tx.transaction_id === transaction.transaction_id
     );
     const cat = txDB ? txDB.category : transaction.category[0];

@@ -23,7 +23,9 @@ const formatError = require("./functions/formatError");
 const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
 const getAccessTokens = require("./functions/getAccessTokens");
 const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
+const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
 const postCategory = require("./functions/postCategory");
+
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
@@ -75,7 +77,6 @@ mongoose
   });
 // importing user context
 const UserModel = require("./model/user");
-const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -332,24 +333,47 @@ app.get("/api/get_transactions", async (request, response) => {
     console.log("ERROR:");
     console.log(error);
     prettyPrintResponse(error);
-    return response.status(500).json({
+    return response.status(400).json({
       err: error,
     });
   }
 });
 app.post("/api/setTransactionCategory", async (request, response) => {
-  transaction_id = request.body.transaction_id;
-  newCategory = request.body.newCategory;
-  user_id = request.body.user_id;
-  setTransactionCategoryInDatabase(transaction_id, newCategory, user_id);
+  console.log(request);
+  try {
+    transaction_id = request.body.transaction_id;
+    if (!transaction_id) throw new Error("An error occurred");
+    newCategory = request.body.newCategory;
+    user_id = request.body.user_id;
+    setTransactionCategoryInDatabase(transaction_id, newCategory, user_id);
+    return response.json();
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(400).json({
+      err: error,
+    });
+  }
 });
 
 app.post("/api/setTransactionNotes", async (request, response) => {
-  transaction_id = request.body.transaction_id;
-  category = request.body.cat;
-  notes = request.body.note;
-  user_id = request.body.user_id;
-  setTransactionNotesInDatabase(transaction_id, category, notes, user_id);
+  try {
+    transaction_id = request.body.transaction_id;
+    if (!transaction_id) throw new Error("An error occurred");
+    category = request.body.cat;
+    notes = request.body.note;
+    user_id = request.body.user_id;
+    setTransactionNotesInDatabase(transaction_id, category, notes, user_id);
+    return response.json();
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(400).json({
+      err: error,
+    });
+  }
 });
 
 app.get("/faq", async (req, resp) => {
