@@ -1,4 +1,23 @@
 import axios from "axios";
+
+async function getBankAccounts() {
+  try {
+    const result = await axios.post("/api/get_bank_accounts", {
+      _id: sessionStorage.getItem("user")
+        ? JSON.parse(sessionStorage.getItem("user"))._id
+        : null
+    })
+    return result.data
+  } catch (err) {
+    console.log(
+        "Something went wrong. We're probably out of requests for the day!"
+    );
+    console.error(err);
+    throw err;
+  }
+}
+
+
 async function getCategoryList() {
   try {
     const result = await axios.get("/api/categories");
@@ -106,6 +125,7 @@ const api = {
   getAccountInfo,
   setTransactionCategory,
   setTransactionNotes,
+  getBankAccounts
 };
 
 export default api;

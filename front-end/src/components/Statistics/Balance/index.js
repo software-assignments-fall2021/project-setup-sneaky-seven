@@ -5,6 +5,7 @@ import PieChart from "../Charts/PieChart";
 import BarChart from "../Charts/BarChart";
 import api from "../../../api/index";
 import "../../css/balanceByAccount.css";
+const { DateTime } = require("luxon");
 
 const BalanceByAccount = ({ account, balance }) => {
   return (
@@ -23,6 +24,7 @@ const BalanceByAccount = ({ account, balance }) => {
 const BalanceByAccountList = ({ accountToBalance }) => {
   return (
     <div>
+      <h1>Balance by Account</h1>
       {Object.getOwnPropertyNames(accountToBalance).map((account) => (
         <BalanceByAccount
           account={account}
@@ -34,56 +36,65 @@ const BalanceByAccountList = ({ accountToBalance }) => {
 };
 
 const Balance = ({ data }) => {
-  const [token, setToken] = useState(null);
-  const [bankData, setBankData] = useState([]);
+  const [accountToBalance, setAccountToBalance] = useState({});
+  const [balanceTrend, setBalanceTrend] = useState([])
+  // const [bankData, setBankData] = useState([]);
 
-  // generate a link_token (public token) and get linked banks
   useAsync(async () => {
-    axios.post("/api/create_link_token", {}).then((resp) => {
-      setToken(resp.data.link_token);
-    });
+    api.getBankAccounts().then(accounts => {
+      console.log(accountToBalance)
+      accounts.forEach(account => setAccountToBalance(
+          Object.assign(
+              accountToBalance,
+              {[account.name]: account.balances.current}
+          )
+      ))
+    })
 
-    axios
-      .post("/api/get_bank_accounts", {
-        access_token_object: localStorage.getItem("access_token_object"),
-      })
-      .then((resp) => {
-        if (!resp.data.err) {
-          setBankData(resp.data);
-        }
-      });
-  }, []);
+    // Need to get all transactions from all the way back to the beginning
+    api.getAllTransactions(50)
+       .then(data => {
+         const dateToNet = {}
+         data.forEach(transaction => {
+           // console.log(dateToNet)
+           const date = transaction.date
+           const amount = transaction.amount
+           const val = dateToNet[date] ? dateToNet[date] + amount : amount
+           dateToNet[date] = val
+         })
 
-  const base = bankData[0]?.balances?.available ?? 0;
-  console.log(base);
-  // Gather data
-  const accountToBalance = {};
-  const dateToBalance = {};
+         // take the sum
+         let balance = Object.values(accountToBalance).reduce((a, b) => a + b, 0)
+         const now = DateTime.now().toFormat("yyyy-MM-dd")
+         setBalanceTrend(balanceTrend => [[now, balance], ...balanceTrend])
+         Object.entries(dateToNet).forEach(entry => {
+             let [date, net] = entry
+             balance += net
+             // update the array without .push
+             setBalanceTrend(balanceTrend => [[date, balance], ...balanceTrend])
+         })
 
-  data.forEach((transaction) => {
-    const account = base + transaction.account;
-    const date = transaction.date;
-    const amount = base + transaction.amount;
+         setBalanceTrend(balanceTrend => [["Date", "Balance"], ...balanceTrend])
 
-    if (accountToBalance[account]) {
-      accountToBalance[account] += amount;
-    } else {
-      accountToBalance[account] = amount;
-    }
+       }).error(console.error)
+  }, [])
 
-    if (dateToBalance[date]) {
-      dateToBalance[date] += amount;
-    } else {
-      dateToBalance[date] = amount;
-    }
-  });
+  // const dateToNet = {};
 
-  // Reformat data
-  const balanceTrend = [["Date", "Balance"]];
+  // bankData?.forEach((transaction) => {
+  //   const date = transaction.date;
+  //   const amount = transaction.amount;
+  //
+  //   if (dateToNet[date]) {
+  //     dateToNet[date] += amount;
+  //   } else {
+  //     dateToNet[date] = amount;
+  //   }
+  // });
 
-  for (const date in dateToBalance) {
-    balanceTrend.push([date, dateToBalance[date]]);
-  }
+  // console.log(bankData)
+
+  console.log(balanceTrend)
 
   return (
     <>
@@ -92,6 +103,7 @@ const Balance = ({ data }) => {
         <h1>Balance</h1>
         <BarChart name="Balance Trend" data={balanceTrend} />
       </div>
+      <BalanceByAccountList accountToBalance={accountToBalance}/>
     </>
   );
 };

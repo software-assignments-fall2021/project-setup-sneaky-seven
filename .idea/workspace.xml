@@ -3,12 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/functions/constructTransactionArray.js" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/functions/constructTransactionArray.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/css/StatsNavbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/css/StatsNavbar.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,6 +73,8 @@
       <workItem from="1635029119402" duration="20605000" />
       <workItem from="1635290800514" duration="8644000" />
       <workItem from="1635443931720" duration="12579000" />
+      <workItem from="1637518258806" duration="2446000" />
+      <workItem from="1637520849008" duration="13142000" />
     </task>
     <servers />
   </component>
