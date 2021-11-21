@@ -253,7 +253,6 @@ describe("testing routes", () => {
     });
   });
   describe("testing post route on /api/register", () => {
-    // test on empty strings in req body 
     it("fails to register user due to empty input, returns a 400 status", function (cb) {
       chai
         .request(app)
@@ -267,7 +266,6 @@ describe("testing routes", () => {
           cb();
         });
     });
-    // test on invalid password 
     it("fails to register user due to invalid password length, returns a 400 status", function (cb) {
       chai
         .request(app)
@@ -281,7 +279,6 @@ describe("testing routes", () => {
           cb();
         });
     });
-    // test on successful registration  
     it("successfully register user and returns a 201 status", function (cb) {
       chai
         .request(app)
@@ -295,7 +292,6 @@ describe("testing routes", () => {
           cb();
         });
     });
-    // test on the scenario user already registered   
     it("fails to register user due to user already exists, returns a 409 status", function (cb) {
       chai
         .request(app)
@@ -315,7 +311,6 @@ describe("testing routes", () => {
     })
   });
   describe("testing post route on /api/login", () => {
-    // test on empty strings in req body 
     it("fails to log in user due to empty input, returns a 400 status", function (cb) {
       chai
         .request(app)
@@ -329,7 +324,6 @@ describe("testing routes", () => {
           cb();
         });
     });
-    // test on user nonexistence
     it("fails to log in user due to user nonexistence, returns a 404 status", function (cb) {
       chai
         .request(app)
@@ -343,7 +337,6 @@ describe("testing routes", () => {
           cb();
         });
     });
-    // test on invalid credentials 
     it("fails to log in user due to invalid credentials, returns a 401 status", function (cb) {
       chai
         .request(app)
@@ -357,7 +350,6 @@ describe("testing routes", () => {
           cb();
         });
     });
-    // test on invalid credentials 
     it("successfully log in user, returns a 200 status", function (cb) {
       chai
         .request(app)
