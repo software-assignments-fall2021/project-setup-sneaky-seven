@@ -6,6 +6,7 @@ const path = require("path");
 require("mocha-sinon");
 const constructAccountsArr = require("../functions/constructAccountsArray");
 const constructTransactionArr = require("../functions/constructTransactionArray");
+const UserModel = require("../model/user");
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 
 describe("testing routes", () => {
@@ -249,6 +250,126 @@ describe("testing routes", () => {
           "account_id"
         );
       });
+    });
+  });
+  describe("testing post route on /api/register", () => {
+    // test on empty strings in req body 
+    it("fails to register user due to empty input, returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: '',
+          password: ''
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+    // test on invalid password 
+    it("fails to register user due to invalid password length, returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: 'jennifer-unit-test@gmail',
+          password: 'hh'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+    // test on successful registration  
+    it("successfully register user and returns a 201 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: 'jennifer-unit-test@gmail',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(201);
+          cb();
+        });
+    });
+    // test on the scenario user already registered   
+    it("fails to register user due to user already exists, returns a 409 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/register")
+        .send({
+          email: 'jennifer-unit-test@gmail',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(409);
+          cb();
+        });
+    });
+    // remove mock user from the database 
+    after(async () => {
+      await UserModel.deleteOne({ email: 'jennifer-unit-test@gmail' });
+    })
+  });
+  describe("testing post route on /api/login", () => {
+    // test on empty strings in req body 
+    it("fails to log in user due to empty input, returns a 400 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: '',
+          password: ''
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          cb();
+        });
+    });
+    // test on user nonexistence
+    it("fails to log in user due to user nonexistence, returns a 404 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: 'jennifer-unit-test@gmail.com',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(404);
+          cb();
+        });
+    });
+    // test on invalid credentials 
+    it("fails to log in user due to invalid credentials, returns a 401 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: 'alan@gmail.com',
+          password: 'jennifer'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(401);
+          cb();
+        });
+    });
+    // test on invalid credentials 
+    it("successfully log in user, returns a 200 status", function (cb) {
+      chai
+        .request(app)
+        .post("/api/login")
+        .send({
+          email: 'alan@gmail.com',
+          password: 'test123'
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
     });
   });
 });
