@@ -3,13 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/css/StatsNavbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/css/StatsNavbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
