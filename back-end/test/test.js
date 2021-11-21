@@ -12,8 +12,6 @@ const setTransactionCategoryInDatabase = require("../functions/setTransactionCat
 const UserModel = require("../model/user");
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 
-
-Object.assign(global, require(path.join(__dirname, "../app.js")));
 transactionsTest = [
   {
     account_id: "BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp",
@@ -401,14 +399,16 @@ describe("testing routes", () => {
       it("reads function response and returns nothing", () => {
         expect(setTransactionNotesInDatabase("aa", "ss", "dd") === undefined);
       });
+    });
+  });
   describe("testing post route on /api/register", () => {
     it("fails to register user due to empty input, returns a 400 status", function (cb) {
       chai
         .request(app)
         .post("/api/register")
         .send({
-          email: '',
-          password: ''
+          email: "",
+          password: "",
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -420,8 +420,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/register")
         .send({
-          email: 'jennifer-unit-test@gmail',
-          password: 'hh'
+          email: "jennifer-unit-test@gmail",
+          password: "hh",
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -433,8 +433,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/register")
         .send({
-          email: 'jennifer-unit-test@gmail',
-          password: 'jennifer'
+          email: "jennifer-unit-test@gmail",
+          password: "jennifer",
         })
         .end(function (err, res) {
           expect(res).to.have.status(201);
@@ -446,18 +446,18 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/register")
         .send({
-          email: 'jennifer-unit-test@gmail',
-          password: 'jennifer'
+          email: "jennifer-unit-test@gmail",
+          password: "jennifer",
         })
         .end(function (err, res) {
           expect(res).to.have.status(409);
           cb();
         });
     });
-    // remove mock user from the database 
+    // remove mock user from the database
     after(async () => {
-      await UserModel.deleteOne({ email: 'jennifer-unit-test@gmail' });
-    })
+      await UserModel.deleteOne({ email: "jennifer-unit-test@gmail" });
+    });
   });
   describe("testing post route on /api/login", () => {
     it("fails to log in user due to empty input, returns a 400 status", function (cb) {
@@ -465,8 +465,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/login")
         .send({
-          email: '',
-          password: ''
+          email: "",
+          password: "",
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -478,8 +478,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/login")
         .send({
-          email: 'jennifer-unit-test@gmail.com',
-          password: 'jennifer'
+          email: "jennifer-unit-test@gmail.com",
+          password: "jennifer",
         })
         .end(function (err, res) {
           expect(res).to.have.status(404);
@@ -491,8 +491,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/login")
         .send({
-          email: 'alan@gmail.com',
-          password: 'jennifer'
+          email: "alan@gmail.com",
+          password: "jennifer",
         })
         .end(function (err, res) {
           expect(res).to.have.status(401);
@@ -504,14 +504,13 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/login")
         .send({
-          email: 'alan@gmail.com',
-          password: 'test123'
+          email: "alan@gmail.com",
+          password: "test123",
         })
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
         });
-
     });
   });
 });
