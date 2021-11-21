@@ -44,14 +44,21 @@ async function setTransactionCategory(id, newCategory) {
 
 async function setTransactionNotes(id, category, notes) {
   try {
-    await axios.post("/api/setTransactionNotes", {
-      transaction_id: id,
-      note: notes,
-      cat: category,
-      user_id: sessionStorage.getItem("user")
-        ? JSON.parse(sessionStorage.getItem("user"))._id
-        : null,
-    });
+    await axios
+      .post("/api/setTransactionNotes", {
+        transaction_id: id,
+        note: notes,
+        cat: category,
+        user_id: sessionStorage.getItem("user")
+          ? JSON.parse(sessionStorage.getItem("user"))._id
+          : null,
+      })
+      .then((res) => {
+        window.alert("Successfully saved note: " + notes);
+      })
+      .catch((err) => {
+        window.alert(err.response.data);
+      });
   } catch (err) {
     console.error(err);
   }
