@@ -4,7 +4,8 @@ const getTransactionsForAccount = async (
   token,
   startDate,
   endDate,
-  plaidClient
+  plaidClient,
+  txCatArr
 ) => {
   const params = {
     access_token: token,
@@ -39,6 +40,6 @@ const getTransactionsForAccount = async (
   //   console.log(result.data);
   const accounts = result.data.accounts;
 
-  return constructTransactionArr(transactions, accounts);
+  return constructTransactionArr(transactions, accounts, txCatArr);
 };
 module.exports = getTransactionsForAccount;

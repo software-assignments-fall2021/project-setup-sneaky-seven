@@ -19,6 +19,7 @@ export function Transaction(props) {
     account_name,
     date,
     currency,
+    notes,
   } = props;
 
   const formattedDate = DateTime.fromISO(date ?? 0).toFormat("DDDD");
@@ -29,14 +30,13 @@ export function Transaction(props) {
   function handleClick() {
     history.push("/TransactionsDetail", props);
   }
-
   return (
     <article className="transaction" onClick={handleClick}>
       <div className="left">
         <CategoryIcon text={category} />
         <div className="text-details">
           <p className="bold">{merchant}</p>
-          <p>{category[0]}</p>
+          <p>{category}</p>
           <p>{account_name}</p>
         </div>
       </div>

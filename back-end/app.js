@@ -15,14 +15,13 @@ const jwt = require("jsonwebtoken");
 const categories = require("./constants/categories");
 const FAQData = require("./constants/FAQData");
 // import functions
-
+const getTransactionsForAccount = require("./functions/getTransactions");
 const constructAccountsArr = require("./functions/constructAccountsArray");
-const constructTransactionArr = require("./functions/constructTransactionArray");
 const prettyPrintResponse = require("./functions/prettyPrintResponse");
 const formatError = require("./functions/formatError");
 const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
 const getAccessTokens = require("./functions/getAccessTokens");
-
+const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
@@ -74,7 +73,7 @@ mongoose
   });
 // importing user context
 const UserModel = require("./model/user");
-const getTransactionsForAccount = require("./functions/getTransactions");
+const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -290,9 +289,8 @@ app.get("/api/get_transactions", async (request, response) => {
   try {
     let allTransactions = [];
     const userId = request.query._id;
-
     const accessTokensArr = await getAccessTokens(userId);
-    console.log(accessTokensArr);
+    const user = await UserModel.findById(userId);
     days = request.query.time;
     dayOffset = request.query.ofst;
     const now = DateTime.now();
@@ -308,11 +306,11 @@ app.get("/api/get_transactions", async (request, response) => {
           token.access_token,
           startDate,
           endDate,
-          plaidClient
+          plaidClient,
+          user.transactions
         )
       );
     }
-    // console.log(allTransactions);
     allTransactions.sort(function (a, b) {
       return (
         DateTime.fromISO(b.date).toMillis() -
@@ -328,6 +326,20 @@ app.get("/api/get_transactions", async (request, response) => {
       err: error,
     });
   }
+});
+app.post("/api/setTransactionCategory", async (request, response) => {
+  transaction_id = request.body.transaction_id;
+  newCategory = request.body.newCategory;
+  user_id = request.body.user_id;
+  setTransactionCategoryInDatabase(transaction_id, newCategory, user_id);
+});
+
+app.post("/api/setTransactionNotes", async (request, response) => {
+  transaction_id = request.body.transaction_id;
+  category = request.body.cat;
+  notes = request.body.note;
+  user_id = request.body.user_id;
+  setTransactionNotesInDatabase(transaction_id, category, notes, user_id);
 });
 
 app.get("/faq", async (req, resp) => {
