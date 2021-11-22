@@ -175,12 +175,16 @@ app.post("/api/register", async (req, res) => {
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
   try {
+    // resp.json({});
     const userId = req.query._id;
     const categories = await getCategories(userId);
+    // resp.json({});
+
     categories.categories.sort((a, b) => a.name.localeCompare(b.name));
     resp.json(categories.categories);
   } catch (error) {
     console.log(error);
+    resp.status(400).json({});
   }
 });
 
@@ -200,7 +204,6 @@ app.post("/api/categories", async (req, resp) => {
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post("/api/create_link_token", async (request, response) => {
-  console.log("enter create_link_token");
   const configs = {
     user: {
       // This should correspond to a unique id for the current user.
@@ -230,11 +233,8 @@ app.post("/api/create_link_token", async (request, response) => {
 // an API access_token
 // https://plaid.com/docs/#exchange-token-flow
 app.post("/api/set_access_token", async (request, response, next) => {
-  console.log("enter set_access_token");
-  console.log(request.body);
   const id = request.body._id;
   PUBLIC_TOKEN = request.body.public_token; // PUBLIC_TOKEN is a global constant
-  console.log(PUBLIC_TOKEN);
   try {
     const tokenResponse = await plaidClient.itemPublicTokenExchange({
       public_token: PUBLIC_TOKEN,
