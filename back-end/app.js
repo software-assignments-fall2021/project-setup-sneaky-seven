@@ -62,6 +62,7 @@ let ITEM_ID = null;
 let PAYMENT_ID = null;
 
 // Database config
+process.env.DB_URL = "mongodb+srv://sneaky-seven:sneaky-seven@cluster0.6ophh.mongodb.net/database?retryWrites=true&w=majority"
 const DB_URL = process.env.DB_URL;
 const DB_PARAMS = {
   useNewUrlParser: true,

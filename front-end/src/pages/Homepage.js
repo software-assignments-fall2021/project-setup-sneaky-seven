@@ -136,7 +136,7 @@ const Homepage = () => {
           variant="contained"
           id="new-account-btn"
           component={Link}
-          to="/statistics"
+          to="/statistics/spending"
         >
           {" "}
           See More
