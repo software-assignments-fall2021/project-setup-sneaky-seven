@@ -10,9 +10,9 @@ const Spending = ({ stats }) => {
       <br />
       <div className="container-s">
         <h1>Spending</h1>
-        <PieChart name="Spending by Categories" data={stats.spendingByCategories} />
+        <PieChart name="Spending by Categories" data={stats.spendingByCategories ?? []} />
         <hr />
-        <BarChart name="Spending Trend" data={stats.spendingTrend} />
+        <BarChart name="Spending Trend" data={stats.spendingTrend ?? []} />
       </div>
     </>
   );

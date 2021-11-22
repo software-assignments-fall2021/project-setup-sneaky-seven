@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fcf5e2a0-48a5-403b-a394-aea17762e988" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Balance/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/Spending/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Statistics/StatsNavbar/StatsNavbarWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Statistics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/pages/Homepage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +69,7 @@
       <workItem from="1635443931720" duration="12579000" />
       <workItem from="1637518258806" duration="2446000" />
       <workItem from="1637520849008" duration="16639000" />
-      <workItem from="1637541627236" duration="5345000" />
+      <workItem from="1637541627236" duration="10033000" />
     </task>
     <servers />
   </component>
