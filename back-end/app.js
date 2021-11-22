@@ -271,6 +271,9 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     const userId = req.body._id;
     ACCESS_TOKEN = obj.access_token;
 
+    // store seen accounts
+    const seenAccounts = new Set();
+
     const accessTokensArr = await getAccessTokens(userId);
 
     const allAccounts = [];
@@ -278,8 +281,19 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
       const tempAccount = await plaidClient.accountsGet({
         access_token: token.access_token,
       });
+      console.log(tempAccount.data);
       for (const accountObj of tempAccount.data.accounts) {
-        allAccounts.push(accountObj);
+        // if(!seenAccounts.has(accountObj.mask)) {
+        //   seenAccounts.add(accountObj.mask);
+          allAccounts.push(accountObj);
+        // } else {
+        //   // console.log(userId);
+        //   // const tempObj = await UserModel.find( {_id: userId}, {$pull: {'access_token': token}} );
+        //   // console.log(tempObj);
+        //   // UserModel.updateOne( {_id: userId}, {$pull: {'access_token': token}} );
+        //   // this entire loop has duplicates since the access_token is duplicate account
+        //   // break; 
+        // }
       }
     }
     return response.json(constructAccountsArr(allAccounts));
