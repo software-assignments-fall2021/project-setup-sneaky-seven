@@ -4,7 +4,7 @@ import StatsNavbar from "../StatsNavbar";
 import Balance from "../Balance";
 import Spending from "../Spending";
 
-const StatsNavbarWrapper = ({ data }) => {
+const StatsNavbarWrapper = ({ stats }) => {
   return (
     <Router>
       <StatsNavbar />
@@ -12,17 +12,17 @@ const StatsNavbarWrapper = ({ data }) => {
         <Route
           path="/statistics/spending"
           exact
-          component={() => <Spending data={data} />}
+          component={() => <Spending stats={stats} />}
         />
         <Route
           path="/statistics/balance"
           exact
-          component={() => <Balance data={data} />}
+          component={() => <Balance stats={stats} />}
         />
         <Route
           path="/statistics"
           exact
-          component={() => <Balance data={data} />}
+          component={() => <Balance stats={stats} />}
         />
       </Switch>
     </Router>

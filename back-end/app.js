@@ -267,11 +267,10 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    const obj = req.body.access_token_object;
     const userId = req.body._id;
-    ACCESS_TOKEN = obj.access_token;
 
     const accessTokensArr = await getAccessTokens(userId);
+    const user = await UserModel.findById(userId);
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
@@ -338,6 +337,21 @@ app.get("/api/get_transactions", async (request, response) => {
     });
   }
 });
+
+app.get("/api/balance", async (request, response) => {
+  console.log("getting balances")
+  try {
+
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(500).json({
+      err: error,
+    });
+  }
+})
+
 app.post("/api/setTransactionCategory", async (request, response) => {
   console.log(request);
   try {
@@ -408,6 +422,7 @@ app.post("/contactInfo", async (req, resp) => {
     console.log(error);
   }
 });
+
 
 // export the express app we created to make it available to other modules
 module.exports = { app, prettyPrintResponse, formatError };
