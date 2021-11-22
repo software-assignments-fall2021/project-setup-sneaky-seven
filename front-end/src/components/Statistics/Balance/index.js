@@ -35,77 +35,18 @@ const BalanceByAccountList = ({ accountToBalance }) => {
   );
 };
 
-const Balance = ({ data }) => {
-  const [accountToBalance, setAccountToBalance] = useState({});
-  const [balanceTrend, setBalanceTrend] = useState([])
-  // const [bankData, setBankData] = useState([]);
-
-  useAsync(async () => {
-    api.getBankAccounts().then(accounts => {
-      console.log(accountToBalance)
-      accounts.forEach(account => setAccountToBalance(
-          Object.assign(
-              accountToBalance,
-              {[account.name]: account.balances.current}
-          )
-      ))
-    })
-
-    // Need to get all transactions from all the way back to the beginning
-    api.getAllTransactions(50)
-       .then(data => {
-         const dateToNet = {}
-         data.forEach(transaction => {
-           // console.log(dateToNet)
-           const date = transaction.date
-           const amount = transaction.amount
-           const val = dateToNet[date] ? dateToNet[date] + amount : amount
-           dateToNet[date] = val
-         })
-
-         // take the sum
-         let balance = Object.values(accountToBalance).reduce((a, b) => a + b, 0)
-         const now = DateTime.now().toFormat("yyyy-MM-dd")
-         setBalanceTrend(balanceTrend => [[now, balance], ...balanceTrend])
-         Object.entries(dateToNet).forEach(entry => {
-             let [date, net] = entry
-             balance += net
-             // update the array without .push
-             setBalanceTrend(balanceTrend => [[date, balance], ...balanceTrend])
-         })
-
-         setBalanceTrend(balanceTrend => [["Date", "Balance"], ...balanceTrend])
-
-       }).error(console.error)
-  }, [])
-
-  // const dateToNet = {};
-
-  // bankData?.forEach((transaction) => {
-  //   const date = transaction.date;
-  //   const amount = transaction.amount;
-  //
-  //   if (dateToNet[date]) {
-  //     dateToNet[date] += amount;
-  //   } else {
-  //     dateToNet[date] = amount;
-  //   }
-  // });
-
-  // console.log(bankData)
-
-  console.log(balanceTrend)
-
+const Balance = ({ stats }) => {
   return (
     <>
       <br />
       <div className="container-s">
         <h1>Balance</h1>
-        <BarChart name="Balance Trend" data={balanceTrend} />
+        <BarChart name="Balance Trend" data={stats.balanceTrend} />
       </div>
-      <BalanceByAccountList accountToBalance={accountToBalance}/>
+      <BalanceByAccountList accountToBalance={stats.accountToBalance}/>
     </>
   );
+
 };
 
 export default Balance;
