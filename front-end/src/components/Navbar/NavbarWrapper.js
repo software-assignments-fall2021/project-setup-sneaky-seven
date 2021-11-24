@@ -24,7 +24,7 @@ const NavbarWrapper = () => {
         <Route path="/homepage" exact component={Homepage} />
         <Route path="/accounts" exact component={Accounts} />
         <Route path="/transactions" exact component={Transactions} />
-        <Route path="/transactions/:id" exact component={TransactionDetail} />
+        <Route path="/TransactionsDetail" exact component={TransactionDetail} />
 
         {/* this has children routes, which can't be matched if this route is exact. */}
         <Route path="/statistics" component={Statistics} />

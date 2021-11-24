@@ -11,7 +11,7 @@ export default function HomePageTransactionList() {
   const [data, setData] = useState([]);
   useEffect(() => {
     (async () => {
-      const result = await api.getAllTransactions(7);
+      const result = await api.getRecentTransactions(10);
       setData(result);
     })();
   }, []);

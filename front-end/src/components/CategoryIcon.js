@@ -1,4 +1,6 @@
 import React from "react";
+import { iconNameToComponent } from "../utils";
+
 import {
   FaUtensils,
   FaMoneyBillWave,
@@ -10,22 +12,21 @@ import {
 } from "react-icons/fa";
 
 const textToIcon = {
-  food: FaUtensils,
-  shopping: FaShoppingCart,
-  automotive: FaCarAlt,
-  travel: FaPlane,
-  nightlife: FaCocktail,
-  entertainment: FaLaughSquint,
+  Food: FaUtensils,
+  Shops: FaShoppingCart,
+  Automotive: FaCarAlt,
+  Travel: FaPlane,
+  Nightlife: FaCocktail,
+  Entertainment: FaLaughSquint,
 };
 
 export default function CategoryIcon({
-  text,
+  icon,
   size = 64,
   color = "black",
   borderColor = "black",
 }) {
-  const Icon = textToIcon[text] ?? FaMoneyBillWave;
-
+  const Icon = iconNameToComponent[icon] ?? FaMoneyBillWave;
   return (
     <div
       style={{
@@ -38,7 +39,7 @@ export default function CategoryIcon({
         border: "4px solid " + borderColor,
       }}
     >
-      <Icon color={color} size={~~(size * 0.6)} />
+      <Icon color={color} size={~~(size * 0.8)} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import api from "../api";
 import { useAsync } from "../utils";
-import { getTransactionById } from "../api/mocks";
+
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useHistory } from "react-router";
 import "./css/TransactionDetail.css";
@@ -13,29 +13,47 @@ const currenySymbol = {
   USD: "$",
 };
 
+const Field = ({ title, text, children }) => {
+  return (
+    <div className="transactionField">
+      <label className="transactionFieldLabel">{title}</label>
+      {children ?? <p className="transactionFieldText">{text}</p>}
+    </div>
+  );
+};
+
 export function TransactionDetail() {
-  let { id } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(undefined);
+  const { data: categoryData } = useAsync(api.getCategoryList, []);
+  const categoryList = categoryData ?? [];
+
   const history = useHistory();
-  const [notes, setNotes] = useState("");
+
   const [checkedHide, setCheckedHide] = useState(false);
   const [checkedDuplicate, setCheckedDuplicate] = useState(false);
-
-  //retreive transaction
-  const { data: transaction } = useAsync(async () => {
-    const result = await api.getTransactionById(id);
-    setSelectedCategory(result?.category);
-    return result;
-  }, [id]);
-
+  const transaction = history.location.state;
+  if (!transaction) {
+    history.goBack();
+  }
+  const [notes, setNotes] = useState(transaction?.notes);
+  const [selectedCategory, setSelectedCategory] = useState(
+    transaction?.category
+  );
   function handleBackClick() {
     history.goBack();
   }
 
-  function handleCatClick(newCategory) {
+  function handleCatClick(id, newCategory) {
     setSelectedCategory(newCategory);
+    api.setTransactionCategory(id, newCategory);
   }
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    api.setTransactionNotes(
+      transaction.transaction_id,
+      transaction.category,
+      notes
+    );
+  };
   const amountColor = transaction?.amount >= 0 ? "green" : "red";
   const symbol = currenySymbol[transaction?.currency];
 
@@ -55,79 +73,52 @@ export function TransactionDetail() {
         <div style={{ width: "50px", height: "50px" }}></div>
       </div>
       <div className="transDetails">
-        <div>
-          <label>Merchant</label>
-          <p>{transaction?.merchant}</p>
-        </div>
-        <div>
-          <label>Date</label>
-          <p>{formattedDate}</p>
-        </div>
-        <div>
-          <label>Category</label>
-          <div className="categoryIcons">
-            {[
-              "food",
-              "shopping",
-              "automotive",
-              "travel",
-              "nightlife",
-              "entertainment",
-            ].map((category) => (
-              <span
-                className="catIcon"
-                onClick={() => handleCatClick(category)}
-              >
-                <CategoryIcon
-                  text={category}
-                  size={50}
-                  color={
-                    selectedCategory === category
-                      ? "rgba(0, 4, 255, 0.733)"
-                      : "grey"
-                  }
-                  borderColor={
-                    selectedCategory === category
-                      ? "rgba(0, 4, 255, 0.733)"
-                      : "grey"
-                  }
-                />
-              </span>
-            ))}
+        <Field title={"Merchant"} text={transaction?.merchant ?? "None"} />
+        <Field title={"Date"} text={formattedDate} />
+        <Field title={"Category"}>
+          <div className="categoryIconsWrapper">
+            <div className="categoryIcons">
+              {categoryList.map((category) => (
+                <div
+                  className="catIcon"
+                  title={category.name}
+                  onClick={() => {
+                    console.log("cat", category);
+                    console.log("select cat", selectedCategory);
+                    handleCatClick(transaction.transaction_id, category.name);
+                  }}
+                >
+                  <CategoryIcon
+                    icon={category.icon}
+                    size={50}
+                    color={
+                      selectedCategory === category.name
+                        ? "rgba(0, 4, 255, 0.733)"
+                        : "grey"
+                    }
+                    borderColor={
+                      selectedCategory === category.name
+                        ? "rgba(0, 4, 255, 0.733)"
+                        : "grey"
+                    }
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div>
-          <label>Currency</label>
-          <p>{transaction?.currency}</p>
-        </div>
-        <div>
-          <label>Notes</label>
-          <input
-            type="text"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-        </div>
-        <div className="checkBoxes">
-          <div>
-            <label>Hide</label>
+        </Field>
+        <Field title={"Currency"} text={transaction?.currency} />
+        <Field title={"Notes"}>
+          {" "}
+          <form onSubmit={handleSubmit}>
             <input
-              type="checkbox"
-              checked={checkedHide}
-              onChange={(e) => setCheckedHide(e.target.checked)}
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
             />
-            <div></div>
-          </div>
-          <div>
-            <label>Mark Duplicate</label>
-            <input
-              type="checkbox"
-              checked={checkedDuplicate}
-              onChange={(e) => setCheckedDuplicate(e.target.checked)}
-            />
-            <div></div>
-          </div>
-        </div>
+            <input type="submit" value="Submit" />
+          </form>
+        </Field>
       </div>
     </article>
   );

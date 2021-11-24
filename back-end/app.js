@@ -13,16 +13,18 @@ const jwt = require("jsonwebtoken");
 
 // import constants (to be removed once they are in DB)
 const categories = require("./constants/categories");
+const getCategories = require("./functions/getCategories");
 const FAQData = require("./constants/FAQData");
 // import functions
-
-const constructAccountsArr = require('./functions/constructAccountsArray');
-const constructTransactionArr = require('./functions/constructTransactionArray');
-const prettyPrintResponse = require('./functions/prettyPrintResponse');
-const formatError = require('./functions/formatError');
-const postAccessTokenToDatabase = require('./functions/postAccessTokenToDatabase');
-const getAccessTokens = require('./functions/getAccessTokens');
-
+const getTransactionsForAccount = require("./functions/getTransactions");
+const constructAccountsArr = require("./functions/constructAccountsArray");
+const prettyPrintResponse = require("./functions/prettyPrintResponse");
+const formatError = require("./functions/formatError");
+const postAccessTokenToDatabase = require("./functions/postAccessTokenToDatabase");
+const getAccessTokens = require("./functions/getAccessTokens");
+const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
+const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
+const postCategory = require("./functions/postCategory");
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -149,6 +151,7 @@ app.post("/api/register", async (req, res) => {
     const user = await UserModel.create({
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password,
+      categories,
     });
 
     // Create token
@@ -172,24 +175,35 @@ app.post("/api/register", async (req, res) => {
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
   try {
-    resp.json(categories);
+    // resp.json({});
+    const userId = req.query._id;
+    const categories = await getCategories(userId);
+    // resp.json({});
+
+    categories.categories.sort((a, b) => a.name.localeCompare(b.name));
+    resp.json(categories.categories);
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error);
+    resp.status(400).json({});
   }
 });
 
 app.post("/api/categories", async (req, resp) => {
-  console.log(req.body);
-  categories.push(req.body);
-  categories.sort((a, b) => a.name.localeCompare(b.name));
-
-  resp.json({});
+  const userId = req.body.id;
+  const result = await postCategory(
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      transactions: {},
+    },
+    userId
+  );
+  resp.json(result);
 });
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post("/api/create_link_token", async (request, response) => {
-  console.log("enter create_link_token");
   const configs = {
     user: {
       // This should correspond to a unique id for the current user.
@@ -219,11 +233,8 @@ app.post("/api/create_link_token", async (request, response) => {
 // an API access_token
 // https://plaid.com/docs/#exchange-token-flow
 app.post("/api/set_access_token", async (request, response, next) => {
-  console.log("enter set_access_token");
-  console.log(request.body);
   const id = request.body._id;
   PUBLIC_TOKEN = request.body.public_token; // PUBLIC_TOKEN is a global constant
-  console.log(PUBLIC_TOKEN);
   try {
     const tokenResponse = await plaidClient.itemPublicTokenExchange({
       public_token: PUBLIC_TOKEN,
@@ -256,16 +267,17 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    const obj = req.body.access_token_object;
     const userId = req.body._id;
-    ACCESS_TOKEN = obj.access_token;
 
     const accessTokensArr = await getAccessTokens(userId);
+    const user = await UserModel.findById(userId);
 
-    const allAccounts = []
-    for(const token of accessTokensArr) {
-      const tempAccount = await plaidClient.accountsGet({ access_token: token.access_token });
-      for(const accountObj of tempAccount.data.accounts) {
+    const allAccounts = [];
+    for (const token of accessTokensArr) {
+      const tempAccount = await plaidClient.accountsGet({
+        access_token: token.access_token,
+      });
+      for (const accountObj of tempAccount.data.accounts) {
         allAccounts.push(accountObj);
       }
     }
@@ -283,8 +295,12 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
 
 // Gets transactions assosiated with the account which the ACESS_TOKEN belongs to
 // https://plaid.com/docs/api/products/#transactionsget
-app.get("/api/get_transactions", async (request, response, next) => {
+app.get("/api/get_transactions", async (request, response) => {
   try {
+    let allTransactions = [];
+    const userId = request.query._id;
+    const accessTokensArr = await getAccessTokens(userId);
+    const user = await UserModel.findById(userId);
     days = request.query.time;
     dayOffset = request.query.ofst;
     const now = DateTime.now();
@@ -293,44 +309,82 @@ app.get("/api/get_transactions", async (request, response, next) => {
       .minus({ days: dayOffset })
       .minus({ days: days })
       .toFormat("yyyy-MM-dd");
-    const options = {
-      access_token: ACCESS_TOKEN,
-      start_date: startDate,
-      end_date: endDate,
-      options: {
-        count: 100,
-        offset: 0,
-      },
-    };
-    // console.log(options);
-    const result = await plaidClient.transactionsGet(options);
-    let transactions = result.data.transactions;
-    const total_transactions = result.data.total_transactions;
-    // Manipulate the offset parameter to paginate
-    // transactions and retrieve all available data
-    while (transactions.length < total_transactions) {
-      const paginatedRequest = {
-        access_token: ACCESS_TOKEN,
-        start_date: startDate,
-        end_date: endDate,
-        options: {
-          count: 100,
-          offset: transactions.length,
-        },
-      };
-      const paginatedResponse = await plaidClient.transactionsGet(
-        paginatedRequest
+
+    for (const token of accessTokensArr) {
+      allTransactions = allTransactions.concat(
+        await getTransactionsForAccount(
+          token.access_token,
+          startDate,
+          endDate,
+          plaidClient,
+          user.transactions
+        )
       );
-      transactions = transactions.concat(paginatedResponse.data.transactions);
     }
-    // console.log(JSON.stringify(result.data));
-    const accounts = result.data.accounts;
-    return response.json(constructTransactionArr(transactions, accounts));
+    allTransactions.sort(function (a, b) {
+      return (
+        DateTime.fromISO(b.date).toMillis() -
+        DateTime.fromISO(a.date).toMillis()
+      );
+    });
+    return response.json(allTransactions);
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(400).json({
+      err: error,
+    });
+  }
+});
+
+app.get("/api/balance", async (request, response) => {
+  console.log("getting balances")
+  try {
+
   } catch (error) {
     console.log("ERROR:");
     console.log(error);
     prettyPrintResponse(error);
     return response.status(500).json({
+      err: error,
+    });
+  }
+})
+
+app.post("/api/setTransactionCategory", async (request, response) => {
+  console.log(request);
+  try {
+    transaction_id = request.body.transaction_id;
+    if (!transaction_id) throw new Error("An error occurred");
+    newCategory = request.body.newCategory;
+    user_id = request.body.user_id;
+    setTransactionCategoryInDatabase(transaction_id, newCategory, user_id);
+    return response.json();
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(400).json({
+      err: error,
+    });
+  }
+});
+
+app.post("/api/setTransactionNotes", async (request, response) => {
+  try {
+    transaction_id = request.body.transaction_id;
+    if (!transaction_id) throw new Error("An error occurred");
+    category = request.body.cat;
+    notes = request.body.note;
+    user_id = request.body.user_id;
+    setTransactionNotesInDatabase(transaction_id, category, notes, user_id);
+    return response.json();
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(400).json({
       err: error,
     });
   }
@@ -368,6 +422,7 @@ app.post("/contactInfo", async (req, resp) => {
     console.log(error);
   }
 });
+
 
 // export the express app we created to make it available to other modules
 module.exports = { app, prettyPrintResponse, formatError };

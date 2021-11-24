@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
+import { useAsync } from "../utils";
 import "./css/TransactionList.css";
 import CategoryIcon from "./CategoryIcon";
 import { useHistory } from "react-router";
@@ -10,43 +11,52 @@ const currenySymbol = {
   USD: "$",
 };
 
-export function Transaction({
-  transaction_id,
-  amount,
-  merchant,
-  category,
-  account_name,
-  date,
-  currency,
-}) {
+export function Transaction(props) {
+  const { data: categoryData, isLoaded } = useAsync(api.getCategoryList, []); // this is index.js
+  const categoryList = categoryData ?? [];
+  const {
+    transaction_id,
+    amount,
+    merchant,
+    category,
+    account_name,
+    date,
+    currency,
+    notes,
+  } = props;
+
   const formattedDate = DateTime.fromISO(date ?? 0).toFormat("DDDD");
   const amountColor = amount <= 0 ? "green" : "red";
   const symbol = currenySymbol[currency];
 
   let history = useHistory();
   function handleClick() {
-    history.push("/transactions/" + transaction_id);
+    history.push("/TransactionsDetail", props);
   }
-
-  return (
-    <article className="transaction" onClick={handleClick}>
-      <div className="left">
-        <CategoryIcon text={category} />
-        <div className="text-details">
-          <p className="bold">{merchant}</p>
-          <p>{category[0]}</p>
-          <p>{account_name}</p>
+  if (isLoaded) {
+    return (
+      <article className="transaction" onClick={handleClick}>
+        <div className="left">
+          <CategoryIcon
+            icon={categoryList.find((x) => x.name === category)?.icon}
+          />
+          <div className="text-details">
+            <p className="bold">{merchant}</p>
+            <p>{category}</p>
+            <p>{account_name}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="right italics">
-        <p className="bold" style={{ color: amountColor }}>
-          {symbol} {amount * -1}
-        </p>
-        <p>{formattedDate}</p>
-      </div>
-    </article>
-  );
+        <div className="right italics">
+          <p className="bold" style={{ color: amountColor }}>
+            {symbol} {amount * -1}
+          </p>
+          <p>{formattedDate}</p>
+        </div>
+      </article>
+    );
+  }
+  return null;
 }
 
 export default function TransactionList() {

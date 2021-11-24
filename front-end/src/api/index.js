@@ -1,15 +1,29 @@
-// import {
-//   mocks,
-//   getAllTransactions as _getAllTransactions,
-//   getAccountInfo as _getAccountInfo,
-// } from "./mocks";
 import axios from "axios";
+import categories from "./categories";
 
-const MOCK = false;
+async function getBankAccounts() {
+  try {
+    const result = await axios.post("/api/get_bank_accounts", {
+      _id: sessionStorage.getItem("user")
+        ? JSON.parse(sessionStorage.getItem("user"))._id
+        : null
+    })
+    return result.data
+  } catch (err) {
+    console.log(
+        "Something went wrong. We're probably out of requests for the day!"
+    );
+    console.error(err);
+    throw err;
+  }
+}
 
 async function getCategoryList() {
   try {
-    const result = await axios.get("/api/categories");
+    const id = sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))._id
+      : null;
+    const result = await axios.get("/api/categories", { params: { _id: id } });
     return result.data;
   } catch (err) {
     console.log(
@@ -22,7 +36,46 @@ async function getCategoryList() {
 
 async function postNewCategory(name, icon) {
   try {
-    await axios.post("/api/categories", { name, icon });
+    const id = sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))._id
+      : null;
+    const result = await axios.post("/api/categories", { id, name, icon });
+    return result.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function setTransactionCategory(id, newCategory) {
+  try {
+    await axios.post("/api/setTransactionCategory", {
+      transaction_id: id,
+      newCategory: newCategory,
+      user_id: sessionStorage.getItem("user")
+        ? JSON.parse(sessionStorage.getItem("user"))._id
+        : null,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function setTransactionNotes(id, category, notes) {
+  try {
+    await axios
+      .post("/api/setTransactionNotes", {
+        transaction_id: id,
+        note: notes,
+        cat: category,
+        user_id: sessionStorage.getItem("user")
+          ? JSON.parse(sessionStorage.getItem("user"))._id
+          : null,
+      })
+      .then((res) => {
+        window.alert("Successfully saved note: " + notes);
+      })
+      .catch((err) => {
+        window.alert(err.response.data);
+      });
   } catch (err) {
     console.error(err);
   }
@@ -32,7 +85,13 @@ async function postNewCategory(name, icon) {
 async function getAllTransactions(days = 30, offset = 0) {
   try {
     const result = await axios.get("/api/get_transactions", {
-      params: { time: days, ofst: offset },
+      params: {
+        time: days,
+        ofst: offset,
+        _id: sessionStorage.getItem("user")
+          ? JSON.parse(sessionStorage.getItem("user"))._id
+          : null,
+      },
     });
     return result.data;
   } catch (err) {
@@ -45,20 +104,16 @@ async function getAllTransactions(days = 30, offset = 0) {
 }
 
 /** @returns {Promise<_getAllTransactions>} */
-async function getRecentTransactions() {
+async function getRecentTransactions(count = 10) {
   try {
-    const result = await axios("/api/get_transactions");
-    return result.data;
+    const result = await getAllTransactions(90);
+    const transactions =
+      result.length > count ? result.slice(0, count) : result;
+    return transactions;
   } catch (err) {
     console.error(err);
     throw err;
   }
-}
-
-async function getTransactionById(id) {
-  const transactions = await getAllTransactions();
-  console.log("getting");
-  return transactions.find((transaction) => transaction.transaction_id === id);
 }
 
 async function getAccountInfo() {
@@ -81,12 +136,10 @@ const api = {
   getCategoryList,
   getAllTransactions,
   getRecentTransactions,
-  getTransactionById,
   getAccountInfo,
+  setTransactionCategory,
+  setTransactionNotes,
+  getBankAccounts
 };
-
-// if (MOCK) {
-//   Object.assign(api, mocks);
-// }
 
 export default api;
