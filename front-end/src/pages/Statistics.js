@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import api from "../api";
 import StatsNavbarWrapper from "../components/Statistics/StatsNavbar/StatsNavbarWrapper";
 import { useAsync } from "../utils";
-import axios from "axios";
 import {DateTime} from "luxon"
 
 const Statistics = () => {

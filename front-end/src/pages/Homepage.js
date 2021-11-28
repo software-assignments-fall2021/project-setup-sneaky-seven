@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Accounts from "./Accounts.js";
-import Transactions from "./Transactions.js";
 import Spending from "../components/Statistics/Spending";
 import Balance from "../components/Statistics/Balance";
 import Button from "@mui/material/Button";
@@ -8,9 +7,7 @@ import { useAsync } from "../utils";
 import { Link } from "react-router-dom";
 import "../components/css/Homepage.css";
 import api from "../api";
-import axios from "axios";
 import HomePageTransactionList from "../components/HomePageTransactionList.js";
-import DateTime from "luxon";
 
 const Homepage = () => {
   // const { data } = useAsync(async () => axios.get("/api/get_transactions"), []);
