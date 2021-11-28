@@ -1,5 +1,5 @@
 import "./css/Accounts.css";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AccountDetail from "../components/AccountDetail/AccountDetail";
 import AccountsPage from "../components/Accounts/AccountsPage";
 import { useAsync } from "../utils";

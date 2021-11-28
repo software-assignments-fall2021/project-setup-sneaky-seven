@@ -31,7 +31,7 @@ const PlaidLink = (props) => {
     env: "development",
   };
 
-  const { open, ready, error } = usePlaidLink(config);
+  const { open, ready } = usePlaidLink(config);
 
   return (
     <Button
