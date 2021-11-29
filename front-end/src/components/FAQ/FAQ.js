@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAsync } from "../../utils";
 
 const FAQ = () => {
-  const { data } = useAsync(async () => axios.get("/faq"), []);
+  const { data } = useAsync(async () => axios.get("/api/faq"), []);
 
   const styles = {
     bgColor: "#dcf7fa",

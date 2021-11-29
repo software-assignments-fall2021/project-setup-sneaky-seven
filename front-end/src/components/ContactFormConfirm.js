@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAsync } from "../utils";
 
 const ContactFormConfirm = () => {
-  const { data } = useAsync(async () => axios.get("/contactInfo"), []);
+  const { data } = useAsync(async () => axios.get("/api/contactInfo"), []);
   const name = data?.data?.name ?? "";
   const email = data?.data?.email ?? "";
   console.log("body:");
