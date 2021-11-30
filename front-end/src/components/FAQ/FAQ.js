@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAsync } from "../../utils";
 
 const FAQ = () => {
-  const { data } = useAsync(async () => axios.get("/api/faq"), []);
+  const { data, isLoaded } = useAsync(async () => axios.get("/api/faq"), []);
 
   const styles = {
     bgColor: "#dcf7fa",
@@ -18,11 +18,14 @@ const FAQ = () => {
   };
   const info = data?.data ?? {};
   console.log(info);
-  return (
-    <div className="container">
-      <Faq data={info} styles={styles} config={config} />
-    </div>
-  );
+  if (isLoaded) {
+    return (
+      <div className="container">
+        <Faq data={info} styles={styles} config={config} />
+      </div>
+    );
+  }
+  return null;
 };
 
 export default FAQ;
