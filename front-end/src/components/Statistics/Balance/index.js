@@ -20,11 +20,8 @@ const BalanceByAccountList = ({ accountToBalance }) => {
   return (
     <div>
       <h1>Balance by Account</h1>
-      {Object.getOwnPropertyNames(accountToBalance).map((account) => (
-        <BalanceByAccount
-          account={account}
-          balance={accountToBalance[account]}
-        />
+      {Object.entries(accountToBalance).map(([account, balance]) => (
+        <BalanceByAccount key={account} account={account} balance={balance} />
       ))}
     </div>
   );
@@ -38,10 +35,9 @@ const Balance = ({ stats }) => {
         <h1>Balance</h1>
         <BarChart name="Balance Trend" data={stats.balanceTrend} />
       </div>
-      <BalanceByAccountList accountToBalance={stats.accountToBalance}/>
+      <BalanceByAccountList accountToBalance={stats.accountToBalance} />
     </>
   );
-
 };
 
 export default Balance;

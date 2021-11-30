@@ -9,17 +9,11 @@ const LoginForm = () => {
   const [password, updatePassword] = useState("");
   const [canLogin, updateCanLogin] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
     axios
-      .post(
-        "/api/login",
-        { email, password },
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      )
+      .post("/api/login", { email, password })
       .then((res) => {
         sessionStorage.setItem("user", JSON.stringify(res.data));
         updateCanLogin(true);
@@ -74,12 +68,7 @@ const LoginForm = () => {
             </div>
           </div>
           <br />
-          <Button
-            type="submit"
-            component={Link}
-            variant="contained"
-            onClick={handleSubmit}
-          >
+          <Button type="submit" variant="contained" onClick={handleSubmit}>
             Submit
           </Button>
           {canLogin && <Redirect to="/homepage" />}
