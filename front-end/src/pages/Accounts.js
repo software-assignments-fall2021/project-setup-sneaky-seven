@@ -15,7 +15,7 @@ import api from "../api";
  * @returns Account page component
  */
 function Accounts() {
-  const { data: dataNullable, isLoaded } = useAsync(api.getAccountInfo, []);
+  const { data: dataNullable } = useAsync(api.getAccountInfo, []);
   const data = dataNullable ?? [];
   const [showDetail, setShowDetail] = useState(false);
   const [bankDetails, setBankDetails] = useState("");

@@ -27,8 +27,6 @@ export function TransactionDetail() {
 
   const history = useHistory();
 
-  const [checkedHide, setCheckedHide] = useState(false);
-  const [checkedDuplicate, setCheckedDuplicate] = useState(false);
   const transaction = history.location.state;
   if (!transaction) {
     history.goBack();
