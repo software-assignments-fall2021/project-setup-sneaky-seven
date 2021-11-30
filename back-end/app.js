@@ -339,9 +339,8 @@ app.get("/api/get_transactions", async (request, response) => {
 });
 
 app.get("/api/balance", async (request, response) => {
-  console.log("getting balances")
+  console.log("getting balances");
   try {
-
   } catch (error) {
     console.log("ERROR:");
     console.log(error);
@@ -350,7 +349,7 @@ app.get("/api/balance", async (request, response) => {
       err: error,
     });
   }
-})
+});
 
 app.post("/api/setTransactionCategory", async (request, response) => {
   console.log(request);
@@ -422,7 +421,6 @@ app.post("/api/contactInfo", async (req, resp) => {
     console.log(error);
   }
 });
-
 
 // export the express app we created to make it available to other modules
 module.exports = { app, prettyPrintResponse, formatError };
