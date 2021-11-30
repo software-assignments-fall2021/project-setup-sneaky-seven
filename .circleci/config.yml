@@ -38,6 +38,13 @@ jobs:
           cd front-end
           npm install # install all dependencies listed in package.json
           CI=false npm run build # have react build the stand-alone front-end code
+  deploy-prod:
+    docker:
+      - image: circleci/node:16.13.0
+    steps:
+      - checkout
+      - run: echo "this is the deployment job"
+      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
 
 # Orchestrate our job run sequence
 workflows:
@@ -47,3 +54,13 @@ workflows:
   build-front-end:
     jobs:
       - build-react-js
+  deploy:
+    jobs:
+      - deploy-prod:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build-and-test-express-js
+            - build-react-js
