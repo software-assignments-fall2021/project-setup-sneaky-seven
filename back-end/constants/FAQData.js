@@ -1,6 +1,3 @@
-/**
- * Default placeholder FAQ Data. This will be in the DB in the future.
- */
 const FAQData = {
   rows: [
     {
