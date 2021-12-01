@@ -267,14 +267,13 @@ app.post("/api/set_access_token", async (request, response, next) => {
 app.post("/api/get_bank_accounts", async (req, response, next) => {
   console.log("enter get_bank_accounts");
   try {
-    const obj = req.body.access_token_object;
     const userId = req.body._id;
-    ACCESS_TOKEN = obj.access_token;
 
     // store seen accounts
     const seenAccounts = new Set();
 
     const accessTokensArr = await getAccessTokens(userId);
+    const user = await UserModel.findById(userId);
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
@@ -352,6 +351,20 @@ app.get("/api/get_transactions", async (request, response) => {
     });
   }
 });
+
+app.get("/api/balance", async (request, response) => {
+  console.log("getting balances");
+  try {
+  } catch (error) {
+    console.log("ERROR:");
+    console.log(error);
+    prettyPrintResponse(error);
+    return response.status(500).json({
+      err: error,
+    });
+  }
+});
+
 app.post("/api/setTransactionCategory", async (request, response) => {
   console.log(request);
   try {
@@ -390,7 +403,7 @@ app.post("/api/setTransactionNotes", async (request, response) => {
   }
 });
 
-app.get("/faq", async (req, resp) => {
+app.get("/api/faq", async (req, resp) => {
   resp.json(FAQData);
 });
 
@@ -401,7 +414,7 @@ Contact Info get + post routes:
   - stores temp in array until db implementation
 */
 let contactInfo = {};
-app.get("/contactInfo", async (req, resp) => {
+app.get("/api/contactInfo", async (req, resp) => {
   try {
     const confirmationMessage = contactInfo;
     contactInfo = {};
@@ -412,7 +425,7 @@ app.get("/contactInfo", async (req, resp) => {
   }
 });
 
-app.post("/contactInfo", async (req, resp) => {
+app.post("/api/contactInfo", async (req, resp) => {
   try {
     contactInfo.name = req.body.name;
     contactInfo.email = req.body.email;

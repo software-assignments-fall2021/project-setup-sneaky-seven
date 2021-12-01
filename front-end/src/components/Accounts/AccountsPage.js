@@ -31,7 +31,7 @@ const PlaidLink = (props) => {
     env: "development",
   };
 
-  const { open, ready, error } = usePlaidLink(config);
+  const { open, ready } = usePlaidLink(config);
 
   return (
     <Button
@@ -79,8 +79,6 @@ function AccountsPage(props) {
         // no error defined means success
         if (!resp.data.err) {
           setBankData(resp.data);
-          console.log(resp);
-          console.log(resp.data);
         }
       });
   }, []);
@@ -88,8 +86,9 @@ function AccountsPage(props) {
   return (
     <>
       <h1>Accounts</h1>
-      {bankData.map((bank) => (
+      {bankData.map((bank, index) => (
         <AccountPanel
+          key={index}
           bankDetails={bank}
           type={bank.type}
           balances={bank.balances}

@@ -5,7 +5,7 @@ import "./css/Categories.css";
 import { Transaction } from "../components/TransactionList";
 import { useHistory } from "react-router-dom";
 import { iconNameToComponent, useAsync, styles } from "../utils";
-import { AiOutlineClose, AiFillDelete } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import cx from "classnames";
 
 const CategoryOverlay = ({ category, closeOverlay }) => {
