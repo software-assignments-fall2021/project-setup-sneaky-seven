@@ -65,6 +65,10 @@ let ITEM_ID = null;
 let PAYMENT_ID = null;
 
 // Database config
+
+// REMOVE THIS
+process.env.DB_URL = "mongodb+srv://sneaky-seven:sneaky-seven@cluster0.6ophh.mongodb.net/database?retryWrites=true&w=majority"
+
 const DB_URL = process.env.DB_URL;
 const DB_PARAMS = {
   useNewUrlParser: true,
@@ -111,9 +115,8 @@ app.post("/api/login", async (req, res) => {
 
     // Validate if user exist in our database
     const user = await UserModel.findOne({ email });
-    const comparison = user && await bcrypt.compare(password, user.hash)
 
-    if (comparison) {
+    if (user && (await bcrypt.compare(password, user.hashedPassword))) {
       // Create token
       const token = jwt.sign(
         { user_id: user._id, email },
@@ -152,12 +155,12 @@ app.post("/api/register", async (req, res) => {
       return res.status(409).send("User already exist. Please log in");
     }
 
-    const hash = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     // New user. Create user in our database
     const user = await UserModel.create({
       email: email.toLowerCase(), // sanitize: convert email to lowercase
-      hash,
+      hashedPassword,
       categories,
     });
 
