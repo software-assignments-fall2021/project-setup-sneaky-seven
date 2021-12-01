@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Accounts from "./Accounts.js";
-import Transactions from "./Transactions.js";
 import Spending from "../components/Statistics/Spending";
 import Balance from "../components/Statistics/Balance";
 import Button from "@mui/material/Button";
@@ -8,9 +7,7 @@ import { useAsync } from "../utils";
 import { Link } from "react-router-dom";
 import "../components/css/Homepage.css";
 import api from "../api";
-import axios from "axios";
 import HomePageTransactionList from "../components/HomePageTransactionList.js";
-import DateTime from "luxon";
 
 const Homepage = () => {
   // const { data } = useAsync(async () => axios.get("/api/get_transactions"), []);
@@ -19,7 +16,6 @@ const Homepage = () => {
   // Used for balances
   const [accountToBalance, setAccountToBalance] = useState({});
   const [balanceTrend, setBalanceTrend] = useState([]);
-  const [transactions, setTransactions] = useState([]);
 
   // Used for spendings
   const [spendingByCategories, setSpendingByCategories] = useState([]);
@@ -38,7 +34,6 @@ const Homepage = () => {
 
     // Get the balance by trend
     const t = await api.getAllTransactions();
-    setTransactions(t);
 
     const dateToNet = {};
     t.forEach((transaction) => {
@@ -50,9 +45,7 @@ const Homepage = () => {
 
     // take the sum
     let balance = Object.values(accountToBalance).reduce((a, b) => a + b, 0);
-    console.log(3);
     let tempBalanceTrend = [];
-    console.log(tempBalanceTrend);
 
     Object.entries(dateToNet).forEach((entry) => {
       let [date, net] = entry;

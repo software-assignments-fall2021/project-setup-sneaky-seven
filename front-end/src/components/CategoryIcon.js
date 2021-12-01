@@ -1,24 +1,6 @@
 import React from "react";
 import { iconNameToComponent } from "../utils";
-
-import {
-  FaUtensils,
-  FaMoneyBillWave,
-  FaShoppingCart,
-  FaCarAlt,
-  FaPlane,
-  FaCocktail,
-  FaLaughSquint,
-} from "react-icons/fa";
-
-const textToIcon = {
-  Food: FaUtensils,
-  Shops: FaShoppingCart,
-  Automotive: FaCarAlt,
-  Travel: FaPlane,
-  Nightlife: FaCocktail,
-  Entertainment: FaLaughSquint,
-};
+import { FaMoneyBillWave } from "react-icons/fa";
 
 export default function CategoryIcon({
   icon,

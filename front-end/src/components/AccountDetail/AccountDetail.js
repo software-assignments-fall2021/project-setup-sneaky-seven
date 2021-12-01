@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import AccountDetailForm from "./AccountDetailForm";
 import "../css/AccountDetail.css";
 /**
  * This component renders the body for the details page of 1 bank account.

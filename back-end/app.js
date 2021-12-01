@@ -339,9 +339,8 @@ app.get("/api/get_transactions", async (request, response) => {
 });
 
 app.get("/api/balance", async (request, response) => {
-  console.log("getting balances")
+  console.log("getting balances");
   try {
-
   } catch (error) {
     console.log("ERROR:");
     console.log(error);
@@ -350,7 +349,7 @@ app.get("/api/balance", async (request, response) => {
       err: error,
     });
   }
-})
+});
 
 app.post("/api/setTransactionCategory", async (request, response) => {
   console.log(request);
@@ -390,7 +389,7 @@ app.post("/api/setTransactionNotes", async (request, response) => {
   }
 });
 
-app.get("/faq", async (req, resp) => {
+app.get("/api/faq", async (req, resp) => {
   resp.json(FAQData);
 });
 
@@ -401,7 +400,7 @@ Contact Info get + post routes:
   - stores temp in array until db implementation
 */
 let contactInfo = {};
-app.get("/contactInfo", async (req, resp) => {
+app.get("/api/contactInfo", async (req, resp) => {
   try {
     const confirmationMessage = contactInfo;
     contactInfo = {};
@@ -412,7 +411,7 @@ app.get("/contactInfo", async (req, resp) => {
   }
 });
 
-app.post("/contactInfo", async (req, resp) => {
+app.post("/api/contactInfo", async (req, resp) => {
   try {
     contactInfo.name = req.body.name;
     contactInfo.email = req.body.email;
@@ -422,7 +421,6 @@ app.post("/contactInfo", async (req, resp) => {
     console.log(error);
   }
 });
-
 
 // export the express app we created to make it available to other modules
 module.exports = { app, prettyPrintResponse, formatError };

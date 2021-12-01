@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import React, { useState } from "react";
 import api from "../api";
 import { useAsync } from "../utils";
 
@@ -28,8 +27,6 @@ export function TransactionDetail() {
 
   const history = useHistory();
 
-  const [checkedHide, setCheckedHide] = useState(false);
-  const [checkedDuplicate, setCheckedDuplicate] = useState(false);
   const transaction = history.location.state;
   if (!transaction) {
     history.goBack();

@@ -15,7 +15,7 @@ const ContactForm = () => {
       email: e.target.email.value,
       message: e.target.message.value,
     };
-    const body = axios.post("/contactInfo", contactInfo);
+    axios.post("/api/contactInfo", contactInfo);
 
     history.push("/contactConfirm");
   };

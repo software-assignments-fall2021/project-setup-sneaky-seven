@@ -363,7 +363,7 @@ describe("testing routes", () => {
     it("returns a 200 status", function (cb) {
       chai
         .request(app)
-        .get("/faq")
+        .get("/api/faq")
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
@@ -371,7 +371,7 @@ describe("testing routes", () => {
       it("returns correct faq data", function (cb) {
         chai
           .request(app)
-          .get("/faq")
+          .get("/api/faq")
           .end(function (err, res) {
             expect(res.body.rows).to.have.lengthOf(3);
           });
@@ -383,7 +383,7 @@ describe("testing routes", () => {
     it("get route of /contactInfo returns a 200 status", function (cb) {
       chai
         .request(app)
-        .get("/contactInfo")
+        .get("/api/contactInfo")
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
@@ -392,7 +392,7 @@ describe("testing routes", () => {
     it("post route of /contactInfo returns a 200 status", function (cb) {
       chai
         .request(app)
-        .post("/contactInfo")
+        .post("/api/contactInfo")
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
@@ -401,7 +401,7 @@ describe("testing routes", () => {
     it("get returns an empty array if there was no previous post request", function (cb) {
       chai
         .request(app)
-        .get("/contactInfo")
+        .get("/api/contactInfo")
         .end(function (err, res) {
           expect(res.body).to.empty;
           cb();
@@ -410,7 +410,7 @@ describe("testing routes", () => {
     it("returns expected content of contact information", function (cb) {
       chai
         .request(app)
-        .post("/contactInfo")
+        .post("/api/contactInfo")
         .send({
           name: "Test1",
           email: "TestEmail",
@@ -419,7 +419,7 @@ describe("testing routes", () => {
         .end(function (err, res) {
           chai
             .request(app)
-            .get("/contactInfo")
+            .get("/api/contactInfo")
             .end(function (err, res2) {
               expect(res2.body).to.include({
                 name: "Test1",

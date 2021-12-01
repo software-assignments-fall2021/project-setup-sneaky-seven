@@ -14,16 +14,7 @@ const currenySymbol = {
 export function Transaction(props) {
   const { data: categoryData, isLoaded } = useAsync(api.getCategoryList, []); // this is index.js
   const categoryList = categoryData ?? [];
-  const {
-    transaction_id,
-    amount,
-    merchant,
-    category,
-    account_name,
-    date,
-    currency,
-    notes,
-  } = props;
+  const { amount, merchant, category, account_name, date, currency } = props;
 
   const formattedDate = DateTime.fromISO(date ?? 0).toFormat("DDDD");
   const amountColor = amount <= 0 ? "green" : "red";

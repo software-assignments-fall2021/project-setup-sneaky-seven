@@ -1,5 +1,4 @@
 import axios from "axios";
-import categories from "./categories";
 
 async function getBankAccounts() {
   try {

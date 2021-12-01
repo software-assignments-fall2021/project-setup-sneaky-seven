@@ -1,5 +1,5 @@
 import "./css/Accounts.css";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AccountDetail from "../components/AccountDetail/AccountDetail";
 import AccountsPage from "../components/Accounts/AccountsPage";
 import { useAsync } from "../utils";
@@ -15,7 +15,7 @@ import api from "../api";
  * @returns Account page component
  */
 function Accounts() {
-  const { data: dataNullable, isLoaded } = useAsync(api.getAccountInfo, []);
+  const { data: dataNullable } = useAsync(api.getAccountInfo, []);
   const data = dataNullable ?? [];
   const [showDetail, setShowDetail] = useState(false);
   const [bankDetails, setBankDetails] = useState("");
