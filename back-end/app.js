@@ -11,6 +11,9 @@ const mongoose = require("mongoose");
 // import jsonwebtoken for user login
 const jwt = require("jsonwebtoken");
 
+//import bcrypt for password hashing
+const bcrypt = require('bcrypt')
+
 // import constants (to be removed once they are in DB)
 const categories = require("./constants/categories");
 const getCategories = require("./functions/getCategories");
@@ -108,7 +111,9 @@ app.post("/api/login", async (req, res) => {
 
     // Validate if user exist in our database
     const user = await UserModel.findOne({ email });
-    if (user && password == user.password) {
+    const comparison = user && await bcrypt.compare(password, user.hash)
+
+    if (comparison) {
       // Create token
       const token = jwt.sign(
         { user_id: user._id, email },
@@ -147,10 +152,12 @@ app.post("/api/register", async (req, res) => {
       return res.status(409).send("User already exist. Please log in");
     }
 
+    const hash = await bcrypt.hash(password, 10)
+
     // New user. Create user in our database
     const user = await UserModel.create({
       email: email.toLowerCase(), // sanitize: convert email to lowercase
-      password,
+      hash,
       categories,
     });
 
