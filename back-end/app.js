@@ -112,7 +112,7 @@ app.post("/api/login", async (req, res) => {
     // Validate if user exist in our database
     const user = await UserModel.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.hashedPassword))) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
         { user_id: user._id, email },
@@ -156,7 +156,7 @@ app.post("/api/register", async (req, res) => {
     // New user. Create user in our database
     const user = await UserModel.create({
       email: email.toLowerCase(), // sanitize: convert email to lowercase
-      hashedPassword,
+      password: hashedPassword,
       categories,
     });
 
