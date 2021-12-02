@@ -94,8 +94,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/login")
         .send({
-          email: "alan@gmail.com",
-          password: "jennifer",
+          email: "jennifer@gmail.com",
+          password: "wrongjennifer",
         })
         .end(function (err, res) {
           expect(res).to.have.status(401);
@@ -107,8 +107,8 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/login")
         .send({
-          email: "alan@gmail.com",
-          password: "test123",
+          email: "jennifer@gmail.com",
+          password: "jennifer",
         })
         .end(function (err, res) {
           expect(res).to.have.status(200);
