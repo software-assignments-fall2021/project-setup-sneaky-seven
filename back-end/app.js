@@ -81,6 +81,7 @@ mongoose
   });
 // importing user context
 const UserModel = require("./model/user");
+const isDuplicateAccount = require("./functions/isDuplicateAccount");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -269,17 +270,40 @@ app.post("/api/set_access_token", async (request, response, next) => {
       error: null,
     });
 
-    // complete posting access_token to database
-    postAccessTokenToDatabase(
-      {
-        access_token: ACCESS_TOKEN,
-        item_id: ITEM_ID,
-      },
-      id
+    // check to see if account already exists
+    const curAccount = await plaidClient.accountsGet({
+      access_token: ACCESS_TOKEN,
+    });
+
+    const curAccountName = curAccount.data.accounts[0].name;
+    const curAccountMask = curAccount.data.accounts[0].mask;
+    const accessTokensArr = await getAccessTokens(id);
+    var accountAlreadyExists = await isDuplicateAccount(
+      curAccountName,
+      curAccountMask,
+      accessTokensArr
     );
+
+    if (!accountAlreadyExists) {
+      // complete posting access_token to database if account is new
+      postAccessTokenToDatabase(
+        {
+          access_token: ACCESS_TOKEN,
+          item_id: ITEM_ID,
+        },
+        id
+      );
+    } else {
+      console.log("Account already exists, skipping");
+    }
   } catch (error) {
-    prettyPrintResponse(error.response);
-    return response.json(formatError(error.response));
+    if (error.response) {
+      prettyPrintResponse(error.response);
+      return response.json(formatError(error.response));
+    } else {
+      console.log(error);
+    }
+    return response.json(formatError(error));
   }
 });
 
@@ -291,7 +315,6 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     const userId = req.body._id;
 
     const accessTokensArr = await getAccessTokens(userId);
-    const user = await UserModel.findById(userId);
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
