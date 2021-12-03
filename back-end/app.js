@@ -265,8 +265,6 @@ app.post("/api/set_access_token", async (request, response, next) => {
       });
       // check each bank's accounts to see if any duplicates exist
       for (const accountObj of tempAccount.data.accounts) {
-        console.log(accountObj.name);
-        console.log(accountObj.mask);
         if (
           accountObj.name === curAccountName &&
           accountObj.mask === curAccountMask
