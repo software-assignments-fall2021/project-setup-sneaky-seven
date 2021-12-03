@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useHistory } from "react-router-dom";
 import { styles, iconNameToComponent } from "../utils";
 
+//todo: move over with edit cats
 const IconGrid = ({ selectedIcon, setIcon }) => {
   return (
     <div className={cx(styles.centerContent, styles.flowDown)}>
@@ -61,7 +62,6 @@ const AddCategory = () => {
         <hr />
         <IconGrid selectedIcon={icon} setIcon={setIcon} />
         <button type={"submit"} className={styles.muiButton}>
-          <AddIcon />
           Add
         </button>
       </form>
