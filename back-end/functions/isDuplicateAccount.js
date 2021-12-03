@@ -24,21 +24,26 @@ const isDuplicateAccount = async (
   curAccountMask,
   accessTokensArr
 ) => {
-  for (const token of accessTokensArr) {
-    const tempAccount = await plaidClient.accountsGet({
-      access_token: token.access_token,
-    });
-    // check each bank's accounts to see if any duplicates exist
-    for (const accountObj of tempAccount.data.accounts) {
-      if (
-        accountObj.name === curAccountName &&
-        accountObj.mask === curAccountMask
-      ) {
-        return true; // stop iterating, this account is duplicate
+  try {
+    for (const token of accessTokensArr) {
+      const tempAccount = await plaidClient.accountsGet({
+        access_token: token.access_token,
+      });
+      // check each bank's accounts to see if any duplicates exist
+      for (const accountObj of tempAccount.data.accounts) {
+        if (
+          accountObj.name === curAccountName &&
+          accountObj.mask === curAccountMask
+        ) {
+          return true; // stop iterating, this account is duplicate
+        }
       }
     }
+    return false;
+  } catch (error) {
+    console.log(error);
+    return true; // default to true so nothing is posted to DB
   }
-  return false;
 };
 
 module.exports = isDuplicateAccount;

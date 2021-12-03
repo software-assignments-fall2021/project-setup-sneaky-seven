@@ -15,6 +15,7 @@ const UserModel = require("../model/user");
 Object.assign(global, require(path.join(__dirname, "../app.js")));
 
 const sinon = require("sinon");
+const isDuplicateAccount = require("../functions/isDuplicateAccount");
 sinon.stub(console, "log"); // comment this out if you want debugging statements!
 
 transactionsTest = [
@@ -522,6 +523,31 @@ describe("testing constructing functions", () => {
   describe("testing set transaction notes function with no banks", () => {
     it("reads function response and returns nothing", () => {
       expect(setTransactionNotesInDatabase("aa", "ss", "dd") === undefined);
+    });
+  });
+  describe("testing isDuplicateAccount function with no current accounts", () => {
+    it("reads function response and returns false", () => {
+      expect(
+        isDuplicateAccount("fakeAccountName", "fakeAccountMask", []) === false
+      );
+    });
+  });
+  describe("testing isDuplicateAccount function with bad access token", () => {
+    it("reads function response and returns false", () => {
+      expect(
+        isDuplicateAccount("fakeAccountName", "fakeAccountMask", [
+          "badAccessToken",
+        ]) === false
+      );
+    });
+  });
+  describe("testing isDuplicateAccount function with good access token", () => {
+    it("reads function response and returns false", () => {
+      expect(
+        isDuplicateAccount("fakeAccountName", "fakeAccountMask", [
+          "access-development-1d820d0f-ded6-41c0-9da4-19a713a643a1",
+        ]) === true
+      );
     });
   });
 });
