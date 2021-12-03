@@ -77,6 +77,7 @@ mongoose
   });
 // importing user context
 const UserModel = require("./model/user");
+const isDuplicateAccount = require("./functions/isDuplicateAccount");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -255,29 +256,12 @@ app.post("/api/set_access_token", async (request, response, next) => {
 
     const curAccountName = curAccount.data.accounts[0].name;
     const curAccountMask = curAccount.data.accounts[0].mask;
-
     const accessTokensArr = await getAccessTokens(id);
-    var accountAlreadyExists = false;
-    const allAccounts = [];
-    for (const token of accessTokensArr) {
-      const tempAccount = await plaidClient.accountsGet({
-        access_token: token.access_token,
-      });
-      // check each bank's accounts to see if any duplicates exist
-      for (const accountObj of tempAccount.data.accounts) {
-        if (
-          accountObj.name === curAccountName &&
-          accountObj.mask === curAccountMask
-        ) {
-          accountAlreadyExists = true;
-          break; // stop iterating, this account is duplicate
-        }
-      }
-      // previous for-loop stopped early due to duplicate accounts
-      if (accountAlreadyExists) {
-        break;
-      }
-    }
+    var accountAlreadyExists = await isDuplicateAccount(
+      curAccountName,
+      curAccountMask,
+      accessTokensArr
+    );
 
     if (!accountAlreadyExists) {
       // complete posting access_token to database if account is new
