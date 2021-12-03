@@ -267,19 +267,21 @@ app.post("/api/set_access_token", async (request, response, next) => {
       for (const accountObj of tempAccount.data.accounts) {
         console.log(accountObj.name);
         console.log(accountObj.mask);
-        if(accountObj.name === curAccountName && 
-          accountObj.mask === curAccountMask) {
-            accountAlreadyExists = true;
-            break; // stop iterating, this account is duplicate
+        if (
+          accountObj.name === curAccountName &&
+          accountObj.mask === curAccountMask
+        ) {
+          accountAlreadyExists = true;
+          break; // stop iterating, this account is duplicate
         }
       }
       // previous for-loop stopped early due to duplicate accounts
-      if(accountAlreadyExists) {
+      if (accountAlreadyExists) {
         break;
       }
     }
-    
-    if(!accountAlreadyExists) {
+
+    if (!accountAlreadyExists) {
       // complete posting access_token to database if account is new
       postAccessTokenToDatabase(
         {
@@ -292,7 +294,7 @@ app.post("/api/set_access_token", async (request, response, next) => {
       console.log("Account already exists, skipping");
     }
   } catch (error) {
-    if(error.response) {
+    if (error.response) {
       prettyPrintResponse(error.response);
       return response.json(formatError(error.response));
     } else {
