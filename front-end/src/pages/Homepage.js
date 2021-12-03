@@ -105,7 +105,7 @@ const Homepage = () => {
 
   return (
     <div>
-      <br />
+      <br /> <br />
       <div className="container-home">
         <Accounts> </Accounts>
         <Button
@@ -119,6 +119,8 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="container-home">
+        <h1>Transactions & Categories </h1>
+
         <HomePageTransactionList> </HomePageTransactionList>
         <Button
           variant="contained"
@@ -126,7 +128,15 @@ const Homepage = () => {
           component={Link}
           to="/transactions"
         >
-          See More
+          See More Transactions
+        </Button>
+        <Button
+          variant="contained"
+          id="new-account-btn"
+          component={Link}
+          to="/categories"
+        >
+          See More Categories
         </Button>
       </div>
       <hr />
@@ -154,6 +164,9 @@ const Homepage = () => {
           See More
         </Button>
       </div>
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
