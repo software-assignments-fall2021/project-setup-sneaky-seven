@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 //import bcrypt for password hashing
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
 // import constants (to be removed once they are in DB)
 const categories = require("./constants/categories");
@@ -28,6 +28,7 @@ const getAccessTokens = require("./functions/getAccessTokens");
 const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
 const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
 const postCategory = require("./functions/postCategory");
+const editCategory = require("./functions/editCategory");
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -80,6 +81,7 @@ mongoose
   });
 // importing user context
 const UserModel = require("./model/user");
+const isDuplicateAccount = require("./functions/isDuplicateAccount");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -151,7 +153,7 @@ app.post("/api/register", async (req, res) => {
       return res.status(409).send("User already exist. Please log in");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // New user. Create user in our database
     const user = await UserModel.create({
@@ -207,6 +209,20 @@ app.post("/api/categories", async (req, resp) => {
   resp.json(result);
 });
 
+app.post("/api/changeCategories", async (req, resp) => {
+  const userId = req.body.id;
+  const result = await editCategory(
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      oldName: req.body.oldName,
+      oldIcon: req.body.oldIcon,
+    },
+    userId
+  );
+  resp.json(result);
+});
+
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post("/api/create_link_token", async (request, response) => {
@@ -254,17 +270,40 @@ app.post("/api/set_access_token", async (request, response, next) => {
       error: null,
     });
 
-    // complete posting access_token to database
-    postAccessTokenToDatabase(
-      {
-        access_token: ACCESS_TOKEN,
-        item_id: ITEM_ID,
-      },
-      id
+    // check to see if account already exists
+    const curAccount = await plaidClient.accountsGet({
+      access_token: ACCESS_TOKEN,
+    });
+
+    const curAccountName = curAccount.data.accounts[0].name;
+    const curAccountMask = curAccount.data.accounts[0].mask;
+    const accessTokensArr = await getAccessTokens(id);
+    var accountAlreadyExists = await isDuplicateAccount(
+      curAccountName,
+      curAccountMask,
+      accessTokensArr
     );
+
+    if (!accountAlreadyExists) {
+      // complete posting access_token to database if account is new
+      postAccessTokenToDatabase(
+        {
+          access_token: ACCESS_TOKEN,
+          item_id: ITEM_ID,
+        },
+        id
+      );
+    } else {
+      console.log("Account already exists, skipping");
+    }
   } catch (error) {
-    prettyPrintResponse(error.response);
-    return response.json(formatError(error.response));
+    if (error.response) {
+      prettyPrintResponse(error.response);
+      return response.json(formatError(error.response));
+    } else {
+      console.log(error);
+    }
+    return response.json(formatError(error));
   }
 });
 
@@ -276,7 +315,6 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     const userId = req.body._id;
 
     const accessTokensArr = await getAccessTokens(userId);
-    const user = await UserModel.findById(userId);
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
@@ -410,7 +448,6 @@ app.get("/api/contactInfo", async (req, resp) => {
   try {
     const confirmationMessage = contactInfo;
     contactInfo = {};
-    console.log(confirmationMessage);
     resp.json(confirmationMessage);
   } catch (error) {
     console.log(error);

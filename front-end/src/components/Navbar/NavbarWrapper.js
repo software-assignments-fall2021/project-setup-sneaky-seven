@@ -9,6 +9,8 @@ import Transactions from "../../pages/Transactions";
 import Statistics from "../../pages/Statistics";
 import Categories from "../../pages/Categories";
 import AddCategory from "../../pages/AddCategory";
+import EditCategory from "../../pages/EditCategory";
+
 import Contact from "../../pages/Contact";
 import ContactConfirm from "../../pages/ContactConfirm";
 import FAQs from "../../pages/FAQs";
@@ -30,6 +32,8 @@ const NavbarWrapper = () => {
         <Route path="/statistics" component={Statistics} />
         <Route path="/categories" exact component={Categories} />
         <Route path="/categories/addCategory" exact component={AddCategory} />
+        <Route path="/categories/editCategory" exact component={EditCategory} />
+
         <Route path="/FAQs" exact component={FAQs} />
         <Route path="/contact" exact component={Contact} />
         <Route path="/contactConfirm" exact component={ContactConfirm} />

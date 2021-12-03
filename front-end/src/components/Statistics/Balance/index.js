@@ -34,8 +34,11 @@ const Balance = ({ stats }) => {
       <div className="container-s">
         <h1>Balance</h1>
         <BarChart name="Balance Trend" data={stats.balanceTrend} />
+        <br />
+        <hr />
+        <br />
+        <BalanceByAccountList accountToBalance={stats.accountToBalance} />
       </div>
-      <BalanceByAccountList accountToBalance={stats.accountToBalance} />
     </>
   );
 };

@@ -2,6 +2,7 @@ const AccessTokenModel = require("../model/accessToken");
 const UserModel = require("../model/user");
 
 // Function to post access_token to database
+// This should never be called if the account being added is a duplicate
 // Mongoose quickstart: https://mongoosejs.com/docs/index.html
 const postAccessTokenToDatabase = async (access_token_object, userId) => {
   // create a schema instance

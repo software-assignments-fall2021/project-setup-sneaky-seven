@@ -22,7 +22,7 @@ const RegistrationForm = () => {
       )
       .then((res) => {
         sessionStorage.setItem("user", JSON.stringify(res.data));
-        updateCanLogin(true); 
+        updateCanLogin(true);
         window.alert("Successful register. Please log in");
       })
       .catch((err) => {
@@ -47,19 +47,7 @@ const RegistrationForm = () => {
         <h1> Sign Up </h1>
         <hr />
         <br />
-        <Button component={Link} to="/homepage" variant="contained">
-          Connect with Google
-        </Button>
-        <br /> <br />
-        <Button component={Link} to="/homepage" variant="contained">
-          Connect with Facebook
-        </Button>
-        <br />
-        <h2> OR </h2>
         <form onSubmit={handleSubmit}>
-          <div>
-            <h3> Register Using Email</h3>
-          </div>
           <div className="form">
             <div>
               <label htmlFor="email">
