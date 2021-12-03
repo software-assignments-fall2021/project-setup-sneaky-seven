@@ -57,7 +57,7 @@ const EditCategory = (props) => {
         setExists(false);
       }
     },
-    [history, name, icon, oldName, oldIcon, transactions]
+    [history, icon, oldName, oldIcon, transactions]
   );
 
   const handleChange = (e) => {

@@ -448,7 +448,6 @@ app.get("/api/contactInfo", async (req, resp) => {
   try {
     const confirmationMessage = contactInfo;
     contactInfo = {};
-    console.log(confirmationMessage);
     resp.json(confirmationMessage);
   } catch (error) {
     console.log(error);
