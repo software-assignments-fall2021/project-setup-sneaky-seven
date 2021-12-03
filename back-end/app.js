@@ -29,6 +29,7 @@ const setTransactionNotesInDatabase = require("./functions/setTransactionNotesIn
 const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
 const postCategory = require("./functions/postCategory");
 const editCategory = require("./functions/editCategory");
+const deleteCategory = require("./functions/deleteCategory");
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -183,11 +184,8 @@ app.post("/api/register", async (req, res) => {
 // function to get categories from Plaid
 app.get("/api/categories", async (req, resp) => {
   try {
-    // resp.json({});
     const userId = req.query._id;
     const categories = await getCategories(userId);
-    // resp.json({});
-
     categories.categories.sort((a, b) => a.name.localeCompare(b.name));
     resp.json(categories.categories);
   } catch (error) {
@@ -217,6 +215,18 @@ app.post("/api/changeCategories", async (req, resp) => {
       icon: req.body.icon,
       oldName: req.body.oldName,
       oldIcon: req.body.oldIcon,
+    },
+    userId
+  );
+  resp.json(result);
+});
+
+app.post("/api/deleteCategories", async (req, resp) => {
+  const userId = req.body.id;
+  const result = await deleteCategory(
+    {
+      name: req.body.name,
+      icon: req.body.icon,
     },
     userId
   );
