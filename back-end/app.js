@@ -249,19 +249,12 @@ app.post("/api/set_access_token", async (request, response, next) => {
     });
 
     // check to see if account already exists
-
     const curAccount = await plaidClient.accountsGet({
       access_token: ACCESS_TOKEN,
     });
 
-    // avE5r6Z9Z8cZqgmpBVQzHpYA45DmM8IZyVANY
     const curAccountName = curAccount.data.accounts[0].name;
     const curAccountMask = curAccount.data.accounts[0].mask;
-    console.log("current account stuff---------------");
-    console.log(curAccountName + "\n" + curAccountMask);
-    console.log("---------------------")
-
-
 
     const accessTokensArr = await getAccessTokens(id);
     var accountAlreadyExists = false;
@@ -270,8 +263,7 @@ app.post("/api/set_access_token", async (request, response, next) => {
       const tempAccount = await plaidClient.accountsGet({
         access_token: token.access_token,
       });
-      console.log("account we are iterating =+++++++++");
-
+      // check each bank's accounts to see if any duplicates exist
       for (const accountObj of tempAccount.data.accounts) {
         console.log(accountObj.name);
         console.log(accountObj.mask);
@@ -281,8 +273,7 @@ app.post("/api/set_access_token", async (request, response, next) => {
             break; // stop iterating, this account is duplicate
         }
       }
-      console.log("++++++++++++++++++");
-
+      // previous for-loop stopped early due to duplicate accounts
       if(accountAlreadyExists) {
         break;
       }
@@ -319,7 +310,6 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
     const userId = req.body._id;
 
     const accessTokensArr = await getAccessTokens(userId);
-    // const user = await UserModel.findById(userId);
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
