@@ -317,8 +317,6 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
         access_token: token.access_token,
       });
       for (const accountObj of tempAccount.data.accounts) {
-        console.log("accountObj");
-        console.log(accountObj);
         allAccounts.push(accountObj);
       }
     }
