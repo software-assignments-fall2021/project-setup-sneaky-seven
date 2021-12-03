@@ -545,7 +545,7 @@ describe("testing constructing functions", () => {
     it("reads function response and returns false", () => {
       expect(
         isDuplicateAccount("fakeAccountName", "fakeAccountMask", [
-          "access-development-1d820d0f-ded6-41c0-9da4-19a713a643a1",
+          "access-development-2d820d0f-ded6-41c0-9da4-19a713a643a0-093kjds3",
         ]) === true
       );
     });
