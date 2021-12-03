@@ -3,6 +3,7 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { NavbarData } from "./NavbarData";
+import Button from "@mui/material/Button";
 import "../css/Navbar.css";
 import { IconContext } from "react-icons";
 
@@ -18,7 +19,12 @@ const Navbar = () => {
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
+
+          <Link to="/homepage">
+            <h1 id="title">budget.ly</h1>
+          </Link>
         </div>
+
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
           <ul className="nav-menu-items" onClick={showSidebar}>
             <li className="navbar-toggle">

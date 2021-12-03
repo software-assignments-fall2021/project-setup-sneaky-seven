@@ -1,15 +1,28 @@
+#title {
+  font-size: 3rem;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
 .navbar {
   background-color: #060b26;
   height: 80px;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  position: relative;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .menu-bars {
   margin-left: 2rem;
   font-size: 2rem;
   background: none;
+  position: absolute;
+  left: 0;
 }
 
 .nav-menu {
