@@ -145,32 +145,32 @@ describe("testing routes", () => {
           cb();
         });
     });
-    it("successfully register user and returns a 201 status", function (cb) {
-      chai
-        .request(app)
-        .post("/api/register")
-        .send({
-          email: "jennifer-unit-test@gmail",
-          password: "jennifer",
-        })
-        .end(function (err, res) {
-          expect(res).to.have.status(201);
-          cb();
-        });
-    });
-    it("fails to register user due to user already exists, returns a 409 status", function (cb) {
-      chai
-        .request(app)
-        .post("/api/register")
-        .send({
-          email: "jennifer-unit-test@gmail",
-          password: "jennifer",
-        })
-        .end(function (err, res) {
-          expect(res).to.have.status(409);
-          cb();
-        });
-    });
+    // it("successfully register user and returns a 201 status", function (cb) {
+    //   chai
+    //     .request(app)
+    //     .post("/api/register")
+    //     .send({
+    //       email: "jennifer-unit-test@gmail",
+    //       password: "jennifer",
+    //     })
+    //     .end(function (err, res) {
+    //       expect(res).to.have.status(201);
+    //       cb();
+    //     });
+    // });
+    // it("fails to register user due to user already exists, returns a 409 status", function (cb) {
+    //   chai
+    //     .request(app)
+    //     .post("/api/register")
+    //     .send({
+    //       email: "jennifer-unit-test@gmail",
+    //       password: "jennifer",
+    //     })
+    //     .end(function (err, res) {
+    //       expect(res).to.have.status(409);
+    //       cb();
+    //     });
+    // });
     // remove mock user from the database
     after(async () => {
       await UserModel.deleteOne({ email: "jennifer-unit-test@gmail" });
