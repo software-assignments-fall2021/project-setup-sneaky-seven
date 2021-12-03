@@ -248,17 +248,66 @@ app.post("/api/set_access_token", async (request, response, next) => {
       error: null,
     });
 
-    // complete posting access_token to database
-    postAccessTokenToDatabase(
-      {
-        access_token: ACCESS_TOKEN,
-        item_id: ITEM_ID,
-      },
-      id
-    );
+    // check to see if account already exists
+
+    const curAccount = await plaidClient.accountsGet({
+      access_token: ACCESS_TOKEN,
+    });
+
+    // avE5r6Z9Z8cZqgmpBVQzHpYA45DmM8IZyVANY
+    const curAccountName = curAccount.data.accounts[0].name;
+    const curAccountMask = curAccount.data.accounts[0].mask;
+    console.log("current account stuff---------------");
+    console.log(curAccountName + "\n" + curAccountMask);
+    console.log("---------------------")
+
+
+
+    const accessTokensArr = await getAccessTokens(id);
+    var accountAlreadyExists = false;
+    const allAccounts = [];
+    for (const token of accessTokensArr) {
+      const tempAccount = await plaidClient.accountsGet({
+        access_token: token.access_token,
+      });
+      console.log("account we are iterating =+++++++++");
+
+      for (const accountObj of tempAccount.data.accounts) {
+        console.log(accountObj.name);
+        console.log(accountObj.mask);
+        if(accountObj.name === curAccountName && 
+          accountObj.mask === curAccountMask) {
+            accountAlreadyExists = true;
+            break; // stop iterating, this account is duplicate
+        }
+      }
+      console.log("++++++++++++++++++");
+
+      if(accountAlreadyExists) {
+        break;
+      }
+    }
+    
+    if(!accountAlreadyExists) {
+      // complete posting access_token to database if account is new
+      postAccessTokenToDatabase(
+        {
+          access_token: ACCESS_TOKEN,
+          item_id: ITEM_ID,
+        },
+        id
+      );
+    } else {
+      console.log("Account already exists, skipping");
+    }
   } catch (error) {
-    prettyPrintResponse(error.response);
-    return response.json(formatError(error.response));
+    if(error.response) {
+      prettyPrintResponse(error.response);
+      return response.json(formatError(error.response));
+    } else {
+      console.log(error);
+    }
+    return response.json(formatError(error));
   }
 });
 
@@ -269,30 +318,18 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
   try {
     const userId = req.body._id;
 
-    // store seen accounts
-    const seenAccounts = new Set();
-
     const accessTokensArr = await getAccessTokens(userId);
-    const user = await UserModel.findById(userId);
+    // const user = await UserModel.findById(userId);
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
       const tempAccount = await plaidClient.accountsGet({
         access_token: token.access_token,
       });
-      console.log(tempAccount.data);
       for (const accountObj of tempAccount.data.accounts) {
-        // if(!seenAccounts.has(accountObj.mask)) {
-        //   seenAccounts.add(accountObj.mask);
-          allAccounts.push(accountObj);
-        // } else {
-        //   // console.log(userId);
-        //   // const tempObj = await UserModel.find( {_id: userId}, {$pull: {'access_token': token}} );
-        //   // console.log(tempObj);
-        //   // UserModel.updateOne( {_id: userId}, {$pull: {'access_token': token}} );
-        //   // this entire loop has duplicates since the access_token is duplicate account
-        //   // break; 
-        // }
+        console.log("accountObj");
+        console.log(accountObj);
+        allAccounts.push(accountObj);
       }
     }
     return response.json(constructAccountsArr(allAccounts));
