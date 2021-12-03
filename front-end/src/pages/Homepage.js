@@ -105,7 +105,7 @@ const Homepage = () => {
 
   return (
     <div>
-      <br />
+      <br /> <br />
       <div className="container-home">
         <Accounts> </Accounts>
         <Button
@@ -164,6 +164,9 @@ const Homepage = () => {
           See More
         </Button>
       </div>
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
