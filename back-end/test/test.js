@@ -333,7 +333,52 @@ describe("testing routes", () => {
           cb();
         });
     });
+    it("returns successful check for found category", function (cb) {
+      chai
+        .request(app)
+        .post("/api/deleteCategories")
+        .send({
+          _id: 0,
+          name: "tName",
+          icon: "tIcon",
+        })
+        .end(function (err, res) {
+          expect(res);
+          cb();
+        });
+    });
   });
+  describe("testing post route /api/deleteCategories", () => {
+    it("returns a 200 status with valid category info", function (cb) {
+      chai
+        .request(app)
+        .post("/api/deleteCategories")
+        .send({
+          _id: 0,
+          name: "tName",
+          icon: "tIcon",
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
+    });
+    it("returns no duplicate category found", function (cb) {
+      chai
+        .request(app)
+        .post("/api/deleteCategories")
+        .send({
+          _id: 0,
+          name: "tName",
+          icon: "tIcon",
+        })
+        .end(function (err, res) {
+          expect(res);
+          cb();
+        });
+    });
+  });
+
   describe("testing post route /api/create_link_token", () => {
     it("returns a 200 status", function (cb) {
       chai

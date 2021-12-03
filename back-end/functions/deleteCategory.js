@@ -2,7 +2,7 @@ const AccessTokenModel = require("../model/accessToken");
 const UserModel = require("../model/user");
 
 // Mongoose quickstart: https://mongoosejs.com/docs/index.html
-const editCategory = async (category, userId) => {
+const deleteCategory = async (category, userId) => {
   const found = await UserModel.exists({
     _id: userId,
     "categories.name": category.name,
@@ -26,4 +26,4 @@ const editCategory = async (category, userId) => {
   return found;
 };
 
-module.exports = editCategory;
+module.exports = deleteCategory;
