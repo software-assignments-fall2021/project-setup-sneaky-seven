@@ -44,7 +44,7 @@ jobs:
     steps:
       - checkout
       - run: echo "this is the deployment job"
-      - run: ssh -o StrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
+      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP "pwd && ls && ./deploy_project.sh"
 
 # Orchestrate our job run sequence
 workflows:
