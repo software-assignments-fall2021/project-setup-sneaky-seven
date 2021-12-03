@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 //import bcrypt for password hashing
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
 // import constants (to be removed once they are in DB)
 const categories = require("./constants/categories");
@@ -28,6 +28,7 @@ const getAccessTokens = require("./functions/getAccessTokens");
 const setTransactionNotesInDatabase = require("./functions/setTransactionNotesInDatabase");
 const setTransactionCategoryInDatabase = require("./functions/setTransactionCategoryInDatabase");
 const postCategory = require("./functions/postCategory");
+const editCategory = require("./functions/editCategory");
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
@@ -151,7 +152,7 @@ app.post("/api/register", async (req, res) => {
       return res.status(409).send("User already exist. Please log in");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // New user. Create user in our database
     const user = await UserModel.create({
@@ -201,6 +202,20 @@ app.post("/api/categories", async (req, resp) => {
       name: req.body.name,
       icon: req.body.icon,
       transactions: {},
+    },
+    userId
+  );
+  resp.json(result);
+});
+
+app.post("/api/changeCategories", async (req, resp) => {
+  const userId = req.body.id;
+  const result = await editCategory(
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      oldName: req.body.oldName,
+      oldIcon: req.body.oldIcon,
     },
     userId
   );
