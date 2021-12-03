@@ -5,12 +5,12 @@ async function getBankAccounts() {
     const result = await axios.post("/api/get_bank_accounts", {
       _id: sessionStorage.getItem("user")
         ? JSON.parse(sessionStorage.getItem("user"))._id
-        : null
-    })
-    return result.data
+        : null,
+    });
+    return result.data;
   } catch (err) {
     console.log(
-        "Something went wrong. We're probably out of requests for the day!"
+      "Something went wrong. We're probably out of requests for the day!"
     );
     console.error(err);
     throw err;
@@ -44,6 +44,25 @@ async function postNewCategory(name, icon) {
     console.error(err);
   }
 }
+
+async function editCategory(name, icon, oldName, oldIcon) {
+  try {
+    const id = sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))._id
+      : null;
+    const result = await axios.post("/api/changeCategories", {
+      id,
+      name,
+      icon,
+      oldName,
+      oldIcon,
+    });
+    return result.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function setTransactionCategory(id, newCategory) {
   try {
     await axios.post("/api/setTransactionCategory", {
@@ -132,13 +151,14 @@ async function getAccountInfo() {
 
 const api = {
   postNewCategory,
+  editCategory,
   getCategoryList,
   getAllTransactions,
   getRecentTransactions,
   getAccountInfo,
   setTransactionCategory,
   setTransactionNotes,
-  getBankAccounts
+  getBankAccounts,
 };
 
 export default api;

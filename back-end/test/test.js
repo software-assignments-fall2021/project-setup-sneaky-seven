@@ -315,12 +315,18 @@ describe("testing routes", () => {
         });
     });
   });
-  describe("testing post route /api/categories", () => {
-    it("returns a 200 status with valid id + category", function (cb) {
+  describe("testing post route /api/changeCategories", () => {
+    it("returns a 200 status with valid category info", function (cb) {
       chai
         .request(app)
-        .post("/api/categories")
-        .send({ category: "testing", _id: 0 })
+        .post("/api/changeCategories")
+        .send({
+          _id: 0,
+          name: "tName",
+          icon: "tIcon",
+          oldName: "oName",
+          oldIcon: "oIcon",
+        })
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
