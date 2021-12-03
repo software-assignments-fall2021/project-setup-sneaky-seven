@@ -29,7 +29,6 @@ const Statistics = () => {
     const transactions = await api.getAllTransactions();
     const dateToNet = {};
     transactions.forEach((transaction) => {
-      // console.log(dateToNet)
       const date = transaction.date;
       const amount = transaction.amount;
       const val = dateToNet[date] ? dateToNet[date] + amount : amount;
@@ -40,8 +39,6 @@ const Statistics = () => {
     let balance = Object.values(accountToBalance).reduce((a, b) => a + b, 0);
     const now = DateTime.now().toFormat("yyyy-MM-dd");
     let tempBalanceTrend = [[now, balance]];
-
-    console.log(tempBalanceTrend);
 
     Object.entries(dateToNet).forEach((entry) => {
       let [date, net] = entry;

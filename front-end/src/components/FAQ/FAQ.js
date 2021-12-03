@@ -17,7 +17,6 @@ const FAQ = () => {
     animate: true,
   };
   const info = data?.data ?? {};
-  console.log(info);
   if (isLoaded) {
     return (
       <div className="container">

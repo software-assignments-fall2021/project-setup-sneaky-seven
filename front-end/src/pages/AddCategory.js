@@ -2,7 +2,6 @@ import React from "react";
 import api from "../api";
 import cx from "classnames";
 import "./css/IconGrid.css";
-import AddIcon from "@mui/icons-material/Add";
 import { useHistory } from "react-router-dom";
 import { styles, iconNameToComponent } from "../utils";
 

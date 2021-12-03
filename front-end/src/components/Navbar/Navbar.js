@@ -3,7 +3,6 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { NavbarData } from "./NavbarData";
-import Button from "@mui/material/Button";
 import "../css/Navbar.css";
 import { IconContext } from "react-icons";
 
