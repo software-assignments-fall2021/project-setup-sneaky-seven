@@ -97,10 +97,10 @@ const Homepage = () => {
   }, []);
 
   const stats = {
-    accountToBalance: accountToBalance,
-    balanceTrend: balanceTrend,
-    spendingByCategories: spendingByCategories,
-    spendingTrend: spendingTrend,
+    accountToBalance,
+    balanceTrend,
+    spendingByCategories,
+    spendingTrend,
   };
 
   return (
@@ -141,6 +141,8 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="statContainer">
+        <h4>These are statistics from the last month.</h4>
+        <h4>Click 'See More' to show statistics for different time ranges.</h4>
         <Spending stats={stats}> </Spending>
         <Button
           variant="contained"
