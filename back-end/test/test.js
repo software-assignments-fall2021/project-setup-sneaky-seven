@@ -309,7 +309,7 @@ describe("testing routes", () => {
       chai
         .request(app)
         .post("/api/categories")
-        .send({ category: "testing", _id: 0 })
+        .send({ category: "testing", id: undefined })
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
@@ -322,7 +322,7 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/changeCategories")
         .send({
-          _id: 0,
+          id: undefined,
           name: "tName",
           icon: "tIcon",
           oldName: "oName",
@@ -333,7 +333,52 @@ describe("testing routes", () => {
           cb();
         });
     });
+    it("returns successful check for found category", function (cb) {
+      chai
+        .request(app)
+        .post("/api/deleteCategories")
+        .send({
+          id: undefined,
+          name: "tName",
+          icon: "tIcon",
+        })
+        .end(function (err, res) {
+          expect(res);
+          cb();
+        });
+    });
   });
+  describe("testing post route /api/deleteCategories", () => {
+    it("returns a 200 status with valid category info", function (cb) {
+      chai
+        .request(app)
+        .post("/api/deleteCategories")
+        .send({
+          id: undefined,
+          name: "tName",
+          icon: "tIcon",
+        })
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          cb();
+        });
+    });
+    it("returns no duplicate category found", function (cb) {
+      chai
+        .request(app)
+        .post("/api/deleteCategories")
+        .send({
+          id: undefined,
+          name: "tName",
+          icon: "tIcon",
+        })
+        .end(function (err, res) {
+          expect(res);
+          cb();
+        });
+    });
+  });
+
   describe("testing post route /api/create_link_token", () => {
     it("returns a 200 status", function (cb) {
       chai

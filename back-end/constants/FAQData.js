@@ -8,7 +8,7 @@ const FAQData = {
     {
       title: "How do I add a category?",
       content:
-        "Go to the category tab on the hamburger menu. Click add a category and choose your icon!",
+        "Go to the category tab on the hamburger menu. Click add a category and choose your icon! :)",
     },
     {
       title: "How do I move a transaction to a specific category?",
