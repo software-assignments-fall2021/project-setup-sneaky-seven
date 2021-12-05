@@ -6,6 +6,17 @@
 
 Aimed towards consumers who strive for budget management, the Budget Web App wants to elevate understanding of income and spending, resulting in a higher control over finance. Unlike other apps which often automatically and arbitrarily categorize purchases, we allow users to define their budget and how they want to view their spending. This will allow for both the presence of "intelligent" suggestions per say, as well as user-defined categories in the event that more accuracy is required/desired.
 
+### Deployment
+
+View our deployed website here: http://167.172.252.106/
+
+Extra Credit Notes:
+
+- Extra credit is given to teams that have deployed to a Docker container, although a non-containerized deployment to a Droplet is fine.
+  - We have a non-containerized deployment to a droplet.
+- Extra credit is given to teams that have a Continuous Deployment setup, although a manual deployment is fine.
+  - We have Continuous Deployment set up.
+
 ## Core Members
 
 - [Alan Chen](https://github.com/azc242)
@@ -84,8 +95,17 @@ Test the program:
 
 ## References
 
+- [JWT](https://www.npmjs.com/package/jsonwebtoken)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [React DOM](https://reactjs.org/docs/react-dom.html)
+- [React FAQ Component](https://www.npmjs.com/package/react-faq-component)
+- [Material UI](https://mui.com/getting-started/usage/)
+- [EmailJS](https://www.npmjs.com/package/emailjs)
+- [React Infinite Scroll](https://www.npmjs.com/package/react-infinite-scroll-component)
+- [React Google Charts](https://react-google-charts.com/)
+- [Mongoose Starting Docs](https://mongoosejs.com/docs/index.html)
 - [Plaid API](https://plaid.com/docs/)
-- [Mocha](https://mochajs.org/)
-- [Chai](https://www.chaijs.com/)
+- [Mocha](https://mochajs.org/) & [Chai](https://www.chaijs.com/)
 - [Istanbul NYC](https://github.com/istanbuljs/nyc)
 - [Prof. Bloomberg Slides](https://knowledge.kitchen/Agile_Software_Engineering_Course_Schedule)
+- [Tutors](https://media.istockphoto.com/photos/paint-splatter-thank-you-picture-id1132817705?b=1&k=20&m=1132817705&s=170667a&w=0&h=fAlE3Lb0PPIySZ_otp-vv92H7F-e1lu4VjrFg4bJAUk=)
