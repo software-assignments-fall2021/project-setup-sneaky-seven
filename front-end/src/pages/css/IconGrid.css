@@ -8,3 +8,11 @@
 .selected-icon {
   border: solid black 4px;
 }
+
+#del {
+  background-color: red;
+}
+
+#warning {
+  color: red;
+}

@@ -39,6 +39,8 @@ const EditCategory = (props) => {
   const [name, setName] = React.useState(oldName);
 
   const [exists, setExists] = React.useState(true);
+  const [emptyTransactions, setEmptyTransactions] = React.useState(true);
+
   const history = useHistory();
 
   const onSubmit = React.useCallback(
@@ -65,10 +67,29 @@ const EditCategory = (props) => {
     setName(e.target.value);
   };
 
+  const handleDelete = React.useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (transactions === undefined) {
+        setExists(false);
+      } else {
+        setExists(true);
+        if (transactions.length === 0) {
+          setEmptyTransactions(true);
+          const result = await api.deleteCategory(oldName, oldIcon);
+          history.push("/categories");
+        } else {
+          setEmptyTransactions(false);
+        }
+      }
+    },
+    [history, oldName, oldIcon, transactions?.length]
+  );
+
   return (
     <div>
       <h1>Edit Category</h1>
-      {!exists ? <h2> Category does not exist!</h2> : null}
+      {!exists ? <h2 id="warning"> Category does not exist!</h2> : null}
       <form onSubmit={onSubmit} className="container">
         <label htmlFor="name" className={styles.marginBottom}>
           <b>Category Name:</b>
@@ -87,6 +108,26 @@ const EditCategory = (props) => {
           Update
         </button>
       </form>
+      <br /> <br />
+      <div className="container">
+        <b>Note: You can only delete empty categories.</b>
+
+        <hr />
+        {!emptyTransactions ? (
+          <p id="warning">
+            <b>
+              There are still transactions in this category. Please reassign
+              them first!
+            </b>
+          </p>
+        ) : null}
+
+        <br />
+        <button className={styles.muiButton} onClick={handleDelete} id="del">
+          Delete
+        </button>
+      </div>
+      <br /> <br />
     </div>
   );
 };

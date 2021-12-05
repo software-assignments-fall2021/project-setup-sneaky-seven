@@ -63,6 +63,22 @@ async function editCategory(name, icon, oldName, oldIcon) {
   }
 }
 
+async function deleteCategory(name, icon) {
+  try {
+    const id = sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))._id
+      : null;
+    const result = await axios.post("/api/deleteCategories", {
+      id,
+      name,
+      icon,
+    });
+    return result.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function setTransactionCategory(id, newCategory) {
   try {
     await axios.post("/api/setTransactionCategory", {
@@ -152,6 +168,7 @@ async function getAccountInfo() {
 const api = {
   postNewCategory,
   editCategory,
+  deleteCategory,
   getCategoryList,
   getAllTransactions,
   getRecentTransactions,
