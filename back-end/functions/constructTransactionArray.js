@@ -23,7 +23,7 @@ const constructTransactionArr = (transactions, accounts, txCatArr) => {
     const note = txDB ? txDB.notes : "";
     const name =
       transaction.merchant_name ??
-      transaction.name.split(" ").slice(0, 2).join(" ");
+      transaction.name.split(" ").slice(0, 5).join(" ");
     const tranObj = {
       id: transaction.transaction_id,
       account_id: transaction.account_id,

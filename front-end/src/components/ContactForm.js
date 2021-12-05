@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
 import "./css/ContactForm.css";
 import axios from "axios";
+import emailjs from "emailjs-com";
 
 // TODO: connect to backend
 const ContactForm = () => {
@@ -15,6 +16,15 @@ const ContactForm = () => {
       email: e.target.email.value,
       message: e.target.message.value,
     };
+
+    e.preventDefault();
+    emailjs.send(
+      "service_memp6nl",
+      "template_704egfm",
+      contactInfo,
+      "user_gSX66DxaKRJVG72IN7Oec"
+    );
+
     axios.post("/api/contactInfo", contactInfo);
 
     history.push("/contactConfirm");
