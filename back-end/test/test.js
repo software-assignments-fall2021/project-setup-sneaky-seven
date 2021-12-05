@@ -16,6 +16,7 @@ Object.assign(global, require(path.join(__dirname, "../app.js")));
 
 const sinon = require("sinon");
 const isDuplicateAccount = require("../functions/isDuplicateAccount");
+const removeAccount = require("../functions/removeAccount");
 sinon.stub(console, "log"); // comment this out if you want debugging statements!
 
 transactionsTest = [
@@ -599,6 +600,18 @@ describe("testing constructing functions", () => {
           "access-development-2d820d0f-ded6-41c0-9da4-19a713a643a0-093kjds3",
         ]) === true
       );
+    });
+  });
+  describe("testing removeAccount function with bad access token", () => {
+    it("reads function response and returns false", () => {
+      expect(
+        removeAccount("fakeAccountName", ["foo", "bar"], "fakeUserId") === false
+      );
+    });
+  });
+  describe("testing removeAccount function with no access tokens", () => {
+    it("reads function response and returns false", () => {
+      expect(removeAccount("fakeAccountName", [], "fakeUserId") === false);
     });
   });
 });
