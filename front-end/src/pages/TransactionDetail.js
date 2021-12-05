@@ -51,7 +51,8 @@ export function TransactionDetail() {
       notes
     );
   };
-  const amountColor = transaction?.amount >= 0 ? "green" : "red";
+  const amountColor = transaction?.amount <= 0 ? "green" : "red";
+
   const symbol = currenySymbol[transaction?.currency];
 
   const formattedDate = transaction?.date
@@ -65,7 +66,7 @@ export function TransactionDetail() {
           <IoIosArrowRoundBack size={50} />
         </div>
         <h3 className="transactionAmount" style={{ color: amountColor }}>
-          {symbol} {transaction?.amount}
+          {symbol} {transaction?.amount * -1}
         </h3>
         <div style={{ width: "50px", height: "50px" }}></div>
       </div>
