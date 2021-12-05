@@ -37,6 +37,20 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
     return null;
   }
 
+  const defaultCategories = [
+    "Bank Fees",
+    "Community",
+    "Food and Drink",
+    "Healthcare",
+    "Payment",
+    "Recreation",
+    "Service",
+    "Shops",
+    "Tax",
+    "Transfer",
+    "Travel",
+  ];
+
   const Icon = iconNameToComponent[category.icon];
   // const [name, setName] = useState(category?.name);
   return (
@@ -51,16 +65,18 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
         <h2>Category: {category.name}</h2>
         <Icon className="category-icon" />
         <br />
-        <Button
-          type="submit"
-          variant="contained"
-          onClick={handleSubmit}
-          component={Link}
-          to="/homepage"
-        >
-          {" "}
-          Edit{" "}
-        </Button>
+        {!defaultCategories.includes(category.name) ? (
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={handleSubmit}
+            component={Link}
+            to="/homepage"
+          >
+            {" "}
+            Edit{" "}
+          </Button>
+        ) : null}
         <h4>Transactions</h4>
         <div className="overlay-transactions-wrapper">
           <div className={cx("overlay-transactions")}>
