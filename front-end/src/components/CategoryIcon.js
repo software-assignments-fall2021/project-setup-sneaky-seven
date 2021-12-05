@@ -4,7 +4,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 
 export default function CategoryIcon({
   icon,
-  size = 64,
+  size = 10,
   color = "black",
   borderColor = "black",
 }) {
@@ -13,15 +13,16 @@ export default function CategoryIcon({
     <div
       style={{
         borderRadius: "50%",
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${size}vh`,
+        height: `${size}vh`,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        border: "4px solid " + borderColor,
+        border: "2px solid " + borderColor,
+        overflow: "hidden",
       }}
     >
-      <Icon color={color} size={~~(size * 0.8)} />
+      <Icon color={color} size={size * 5} overflow="hidden" />
     </div>
   );
 }

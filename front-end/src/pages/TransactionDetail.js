@@ -81,14 +81,12 @@ export function TransactionDetail() {
                   className="catIcon"
                   title={category.name}
                   onClick={() => {
-                    console.log("cat", category);
-                    console.log("select cat", selectedCategory);
                     handleCatClick(transaction.transaction_id, category.name);
                   }}
                 >
                   <CategoryIcon
                     icon={category.icon}
-                    size={50}
+                    size={7}
                     color={
                       selectedCategory === category.name
                         ? "rgba(0, 4, 255, 0.733)"

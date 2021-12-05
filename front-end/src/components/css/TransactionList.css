@@ -6,6 +6,7 @@
   padding: 8px 16px;
   transition: background-color 0.15s;
 }
+
 .transaction:hover {
   background-color: rgba(0, 0, 255, 0.342) !important;
 }
@@ -27,8 +28,9 @@ p {
 }
 
 .left {
-  display: flex;
+  align-items: center;
   flex-direction: row;
+  display: flex;
 }
 
 .right {
