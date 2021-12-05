@@ -20,6 +20,13 @@ const configuration = new Configuration({
 
 const plaidClient = new PlaidApi(configuration);
 
+/**
+ * Removes the access token of the account specified from the DB
+ * @param {*} curAccountName
+ * @param {*} accessTokensArr
+ * @param {*} userId
+ * @returns true if account was removed, false otherwise
+ */
 const removeAccount = async (curAccountName, accessTokensArr, userId) => {
   try {
     console.log("USER ID: " + userId);
@@ -41,15 +48,15 @@ const removeAccount = async (curAccountName, accessTokensArr, userId) => {
               }
             }
           );
-
           return true; // stop iterating, account already removed
         }
       }
     }
+    // if we get here, then we did not remove anything
     return false;
   } catch (error) {
     console.log(error);
-    return false; // default to true so nothing is posted to DB
+    return false;
   }
 };
 
