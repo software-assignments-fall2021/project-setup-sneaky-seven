@@ -309,7 +309,7 @@ describe("testing routes", () => {
       chai
         .request(app)
         .post("/api/categories")
-        .send({ category: "testing", _id: 0 })
+        .send({ category: "testing", id: undefined })
         .end(function (err, res) {
           expect(res).to.have.status(200);
           cb();
@@ -322,7 +322,7 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/changeCategories")
         .send({
-          _id: 0,
+          id: undefined,
           name: "tName",
           icon: "tIcon",
           oldName: "oName",
@@ -338,7 +338,7 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/deleteCategories")
         .send({
-          _id: 0,
+          id: undefined,
           name: "tName",
           icon: "tIcon",
         })
@@ -354,7 +354,7 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/deleteCategories")
         .send({
-          _id: 0,
+          id: undefined,
           name: "tName",
           icon: "tIcon",
         })
@@ -368,7 +368,7 @@ describe("testing routes", () => {
         .request(app)
         .post("/api/deleteCategories")
         .send({
-          _id: 0,
+          id: undefined,
           name: "tName",
           icon: "tIcon",
         })
