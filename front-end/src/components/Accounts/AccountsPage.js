@@ -20,6 +20,9 @@ const PlaidLink = (props) => {
       .then((resp) => {
         console.log(resp.data);
         localStorage.setItem("access_token_object", JSON.stringify(resp.data));
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
       });
   };
 

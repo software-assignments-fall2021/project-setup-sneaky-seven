@@ -83,6 +83,7 @@ mongoose
 // importing user context
 const UserModel = require("./model/user");
 const isDuplicateAccount = require("./functions/isDuplicateAccount");
+const removeAccount = require("./functions/removeAccount");
 
 // Initialize the Plaid client
 const configuration = new Configuration({
@@ -472,6 +473,21 @@ app.post("/api/contactInfo", async (req, resp) => {
     resp.json(contactInfo);
   } catch (error) {
     console.log(error);
+  }
+});
+
+app.post("/api/delete_account", async (req, res) => {
+  try {
+    const bankName = req.body.account_name;
+    const id = req.body._id;
+    const accessTokensArr = await getAccessTokens(id); // get all tokens
+    removeAccount(bankName, accessTokensArr, id);
+    return res.status(200).json({ removed: bankName, successful: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      err: error,
+    });
   }
 });
 
