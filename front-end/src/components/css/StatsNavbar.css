@@ -19,6 +19,16 @@
   background-color: #1a83ff;
 }
 
+.statsNavLinkActive {
+  display: flex;
+  float: right;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #1a83ff;
+}
+
 .container-s {
   background-color: #dcf7fa;
   width: 80%;

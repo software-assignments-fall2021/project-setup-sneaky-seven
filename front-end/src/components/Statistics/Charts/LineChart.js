@@ -10,27 +10,23 @@ import Chart from 'react-google-charts'
     ['2016', 660, 1120, 300],
     ['2017', 1030, 540, 350],
 ]*/
-const BarChart = ({name, data}) => {
+const LineChart = ({ name, data }) => {
     return (
         <Chart
             width='100%'
             height='100%'
-            chartType="Bar"
-            loader={<div>Loading Chart</div>}
+            chartType="LineChart"
+            loader={ <div>Loading Chart</div> }
             data={data}
             options={{
-                chart: {
-                    title: name,
-                },
-                legend: {position: 'none'},
-                chartArea: {
-                    width: '100%',
-                    height: '100%',
-                }
+                tooltip: { isHtml: true, trigger: "visible" },
+                hAxis: { textPosition: 'none' },
+                legend: { position: 'none' },
+                backgroundColor: { fill: 'transparent' }
             }}
         />
     )
 }
 
 
-export default BarChart
+export default LineChart
