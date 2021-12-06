@@ -77,7 +77,7 @@ const CategoryOverlay = ({ category, closeOverlay }) => {
             Edit{" "}
           </Button>
         ) : (
-          <h4> Default categories cannot be editted. </h4>
+          <h4> Default categories cannot be edited. </h4>
         )}
         <h4>Transactions</h4>
         <div className="overlay-transactions-wrapper">
