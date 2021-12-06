@@ -15,6 +15,11 @@ const FAQData = {
       content:
         "Click on any transaction. Hover over the icons to see which category you would like to move it do. Click!",
     },
+    {
+      title: "Why can't I edit default categories?",
+      content:
+        "Each transaction through Plaid is categorized into default categories. Changing or deleting those categories prevents future transactions from then showing up in the categories list.",
+    },
   ],
 };
 
