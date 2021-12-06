@@ -16,15 +16,11 @@ const createTrendTooltip = (date, money) => {
  */
 const interpretAccounts = async () => {
   const bankAccounts = await api.getBankAccounts();
-  let accountToBalance = {};
-  let accountIdToName = {};
+  const accountToBalance = {};
+  const accountIdToName = {};
   bankAccounts.forEach((account) => {
-    accountToBalance = Object.assign(accountToBalance, {
-      [account.name]: account.balances.current
-    });
-    accountIdToName = Object.assign(accountIdToName, {
-      [account.account_id]: account.name
-    });
+    accountToBalance[account.name] = account.balances.current;
+    accountIdToName[account.account_id] = account.name;
   });
   return { accountToBalance, accountIdToName };
 };
@@ -90,25 +86,22 @@ const interpretTransactions = async (days, selectedAccounts=null, idToName=null)
  * @param {*} selectedAccounts  An object indicating which accounts were selected
  */
 const getTrends = (days, accountToBalance, dateToMoneySpent, dateToNet, selectedAccounts=null) => {
-  let balanceTrend = [];
-  let spendingTrend = [];
-
   const now = DateTime.now();
   const formattedNow = now.toFormat("yyyy-MM-dd")
   const before = now.minus({ days });
 
   // Gather the total initial balance
-  let balance = 0;
-  for (const account in accountToBalance) {
-    if (selectedAccounts && !selectedAccounts[account]) {
-      continue;
+  let balance = Object.keys(accountToBalance).reduce((total, account) => {
+    if (!selectedAccounts || selectedAccounts[account]) {
+      return total + accountToBalance[account];
+    } else {
+      return total;
     }
-    balance += accountToBalance[account];
-  }
+  }, 0);
   
   // Initialize balance trend and spending trends
-  let tempBalanceTrend = [[formattedNow, balance, createTrendTooltip(formattedNow, balance)]];
-  let tempSpendingTrend = [];
+  const tempBalanceTrend = [[formattedNow, balance, createTrendTooltip(formattedNow, balance)]];
+  const tempSpendingTrend = [];
 
   Interval.fromDateTimes(before, now)
   .splitBy({ days: 1 })
@@ -120,17 +113,17 @@ const getTrends = (days, accountToBalance, dateToMoneySpent, dateToNet, selected
     balance += net;
 
     if (formattedDate === now.toFormat("yyyy-MM-dd")) {
-      tempBalanceTrend = [[formattedDate, balance, createTrendTooltip(formattedDate, balance)]];
+      tempBalanceTrend.unshift([formattedDate, balance, createTrendTooltip(formattedDate, balance)]);
     } else {
-      tempBalanceTrend = [[formattedDate, balance, createTrendTooltip(formattedDate, balance)], ...tempBalanceTrend];
+      tempBalanceTrend.unshift([formattedDate, balance, createTrendTooltip(formattedDate, balance)]);
     }
 
     const moneySpent = dateToMoneySpent[formattedDate] ? dateToMoneySpent[formattedDate] : 0;
-    tempSpendingTrend = [[formattedDate, moneySpent, createTrendTooltip(formattedDate, moneySpent)], ...tempSpendingTrend];
+    tempSpendingTrend.unshift([formattedDate, moneySpent, createTrendTooltip(formattedDate, moneySpent)])
   });
 
-  balanceTrend = [["Date", "Balance", trendTooltipConfig], ...tempBalanceTrend];
-  spendingTrend = [["Date", "Money Spent", trendTooltipConfig], ...tempSpendingTrend];
+  const balanceTrend = [["Date", "Balance", trendTooltipConfig], ...tempBalanceTrend];
+  const spendingTrend = [["Date", "Money Spent", trendTooltipConfig], ...tempSpendingTrend];
 
   return { balanceTrend, spendingTrend };
 };
@@ -140,14 +133,13 @@ const getTrends = (days, accountToBalance, dateToMoneySpent, dateToNet, selected
  * @param {*} categoryToMoneySpent  A mapping from the category to the money spent for that category.
  */
 const getSpendingByCategories = (categoryToMoneySpent) => {
-  let spendingByCategories = [];
-
-  let tempSpendingByCategories = [];
+  const tempSpendingByCategories = [];
   
   Object.entries(categoryToMoneySpent).forEach(
-    (entry) => (tempSpendingByCategories = [entry, ...tempSpendingByCategories])
+    (entry) => tempSpendingByCategories.unshift(entry)
   );
-  spendingByCategories = [
+
+  const spendingByCategories = [
     ["Category", "Money Spent"],
     ...tempSpendingByCategories,
   ];
