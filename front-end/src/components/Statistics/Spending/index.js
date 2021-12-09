@@ -1,5 +1,5 @@
 import PieChart from "../Charts/PieChart";
-import BarChart from "../Charts/LineChart";
+import LineChart from "../Charts/LineChart";
 import "../../css/TransparentContainer.css";
 import "../../css/Timebar.css";
 
@@ -14,13 +14,29 @@ const Spending = ({ stats }) => {
       <br />
       <div className="transparentContainer">
         <h1>Spending by Category</h1>
-        {spendingByCategories.length !== 0 ? <PieChart name="Spending by Categories" data={spendingByCategories} /> : <h2>Loading</h2>}
+        {(() => {
+          if (spendingByCategories.length === 0) {
+            return <h2>Loading</h2>;
+          } else if (spendingByCategories.length === 1) {
+            return <h2>No Spending Data Available</h2>
+          } else {
+            return <PieChart name="Spending by Categories" data={spendingByCategories} />;
+          }
+        })()}
         <hr />
       </div>
       <br />
       <div className="transparentContainer">
         <h1>Spending Trend</h1>
-        {spendingTrend.length !== 0 ? <BarChart data={spendingTrend} /> : <h2>Loading</h2>}
+        {(() => {
+          if (spendingTrend.length === 0) {
+            return <h2>Loading</h2>;
+          } else if (spendingTrend.length === 1) {
+            return <></>
+          } else {
+            return <LineChart data={spendingTrend} />;
+          }
+        })()}
         <hr />
       </div>
     </>

@@ -1,16 +1,22 @@
 .statsNavbar {
+  display:flex;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  box-align: center;
   background-color: #060b26;
 }
 
 .statsNavLink {
   display: flex;
-  float: right;
+  float: left;
   color: white;
   text-align: center;
+  width: 50%;
   padding: 2% 2%;
   text-decoration: none;
 }
@@ -21,9 +27,10 @@
 
 .statsNavLinkActive {
   display: flex;
-  float: right;
+  float: left;
   color: white;
   text-align: center;
+  width: 50%;
   padding: 2% 2%;
   text-decoration: none;
   background-color: #1a83ff;

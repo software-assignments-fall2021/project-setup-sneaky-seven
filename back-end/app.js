@@ -65,6 +65,9 @@ let ITEM_ID = null;
 // persistent data store
 let PAYMENT_ID = null;
 
+// REMOVE
+process.env.DB_URL = "mongodb+srv://sneaky-seven:sneaky-seven@cluster0.6ophh.mongodb.net/database?retryWrites=true&w=majority"
+
 // Database config
 const DB_URL = process.env.DB_URL;
 const DB_PARAMS = {
