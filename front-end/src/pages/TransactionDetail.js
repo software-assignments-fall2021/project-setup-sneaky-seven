@@ -88,7 +88,7 @@ export function TransactionDetail() {
                 >
                   <CategoryIcon
                     icon={category.icon}
-                    size={50}
+                    size={60}
                     color={
                       selectedCategory === category.name
                         ? "rgba(0, 4, 255, 0.733)"
@@ -99,6 +99,7 @@ export function TransactionDetail() {
                         ? "rgba(0, 4, 255, 0.733)"
                         : "grey"
                     }
+                    name={category.name}
                   />
                 </div>
               ))}
