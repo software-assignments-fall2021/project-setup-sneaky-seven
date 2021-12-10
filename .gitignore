@@ -127,3 +127,4 @@ typings/
 
 ## Specific to IntelliJ
 .idea
+*.iml
