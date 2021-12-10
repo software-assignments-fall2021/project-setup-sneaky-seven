@@ -14,6 +14,7 @@
   width: 20%;
   padding: 2% 2%;
   text-decoration: none;
+  justify-content: center;
 }
 
 .timeOptionActive {
@@ -25,6 +26,7 @@
   padding: 2% 2%;
   text-decoration: none;
   background-color: #1a83ff;
+  justify-content: center;
 }
 
 .timeOption:hover {
