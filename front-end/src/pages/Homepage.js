@@ -2,106 +2,25 @@ import React, { useState } from "react";
 import Accounts from "./Accounts.js";
 import Spending from "../components/Statistics/Spending";
 import Balance from "../components/Statistics/Balance";
+import BalanceByAccountList from "../components/Statistics/Balance/BalanceByAccountList";
+import prepareStats from "../components/Statistics/utils/prepare_stats";
 import Button from "@mui/material/Button";
-import { useAsync } from "../utils";
 import { Link } from "react-router-dom";
 import "../components/css/Homepage.css";
-import api from "../api";
 import HomePageTransactionList from "../components/HomePageTransactionList.js";
 
+
 const Homepage = () => {
-  // const { data } = useAsync(async () => axios.get("/api/get_transactions"), []);
-  // const transactions = data?.data ?? [];
+  const [stats, setStats] = useState({
+    accountToBalance: {},
+    balanceTrend: [],
+    spendingByCategories: [],
+    spendingTrend: []
+  })
 
-  // Used for balances
-  const [accountToBalance, setAccountToBalance] = useState({});
-  const [balanceTrend, setBalanceTrend] = useState([]);
-
-  // Used for spendings
-  const [spendingByCategories, setSpendingByCategories] = useState([]);
-  const [spendingTrend, setSpendingTrend] = useState([]);
-
-  useAsync(async () => {
-    // Get bank accounts to show accounts by balance
-    const bankAccounts = await api.getBankAccounts();
-    bankAccounts.forEach((account) =>
-      setAccountToBalance(
-        Object.assign(accountToBalance, {
-          [account.name]: account.balances.current,
-        })
-      )
-    );
-
-    // Get the balance by trend
-    const t = await api.getAllTransactions();
-
-    const dateToNet = {};
-    t.forEach((transaction) => {
-      const date = transaction.date;
-      const amount = transaction.amount;
-      const val = dateToNet[date] ? dateToNet[date] + amount : amount;
-      dateToNet[date] = val;
-    });
-
-    // take the sum
-    let balance = Object.values(accountToBalance).reduce((a, b) => a + b, 0);
-    let tempBalanceTrend = [];
-
-    Object.entries(dateToNet).forEach((entry) => {
-      let [date, net] = entry;
-      balance += net;
-
-      // assume that dateToNet will be iterated in reverse chronological order
-      tempBalanceTrend = [[date, balance], ...tempBalanceTrend];
-    });
-
-    setBalanceTrend([["Date", "Balance"], ...tempBalanceTrend]);
-
-    const categoryToMoneySpent = {};
-    const dateToMoneySpent = {};
-
-    // Spending stuff
-    t.forEach((transaction) => {
-      const category = transaction.category;
-      const date = transaction.date;
-      const moneySpent = Math.max(0, transaction.amount);
-
-      if (categoryToMoneySpent[category]) {
-        categoryToMoneySpent[category] += moneySpent;
-      } else {
-        categoryToMoneySpent[category] = moneySpent;
-      }
-
-      if (dateToMoneySpent[date]) {
-        dateToMoneySpent[date] += moneySpent;
-      } else {
-        dateToMoneySpent[date] = moneySpent;
-      }
-    });
-
-    let tempSpendingByCategories = [];
-    let tempSpendingTrend = [];
-    Object.entries(categoryToMoneySpent).forEach(
-      (entry) =>
-        (tempSpendingByCategories = [entry, ...tempSpendingByCategories])
-    );
-    setSpendingByCategories([
-      ["Category", "Money Spent"],
-      ...tempSpendingByCategories,
-    ]);
-
-    Object.entries(dateToMoneySpent).forEach(
-      (entry) => (tempSpendingTrend = [entry, ...tempSpendingTrend])
-    );
-    setSpendingTrend([["Date", "Money Spent"], ...tempSpendingTrend]);
-  }, []);
-
-  const stats = {
-    accountToBalance: accountToBalance,
-    balanceTrend: balanceTrend,
-    spendingByCategories: spendingByCategories,
-    spendingTrend: spendingTrend,
-  };
+  if (Object.keys(stats.accountToBalance).length === 0) {
+    prepareStats(30, null).then(stats => setStats(stats))
+  }
 
   return (
     <div>
@@ -141,6 +60,8 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="statContainer">
+        <h4>These are statistics for all accounts starting from the last month.</h4>
+        <h4>Click 'See More' to show statistics for accounts selected and different time ranges.</h4>
         <Spending stats={stats}> </Spending>
         <Button
           variant="contained"
@@ -154,7 +75,9 @@ const Homepage = () => {
       </div>
       <hr />
       <div className="statContainer">
-        <Balance stats={stats}> </Balance>
+        <Balance stats={stats} />
+        <h1>Balance by Account</h1>
+        <BalanceByAccountList accountToBalance={stats.accountToBalance}/>
         <Button
           variant="contained"
           id="new-account-btn"

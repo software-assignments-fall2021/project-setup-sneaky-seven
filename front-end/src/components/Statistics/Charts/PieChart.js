@@ -28,6 +28,7 @@ const PieChart = ({ name, data }) => {
           width: "100%",
           height: "100%",
         },
+        backgroundColor: { fill: 'transparent' }
       }}
     />
   );

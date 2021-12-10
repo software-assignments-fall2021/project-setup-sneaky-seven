@@ -1,111 +1,190 @@
 import React, { useState } from "react";
-import api from "../api";
-import StatsNavbarWrapper from "../components/Statistics/StatsNavbar/StatsNavbarWrapper";
-import { useAsync } from "../utils";
-import { DateTime } from "luxon";
+// import StatsNavbarWrapper from "../components/Statistics/StatsNavbar/StatsNavbarWrapper";
+import prepareStats from "../components/Statistics/utils/prepare_stats.js";
+import BalanceByAccountList from "../components/Statistics/Balance/BalanceByAccountList";
+import "../components/css/TransparentContainer.css";
+import Button from "@mui/material/Button";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import StatsNavbar from "../components/Statistics/StatsNavbar";
+import Balance from "../components/Statistics/Balance";
+import Spending from "../components/Statistics/Spending";
 
-const Statistics = () => {
-  // Used for balances
-  const [accountToBalance, setAccountToBalance] = useState({});
-  const [balanceTrend, setBalanceTrend] = useState([]);
+// Indirect check for if stats doesn't have any meaningful data
+const statsIsEmpty = (stats) => {
+  return Object.keys(stats.accountToBalance).length === 0;
+}
 
-  // Used for spendings
-  const [spendingByCategories, setSpendingByCategories] = useState([]);
-  const [spendingTrend, setSpendingTrend] = useState([]);
-
-  // Put smth in front end to specify how many days back we wanna look back
-  useAsync(async () => {
-    // Get bank accounts to show accounts by balance
-    const bankAccounts = await api.getBankAccounts();
-    bankAccounts.forEach((account) =>
-      setAccountToBalance(
-        Object.assign(accountToBalance, {
-          [account.name]: account.balances.current,
-        })
-      )
+const TimeSettings = ({ stats, setStats, numsOfDaysIndex, setNumsOfDaysIndex }) => {
+    const numsOfDays = [7, 15, 30, 90, 365];
+    const trendLengthsToIndex = {'week': 0, '15 days': 1, 'month': 2, '3 months': 3, 'year': 4};
+  
+    return (
+      <>
+        <br/>
+        <div className="transparentContainer">
+          <div className="timebar">
+            {Object.keys(trendLengthsToIndex).map(trendLength => 
+              <button 
+                className={trendLengthsToIndex[trendLength] === numsOfDaysIndex ? "timeOptionActive" : "timeOption"} 
+                onClick={async () => {
+                  setStats(await prepareStats(numsOfDays[trendLengthsToIndex[trendLength]]));
+                  setNumsOfDaysIndex(trendLengthsToIndex[trendLength]);
+                }}
+              > Last {trendLength}
+              </button>
+            )}         
+          </div>
+        </div>
+        <br/>
+        <h2>The chart(s) below represent data starting from the last {Object.keys(trendLengthsToIndex)[numsOfDaysIndex]}.</h2>
+      </>
     );
+};
 
-    // Get the balance by trend
-    const transactions = await api.getAllTransactions();
-    const dateToNet = {};
-    transactions.forEach((transaction) => {
-      const date = transaction.date;
-      const amount = transaction.amount;
-      const val = dateToNet[date] ? dateToNet[date] + amount : amount;
-      dateToNet[date] = val;
-    });
+const AccountSettings = ({ stats, setStats, numsOfDaysIndex, setNumsOfDaysIndex, selectedAccounts, setSelectedAccounts, callbacks, setCallbacks, balanceByAccountList }) => {
+  const numsOfDays = [7, 15, 30, 90, 365];
+  const trendLengthsToIndex = {'week': 0, '15 days': 1, 'month': 2, '3 months': 3, 'year': 4};
 
-    // take the sum
-    let balance = Object.values(accountToBalance).reduce((a, b) => a + b, 0);
-    const now = DateTime.now().toFormat("yyyy-MM-dd");
-    let tempBalanceTrend = [[now, balance]];
+  if (statsIsEmpty(stats)) {
+    prepareStats(30, null)
+    .then(stats => {
+      setStats(stats);
 
-    Object.entries(dateToNet).forEach((entry) => {
-      let [date, net] = entry;
-      balance += net;
+      // Each callback will update selectedAccounts by adding a new account
+      const tempSetCallbacks = {};
+      const tempSelectedAccounts = {};
 
-      // assume that dateToNet will be iterated in reverse chronological order
-      if (date === now) {
-        tempBalanceTrend = [[now, balance]];
-      } else {
-        tempBalanceTrend = [[date, balance], ...tempBalanceTrend];
-      }
-    });
-
-    setBalanceTrend([["Date", "Balance"], ...tempBalanceTrend]);
-
-    const categoryToMoneySpent = {};
-    const dateToMoneySpent = {};
-
-    // Spending stuff
-    transactions.forEach((transaction) => {
-      const category = transaction.category;
-      const date = transaction.date;
-      const moneySpent = Math.max(0, transaction.amount);
-
-      if (categoryToMoneySpent[category]) {
-        categoryToMoneySpent[category] += moneySpent;
-      } else {
-        categoryToMoneySpent[category] = moneySpent;
+      for (const account in stats.accountToBalance) {
+        tempSelectedAccounts[account] = true;
+        
+        tempSetCallbacks[account] = () => {
+          setSelectedAccounts(selectedAccounts => ({
+            ...selectedAccounts,
+            [account]: !selectedAccounts[account]
+          }));
+        };
       }
 
-      if (dateToMoneySpent[date]) {
-        dateToMoneySpent[date] += moneySpent;
-      } else {
-        dateToMoneySpent[date] = moneySpent;
-      }
+      setCallbacks(tempSetCallbacks);
+      setSelectedAccounts(tempSelectedAccounts);
     });
-
-    let tempSpendingByCategories = [];
-    let tempSpendingTrend = [];
-    Object.entries(categoryToMoneySpent).forEach(
-      (entry) =>
-        (tempSpendingByCategories = [entry, ...tempSpendingByCategories])
-    );
-    setSpendingByCategories([
-      ["Category", "Money Spent"],
-      ...tempSpendingByCategories,
-    ]);
-
-    Object.entries(dateToMoneySpent).forEach(
-      (entry) => (tempSpendingTrend = [entry, ...tempSpendingTrend])
-    );
-    setSpendingTrend([["Date", "Money Spent"], ...tempSpendingTrend]);
-  }, []);
-
-  const stats = {
-    accountToBalance: accountToBalance,
-    balanceTrend: balanceTrend,
-    spendingByCategories: spendingByCategories,
-    spendingTrend: spendingTrend,
-  };
+  }
 
   return (
-    <div>
-      <h1>Statistics</h1>
-      <StatsNavbarWrapper stats={stats} />
-      <br />
+    <div className="transparentContainer">
+      <h2>Highlight and click the accounts you wish to see data for</h2>
+      <BalanceByAccountList 
+        accountToBalance={stats.accountToBalance}
+        selectedAccounts={selectedAccounts}
+        callbacks={callbacks ?? {}}
+      />
+      <Button
+        variant="contained"
+        id="new-account-btn"
+        onClick={async () => {
+          const selectionWasMade = Object.keys(selectedAccounts)
+            .reduce((prev, curr) => prev || selectedAccounts[curr], false)
+          
+          if (!selectionWasMade) {
+            alert("Please select the accounts by clicking on them");
+            return;
+          }
+
+          setStats(await prepareStats(numsOfDays[numsOfDaysIndex], selectedAccounts, stats.accountIdToName));
+        }}
+      >
+        Confirm Selection
+      </Button>
+
     </div>
+  );
+};
+
+
+// only render money as spent if it's not a transfer to one of the other registered accounts!!!
+const Statistics = () => {
+  const [stats, setStats] = useState({
+    accountToBalance: {},
+    accountIdToName: {},
+    balanceTrend: [],
+    spendingByCategories: [],
+    spendingTrend: []
+  });
+
+  const [numsOfDaysIndex, setNumsOfDaysIndex] = useState(2)
+  const [callbacks, setCallbacks] = useState({});
+  const [selectedAccounts, setSelectedAccounts] = useState({});
+
+  const CustomTimeSettings = () => <TimeSettings
+    stats={stats}
+    setStats={setStats} 
+    numsOfDaysIndex={numsOfDaysIndex}
+    setNumsOfDaysIndex={setNumsOfDaysIndex}
+  />;
+
+  const CustomAccountSettings = () => <AccountSettings
+    stats={stats} 
+    setStats={setStats}
+    numsOfDaysIndex={numsOfDaysIndex}
+    setNumsOfDaysIndex={setNumsOfDaysIndex}
+    selectedAccounts={selectedAccounts}
+    setSelectedAccounts={setSelectedAccounts}
+    callbacks={callbacks}
+    setCallbacks={setCallbacks}
+  />
+
+  return (
+    <>
+      <h1>Statistics</h1>
+      {/** This part gives the user the option to choose different trend lengths */}
+      <div>
+        <Router>
+          <StatsNavbar />
+            <Switch>
+              <Route
+                path="/statistics/spending"
+                exact
+                component={() => {
+                  return (
+                    <>
+                      <CustomTimeSettings/>
+                      <Spending stats={stats}/>
+                      <CustomAccountSettings/>
+                    </>
+                  );
+                }}
+              />
+              <Route
+                path="/statistics/balance"
+                exact
+                component={() => {
+                  return (
+                    <>
+                      <CustomTimeSettings/>
+                      <Balance stats={stats}/>
+                      <CustomAccountSettings/>
+                    </>
+                  );
+                }}
+              />
+              <Route
+                path="/statistics"
+                exact
+                component={() => {
+                  return (
+                    <>
+                      <CustomTimeSettings/>
+                      <Balance stats={stats}/>
+                      <CustomAccountSettings/>
+                    </>
+                  );
+                }}
+              />
+            </Switch>
+        </Router>
+      <br />
+      </div>
+      </>
   );
 };
 
