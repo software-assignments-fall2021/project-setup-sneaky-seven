@@ -1,6 +1,6 @@
 .container-contact {
   background-color: #dcf7fa;
-  width: 20%;
+  width: 80%;
   margin: auto;
   border: 2px solid #afecf4;
   border-radius: 5px;
@@ -11,8 +11,9 @@
 
 .container-confirm {
   background-color: #dcf7fa;
-  width: 20%;
+  width: 80%;
   margin: auto;
+  word-wrap: break-word;
   border: 2px solid #afecf4;
   border-radius: 5px;
   padding: 1%;

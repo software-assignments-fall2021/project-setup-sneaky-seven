@@ -1,6 +1,6 @@
 .container-home {
   background-color: #dcf7fa;
-  width: 80%;
+  width: 90%;
   margin: auto;
   border: 2px solid #afecf4;
   border-radius: 5px;
@@ -11,9 +11,8 @@
 
 .statContainer {
   background-color: #dcf7fa;
-
   overflow: scroll;
-  width: 80%;
+  width: 90%;
   margin: auto;
   border: 2px solid #afecf4;
   border-radius: 5px;
