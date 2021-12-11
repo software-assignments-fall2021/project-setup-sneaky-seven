@@ -39,10 +39,12 @@ function AccountDetail(props) {
             axios
               .post("/api/delete_account", {
                 account_name: props.bankDetails.name,
+                account_id: props.bankDetails.account_id,
                 _id: JSON.parse(sessionStorage.getItem("user"))._id,
               })
               .then((resp) => {
-                console.log(resp.data);
+                console.log(props.bankDetails);
+                // console.log(props.bankDetails.account_id);
                 alert("Account successfully removed.");
                 window.location.reload();
                 // props.showAccountDetail(false);

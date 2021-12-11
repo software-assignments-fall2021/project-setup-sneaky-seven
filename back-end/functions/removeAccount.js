@@ -27,7 +27,7 @@ const plaidClient = new PlaidApi(configuration);
  * @param {*} userId
  * @returns true if account was removed, false otherwise
  */
-const removeAccount = async (curAccountName, accessTokensArr, userId) => {
+const removeAccount = async (curAccountName, curAccountId, accessTokensArr, userId) => {
   try {
     for (const token of accessTokensArr) {
       const tempAccount = await plaidClient.accountsGet({
@@ -37,7 +37,9 @@ const removeAccount = async (curAccountName, accessTokensArr, userId) => {
       const accountArr = tempAccount?.data?.accounts ? tempAccount?.data?.accounts : [];
       // check each bank's accounts to see if account to be removed exists
       for (const accountObj of accountArr) {
-        if (accountObj.name === curAccountName) {
+        console.log(accountObj.account_id);
+        console.log(curAccountId);
+        if (accountObj.name === curAccountName && accountObj.account_id === curAccountId) {
           UserModel.updateOne(
             { _id: userId },
             { $pull: { access_token: token } },
