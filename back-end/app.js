@@ -329,11 +329,15 @@ app.post("/api/get_bank_accounts", async (req, response, next) => {
 
     const allAccounts = [];
     for (const token of accessTokensArr) {
-      const tempAccount = await plaidClient.accountsGet({
-        access_token: token.access_token,
-      });
-      for (const accountObj of tempAccount.data.accounts) {
-        allAccounts.push(accountObj);
+      try {
+        const tempAccount = await plaidClient.accountsGet({
+          access_token: token.access_token,
+        });
+        for (const accountObj of tempAccount.data.accounts) {
+          allAccounts.push(accountObj);
+        }
+      } catch (error) {
+        continue; // just skip current account
       }
     }
     return response.json(constructAccountsArr(allAccounts));
@@ -479,9 +483,10 @@ app.post("/api/contactInfo", async (req, resp) => {
 app.post("/api/delete_account", async (req, res) => {
   try {
     const bankName = req.body.account_name;
+    const bankId = req.body.account_id;
     const id = req.body._id;
     const accessTokensArr = await getAccessTokens(id); // get all tokens
-    removeAccount(bankName, accessTokensArr, id);
+    removeAccount(bankName, bankId, accessTokensArr, id);
     return res.status(200).json({ removed: bankName, successful: true });
   } catch (error) {
     console.log(error);
