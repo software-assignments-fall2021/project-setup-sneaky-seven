@@ -94,7 +94,3 @@ input[type="checkbox"] {
   flex-wrap: nowrap;
   gap: 10px;
 }
-
-.catIcon:hover {
-  opacity: 50%;
-}
