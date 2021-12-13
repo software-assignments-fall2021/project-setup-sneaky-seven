@@ -15,7 +15,10 @@ Extra Credit Notes:
 - Extra credit is given to teams that have deployed to a Docker container, although a non-containerized deployment to a Droplet is fine.
   - We have a non-containerized deployment to a droplet.
 - Extra credit is given to teams that have a Continuous Deployment setup, although a manual deployment is fine.
-  - We have Continuous Deployment set up.
+  - We have Continuous Deployment set up. We have updated the CircleCI script to kick off a deploy job each time when new changes are merged into the master branch. In this script, CircleCI will SSH into our deployment server and run another script to pull the latest changes and deploy on deployment server.
+  - [CircleCI script](./circleci/config.yml) `deploy` workflow and `deploy-prod` job
+  - [deploy script on deployment server](./deploy_project.sh)
+  - Check [here](https://app.circleci.com/pipelines/github/software-students-fall2021/project-setup-sneaky-seven/253/workflows/7be4d36d-70c8-4d8a-8869-68a5c8bd7355/jobs/830) for Continuous Deployment in action
 
 ## Core Members
 
