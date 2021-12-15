@@ -20,6 +20,17 @@ Extra Credit Notes:
   - [deploy script on deployment server](./deploy_project.sh)
   - Check [here](https://app.circleci.com/pipelines/github/software-students-fall2021/project-setup-sneaky-seven/253/workflows/7be4d36d-70c8-4d8a-8869-68a5c8bd7355/jobs/830) for Continuous Deployment in action
 
+### Presentation
+
+- Enjoy our presentation [here](https://drive.google.com/file/d/1H2tR_nuu7xL9cxG1Rry8CQ9h_0PzHFh9/view?usp=sharing)!
+- Featuring ...
+
+  - Jennifer as Jennifer
+  - Tomer as Tomer
+  - Alan as Alan
+  - Sebastian as Sebastian
+  - Michelle as Michelle
+
 ## Core Members
 
 - [Alan Chen](https://github.com/azc242)
