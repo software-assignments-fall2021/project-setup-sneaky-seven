@@ -1,0 +1,28 @@
+.container-stats {
+  overflow: scroll;
+}
+
+.statContainer {
+  width: 80%;
+  margin: auto;
+  border: 2px solid #afecf4;
+  border-radius: 5px;
+  padding: 1%;
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.statContainer2 {
+  width: 80%;
+  margin: auto;
+  border: 2px solid #afecf4;
+  border-radius: 5px;
+  padding: 1%;
+  display: flex;
+  /* flex-direction: column; */
+}
+
+hr {
+  margin-left: 0;
+  margin-right: 0;
+}

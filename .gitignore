@@ -124,3 +124,7 @@ typings/
 ## Jekyll artifacts
 **/.jekyll-cache
 **/_site/
+
+## Specific to IntelliJ
+.idea
+*.iml

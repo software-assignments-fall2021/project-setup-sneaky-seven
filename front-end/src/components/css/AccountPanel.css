@@ -1,0 +1,29 @@
+.panel {
+  margin: 0em 0em;
+  /* z-index: -2; */
+}
+
+#account-panel {
+  justify-content: flex-start;
+  text-align: left;
+  font-weight: bold;
+  z-index: 0;
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .panel {
+    margin: 0em 2em;
+    padding-left: 24rem;
+    padding-right: 24rem;
+  }
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+  .panel {
+    margin: 0em 2em;
+    padding-left: 30rem;
+    padding-right: 30rem;
+  }
+}

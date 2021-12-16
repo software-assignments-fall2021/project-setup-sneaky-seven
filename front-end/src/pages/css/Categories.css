@@ -1,0 +1,80 @@
+/* TODO(jennifer): Update px to percentage to fit in smaller screen */
+
+.overlay-background {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+}
+
+.overlay-content {
+  background: rgb(255, 255, 255);
+  width: 50%;
+  max-height: 75%;
+  padding: 16px;
+  border: 1px solid #d7d7d7;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.overlay-transactions-wrapper {
+  min-height: 0;
+  overflow-y: scroll;
+}
+
+.overlay-transactions {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  min-height: min-content;
+}
+
+.overlay-transactions > article {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.overlay-close {
+  align-self: flex-end;
+}
+
+.overlay-close {
+  align-items: center;
+}
+
+.category-icon {
+  height: 100px;
+  width: 100px;
+}
+
+.categories-page {
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.category-text {
+  margin-left: 16px;
+}
+
+.category-item:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.category-item {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: xx-large;
+  padding: 25px;
+  border: 2px solid black;
+  border-radius: 15px;
+  width: 100%;
+  margin-top: 15px;
+}

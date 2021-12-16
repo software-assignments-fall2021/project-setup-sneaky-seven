@@ -1,0 +1,11 @@
+.accounts-wrapper {
+  display: flex;
+}
+
+.container-account {
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+
+  /* padding: 1%; */
+}

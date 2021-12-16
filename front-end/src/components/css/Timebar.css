@@ -1,0 +1,36 @@
+.timebar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #060b26;
+}
+
+.timeOption {
+  display: flex;
+  float: left;
+  color: white;
+  text-align: center;
+  width: 20%;
+  padding: 2% 2%;
+  text-decoration: none;
+  justify-content: center;
+}
+
+.timeOptionActive {
+  display: flex;
+  float: left;
+  color: white;
+  text-align: center;
+  width: 20%;
+  padding: 2% 2%;
+  text-decoration: none;
+  background-color: #1a83ff;
+  justify-content: center;
+}
+
+.timeOption:hover {
+  background-color: #1a83ff;
+}
+
+  

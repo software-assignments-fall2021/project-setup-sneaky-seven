@@ -1,0 +1,23 @@
+{
+  "name": "project-setup-sneaky-seven",
+  "version": "1.0.0",
+  "description": "Aimed towards consumers who strive for budget management, the Budget Web App wants to elevate understanding of income and spending, resulting in a higher control over finance. Unlike other apps which often automatically and arbitrarily categorize purchases, we allow users to define their budget and how they want to view their spending. This will allow for both the presence of \"intelligent\" suggestions per say, as well as user-defined categories in the event that more accuracy is required/desired.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/software-students-fall2021/project-setup-sneaky-seven.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/software-students-fall2021/project-setup-sneaky-seven/issues"
+  },
+  "homepage": "https://github.com/software-students-fall2021/project-setup-sneaky-seven#readme",
+  "dependencies": {
+    "sessionstorage": "^0.1.0"
+  }
+}

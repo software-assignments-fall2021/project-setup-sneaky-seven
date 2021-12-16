@@ -1,0 +1,18 @@
+.icon-button {
+  border-radius: 8px;
+  margin: 3px;
+  width: 50px;
+  height: 50px;
+}
+
+.selected-icon {
+  border: solid black 4px;
+}
+
+#del {
+  background-color: red;
+}
+
+#warning {
+  color: red;
+}

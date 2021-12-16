@@ -1,0 +1,50 @@
+.statsNavbar {
+  display:flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  box-align: center;
+  background-color: #060b26;
+}
+
+.statsNavLink {
+  display: flex;
+  float: left;
+  color: white;
+  text-align: center;
+  width: 50%;
+  padding: 2% 2%;
+  text-decoration: none;
+  justify-content: center;
+}
+
+.statsNavLink:hover {
+  background-color: #1a83ff;
+}
+
+.statsNavLinkActive {
+  display: flex;
+  float: left;
+  color: white;
+  text-align: center;
+  width: 50%;
+  padding: 2% 2%;
+  text-decoration: none;
+  background-color: #1a83ff;
+  justify-content: center;
+}
+
+.container-s {
+  background-color: #dcf7fa;
+  width: 80%;
+  margin: auto;
+  border: 2px solid #afecf4;
+  border-radius: 5px;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+}

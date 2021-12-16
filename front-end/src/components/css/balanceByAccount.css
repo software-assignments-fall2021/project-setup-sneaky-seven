@@ -1,0 +1,23 @@
+.balanceByAccount {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    transition: background-color 0.15s;
+}
+.balanceByAccountActive {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    transition: background-color 0.15s;
+    background-color: rgba(0, 0, 255, 0.342) !important; 
+}
+.balanceByAccount:hover {
+    background-color: rgba(0, 0, 255, 0.342) !important;
+}
+.balanceByAccount:nth-child(odd) {
+    background-color: #efefef;
+}

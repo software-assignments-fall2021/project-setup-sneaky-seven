@@ -1,0 +1,102 @@
+.transactionView {
+  display: flex;
+  flex-direction: column;
+}
+
+.subheader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.transactionAmount {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  text-align: right;
+  align-self: center;
+  box-sizing: border-box;
+}
+
+.transBackButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transBackButton:hover {
+  background-color: rgba(128, 128, 128, 0.267);
+}
+
+.transDetails {
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.transDetails > div:nth-child(odd) {
+  background-color: #efefef;
+}
+
+.transactionField {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 10px;
+  width: 100%;
+}
+
+.transactionFieldText {
+  box-sizing: border-box;
+  font-size: 25px;
+}
+
+.transactionFieldLabel {
+  box-sizing: border-box;
+  text-align: left;
+  color: gray;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.checkBoxes {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  background-color: white;
+  gap: 20px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.categoryIconsWrapper {
+  box-sizing: border-box;
+  overflow-x: scroll;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.categoryIcons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+
+.catIcon:hover {
+  opacity: 0.5;
+}
+
